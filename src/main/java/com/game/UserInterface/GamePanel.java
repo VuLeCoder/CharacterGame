@@ -1,20 +1,16 @@
 package com.game.UserInterface;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
 import com.game.GameObjects.GameWorld;
-import com.game.GameObjects.Megaman;
-import com.game.GameObjects.PhysicalMap;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener{
-    
+	private static final long serialVersionUID = 1L;
+	
     private Thread gameThread;
     
     private boolean isRunning = true;

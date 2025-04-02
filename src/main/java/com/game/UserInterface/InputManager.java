@@ -3,7 +3,7 @@ package com.game.UserInterface;
 import java.awt.event.KeyEvent;
 
 import com.game.GameObjects.GameWorld;
-import com.game.GameObjects.Megaman;
+import com.game.GameObjects.ParticularObject;
 
 public class InputManager {
 	
@@ -22,12 +22,12 @@ public class InputManager {
 				break;
 				
 			case KeyEvent.VK_LEFT:
-				gameWorld.megaMan.setDirection(gameWorld.megaMan.LEFT_DIR);
+				gameWorld.megaMan.setDirection(ParticularObject.LEFT_DIR);
 				gameWorld.megaMan.run();
 				break;
 				
 			case KeyEvent.VK_RIGHT:
-				gameWorld.megaMan.setDirection(gameWorld.megaMan.RIGHT_DIR);
+				gameWorld.megaMan.setDirection(ParticularObject.RIGHT_DIR);
 				gameWorld.megaMan.run();
 				break;
 			
@@ -42,26 +42,26 @@ public class InputManager {
 				
 			case KeyEvent.VK_ENTER:
 				
-                if(gameWorld.state ==gameWorld.PAUSEGAME) {
-                    if(gameWorld.previousState == gameWorld.GAMEPLAY) {
-                    	gameWorld.switchState(gameWorld.GAMEPLAY);
+                if(gameWorld.state == GameWorld.PAUSEGAME) {
+                    if(gameWorld.previousState == GameWorld.GAMEPLAY) {
+                    	gameWorld.switchState(GameWorld.GAMEPLAY);
                     } else {
-                    	gameWorld.switchState(gameWorld.TUTORIAL);
+                    	gameWorld.switchState(GameWorld.TUTORIAL);
                     }
                 }
                 
-                if(gameWorld.state == gameWorld.TUTORIAL && gameWorld.storyTutorial >= 1) {
+                if(gameWorld.state == GameWorld.TUTORIAL && gameWorld.storyTutorial >= 1) {
                     if(gameWorld.storyTutorial<=3) {
                     	gameWorld.storyTutorial++;
                     	gameWorld.currentSize = 1;
                     	gameWorld.textTutorial = gameWorld.texts1[gameWorld.storyTutorial - 1];
                     } else {
-                    	gameWorld.switchState(gameWorld.GAMEPLAY);
+                    	gameWorld.switchState(GameWorld.GAMEPLAY);
                     }
                     
                     // for meeting boss tutorial
-                    if(gameWorld.tutorialState == gameWorld.MEETFINALBOSS){
-                    	gameWorld.switchState(gameWorld.GAMEPLAY);
+                    if(gameWorld.tutorialState == GameWorld.MEETFINALBOSS){
+                    	gameWorld.switchState(GameWorld.GAMEPLAY);
                     }
                 }
                 break;

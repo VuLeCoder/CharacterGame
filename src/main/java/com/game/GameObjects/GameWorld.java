@@ -11,7 +11,6 @@ import com.game.UserInterface.GameFrame;
 public class GameWorld {
 	
 	private BufferedImage bufferedImage;
-    private int lastState;
 
     public ParticularObjectManager particularObjectManager;
     public BulletManager bulletManager;

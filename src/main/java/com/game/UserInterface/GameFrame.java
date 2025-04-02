@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import com.game.Effect.CacheDataLoader;
 
 public class GameFrame extends JFrame{
+	private static final long serialVersionUID = 1L;
     
     public static final int SCREEN_WIDTH = 1000;
     public static final int SCREEN_HEIGHT = 600; 

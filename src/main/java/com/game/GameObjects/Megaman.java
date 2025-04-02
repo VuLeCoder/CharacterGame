@@ -17,7 +17,7 @@ public class Megaman extends Human {
 	private Animation landingForwardAnim, landingBackAnim;
 //	private Animation behurtForwardAnim, behurtBackAnim;
 
-	private Animation climWallForward, climWallBack;
+//	private Animation climWallForward, climWallBack;
 
 	private long lastShootingTime;
 	private boolean isShooting = false;
@@ -56,9 +56,9 @@ public class Megaman extends Human {
 		landingBackAnim = CacheDataLoader.getInstance().getAnimation("landing");
 		landingBackAnim.flipAllImage();
 
-		climWallBack = CacheDataLoader.getInstance().getAnimation("clim_wall");
-		climWallForward = CacheDataLoader.getInstance().getAnimation("clim_wall");
-		climWallForward.flipAllImage();
+//		climWallBack = CacheDataLoader.getInstance().getAnimation("clim_wall");
+//		climWallForward = CacheDataLoader.getInstance().getAnimation("clim_wall");
+//		climWallForward.flipAllImage();
 
 		behurtForwardAnim = CacheDataLoader.getInstance().getAnimation("hurting");
 		behurtBackAnim = CacheDataLoader.getInstance().getAnimation("hurting");
