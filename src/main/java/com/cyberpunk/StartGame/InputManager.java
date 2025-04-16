@@ -2,7 +2,6 @@ package com.cyberpunk.StartGame;
 
 import java.awt.event.KeyEvent;
 
-import com.cyberpunk.Object.GameObject;
 import com.cyberpunk.Object.GameWorld;
 
 public class InputManager {

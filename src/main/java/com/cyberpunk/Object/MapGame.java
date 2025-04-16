@@ -5,12 +5,17 @@ import java.awt.Graphics2D;
 import com.cyberpunk.Effect.DataLoader;
 
 public class MapGame {
+
+	public static final String OUTSIDE	= "outside";
+	public static final String INSIDE 	= "inside";
+	public static final String WALL		= "wall";
+	public static final String OBJECT	= "object";
 	
-	private int[][] outsideMap;
-	private int[][] insideMap;
-	private int[][] wallMap;
-	private int[][] objectMap;
-	private int[][] ladderMap;
+	private final int[][] outsideMap;
+	private final int[][] insideMap;
+	private final int[][] wallMap;
+	private final int[][] objectMap;
+	private final int[][] ladderMap;
 
 	public MapGame() {
 		outsideMap	=	DataLoader.getInstance().getOutsideMap();
@@ -34,10 +39,22 @@ public class MapGame {
 	}
 	
 	public void draw(Graphics2D g2) {
-		drawMap(g2, "outside",	outsideMap);
-		drawMap(g2, "inside",	insideMap);
-		drawMap(g2, "wall",		wallMap);
-		drawMap(g2, "object",	ladderMap);
-		drawMap(g2, "object",	objectMap);
+		drawMap(g2, OUTSIDE,	outsideMap);
+		drawMap(g2, INSIDE,		insideMap);
+		drawMap(g2, WALL,		wallMap);
+		drawMap(g2, OBJECT,		ladderMap);
+		drawMap(g2, OBJECT,		objectMap);
+	}
+
+	public void drawTileset(Graphics2D g2, String name, int[][] Map, int x, int y) {
+		if(Map[x][y] == -1) {
+			return;
+		}
+		g2.drawImage(DataLoader.getInstance().getFrameImage(name + Map[x][y]).getImage(),
+                    		y * GameWorld.TILESIZE, x * GameWorld.TILESIZE, null);
+	}
+
+	public int[][] getInsideMap() {
+		return insideMap;
 	}
 }

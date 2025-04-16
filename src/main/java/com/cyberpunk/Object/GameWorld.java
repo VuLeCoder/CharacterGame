@@ -13,6 +13,7 @@ public class GameWorld {
 	private final MapGame mapGame;
 	private final int[][] animatedMap;
 	
+	private boolean isFirstDrawMap = true;
 	private int[][] collisionMap;
 	private AnimatedObjectManager animatedObjectManager;
 
@@ -24,6 +25,22 @@ public class GameWorld {
 		
 		animatedObjectManager = new AnimatedObjectManager(this);
 		addAllAnimatedObject();
+	}
+	
+	public BufferedImage getBufferedImage(){
+        return bufferedImage;
+    }
+	
+	public void setCollisionMap(int x, int y, int val) {
+		collisionMap[x][y] = val;
+	}
+	
+	public int getAnimatedMap(int x, int y) {
+		return animatedMap[x][y];
+	}
+
+	public MapGame getMapGame() {
+		return mapGame;
 	}
 	
 	private void addAllAnimatedObject() {
@@ -38,18 +55,6 @@ public class GameWorld {
 		}
 	}
 	
-	public BufferedImage getBufferedImage(){
-        return bufferedImage;
-    }
-	
-	public void setCollisionMap(int x, int y, int val) {
-		collisionMap[x][y] = val;
-	}
-	
-	public int getAnimatedMap(int x, int y) {
-		return animatedMap[x][y];
-	}
-	
 	public void Update() {
 		animatedObjectManager.UpdateObjects();
 	}
@@ -60,7 +65,11 @@ public class GameWorld {
 			return;
 		}
 		
-		mapGame.draw(g2);
+		if(isFirstDrawMap) {
+			mapGame.draw(g2);
+			isFirstDrawMap = false;
+		}
+		
 		animatedObjectManager.draw(g2);
 	}
 	

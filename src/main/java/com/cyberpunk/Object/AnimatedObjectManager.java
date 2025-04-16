@@ -7,10 +7,10 @@ import java.util.List;
 public class AnimatedObjectManager {
 
 	protected List<AnimatedObject> animatedObjects;
-	private GameWorld gameWorld;
+	private final GameWorld gameWorld;
 
 	public AnimatedObjectManager(GameWorld gameWorld) {
-		animatedObjects = new LinkedList<AnimatedObject>();
+		animatedObjects = new LinkedList<>();
 		this.gameWorld = gameWorld;
 	}
 	

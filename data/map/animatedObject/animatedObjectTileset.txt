@@ -1,4 +1,4 @@
-8
+80
 platform0
 image data/map/animatedObject/animatedObjectTileset.png
 x 0
@@ -52,5 +52,509 @@ platform7
 image data/map/animatedObject/animatedObjectTileset.png
 x 224
 y 0
+w 32
+h 32
+
+transport18
+image data/map/animatedObject/animatedObjectTileset.png
+x 0
+y 32
+w 32
+h 32
+
+transport19
+image data/map/animatedObject/animatedObjectTileset.png
+x 32
+y 32
+w 32
+h 32
+
+transport110
+image data/map/animatedObject/animatedObjectTileset.png
+x 64
+y 32
+w 32
+h 32
+
+transport111
+image data/map/animatedObject/animatedObjectTileset.png
+x 96
+y 32
+w 32
+h 32
+
+transport112
+image data/map/animatedObject/animatedObjectTileset.png
+x 128
+y 32
+w 32
+h 32
+
+transport113
+image data/map/animatedObject/animatedObjectTileset.png
+x 160
+y 32
+w 32
+h 32
+
+transport114
+image data/map/animatedObject/animatedObjectTileset.png
+x 192
+y 32
+w 32
+h 32
+
+transport115
+image data/map/animatedObject/animatedObjectTileset.png
+x 224
+y 32
+w 32
+h 32
+
+transport216
+image data/map/animatedObject/animatedObjectTileset.png
+x 0
+y 64
+w 32
+h 32
+
+transport217
+image data/map/animatedObject/animatedObjectTileset.png
+x 32
+y 64
+w 32
+h 32
+
+transport218
+image data/map/animatedObject/animatedObjectTileset.png
+x 64
+y 64
+w 32
+h 32
+
+transport219
+image data/map/animatedObject/animatedObjectTileset.png
+x 96
+y 64
+w 32
+h 32
+
+transport220
+image data/map/animatedObject/animatedObjectTileset.png
+x 128
+y 64
+w 32
+h 32
+
+transport221
+image data/map/animatedObject/animatedObjectTileset.png
+x 160
+y 64
+w 32
+h 32
+
+transport222
+image data/map/animatedObject/animatedObjectTileset.png
+x 192
+y 64
+w 32
+h 32
+
+transport223
+image data/map/animatedObject/animatedObjectTileset.png
+x 224
+y 64
+w 32
+h 32
+
+transport324
+image data/map/animatedObject/animatedObjectTileset.png
+x 0
+y 96
+w 32
+h 32
+
+transport325
+image data/map/animatedObject/animatedObjectTileset.png
+x 32
+y 96
+w 32
+h 32
+
+transport326
+image data/map/animatedObject/animatedObjectTileset.png
+x 64
+y 96
+w 32
+h 32
+
+transport327
+image data/map/animatedObject/animatedObjectTileset.png
+x 96
+y 96
+w 32
+h 32
+
+transport328
+image data/map/animatedObject/animatedObjectTileset.png
+x 128
+y 96
+w 32
+h 32
+
+transport329
+image data/map/animatedObject/animatedObjectTileset.png
+x 160
+y 96
+w 32
+h 32
+
+transport330
+image data/map/animatedObject/animatedObjectTileset.png
+x 192
+y 96
+w 32
+h 32
+
+transport331
+image data/map/animatedObject/animatedObjectTileset.png
+x 224
+y 96
+w 32
+h 32
+
+entryLeft32
+image data/map/animatedObject/animatedObjectTileset.png
+x 0
+y 128
+w 32
+h 32
+
+entryLeft33
+image data/map/animatedObject/animatedObjectTileset.png
+x 32
+y 128
+w 32
+h 32
+
+entryLeft34
+image data/map/animatedObject/animatedObjectTileset.png
+x 64
+y 128
+w 32
+h 32
+
+entryLeft35
+image data/map/animatedObject/animatedObjectTileset.png
+x 96
+y 128
+w 32
+h 32
+
+entryLeft36
+image data/map/animatedObject/animatedObjectTileset.png
+x 128
+y 128
+w 32
+h 32
+
+entryLeft37
+image data/map/animatedObject/animatedObjectTileset.png
+x 160
+y 128
+w 32
+h 32
+
+entryLeft38
+image data/map/animatedObject/animatedObjectTileset.png
+x 192
+y 128
+w 32
+h 32
+
+entryLeft39
+image data/map/animatedObject/animatedObjectTileset.png
+x 224
+y 128
+w 32
+h 32
+
+entryLeft40
+image data/map/animatedObject/animatedObjectTileset.png
+x 0
+y 160
+w 32
+h 32
+
+entryLeft41
+image data/map/animatedObject/animatedObjectTileset.png
+x 32
+y 160
+w 32
+h 32
+
+entryLeft42
+image data/map/animatedObject/animatedObjectTileset.png
+x 64
+y 160
+w 32
+h 32
+
+entryLeft43
+image data/map/animatedObject/animatedObjectTileset.png
+x 96
+y 160
+w 32
+h 32
+
+entryLeft44
+image data/map/animatedObject/animatedObjectTileset.png
+x 128
+y 160
+w 32
+h 32
+
+entryLeft45
+image data/map/animatedObject/animatedObjectTileset.png
+x 160
+y 160
+w 32
+h 32
+
+entryLeft46
+image data/map/animatedObject/animatedObjectTileset.png
+x 192
+y 160
+w 32
+h 32
+
+entryLeft47
+image data/map/animatedObject/animatedObjectTileset.png
+x 224
+y 160
+w 32
+h 32
+
+entryRight48
+image data/map/animatedObject/animatedObjectTileset.png
+x 0
+y 192
+w 32
+h 32
+
+entryRight49
+image data/map/animatedObject/animatedObjectTileset.png
+x 32
+y 192
+w 32
+h 32
+
+entryRight50
+image data/map/animatedObject/animatedObjectTileset.png
+x 64
+y 192
+w 32
+h 32
+
+entryRight51
+image data/map/animatedObject/animatedObjectTileset.png
+x 96
+y 192
+w 32
+h 32
+
+entryRight52
+image data/map/animatedObject/animatedObjectTileset.png
+x 128
+y 192
+w 32
+h 32
+
+entryRight53
+image data/map/animatedObject/animatedObjectTileset.png
+x 160
+y 192
+w 32
+h 32
+
+entryRight54
+image data/map/animatedObject/animatedObjectTileset.png
+x 192
+y 192
+w 32
+h 32
+
+entryRight55
+image data/map/animatedObject/animatedObjectTileset.png
+x 224
+y 192
+w 32
+h 32
+
+entryRight56
+image data/map/animatedObject/animatedObjectTileset.png
+x 0
+y 224
+w 32
+h 32
+
+entryRight57
+image data/map/animatedObject/animatedObjectTileset.png
+x 32
+y 224
+w 32
+h 32
+
+entryRight58
+image data/map/animatedObject/animatedObjectTileset.png
+x 64
+y 224
+w 32
+h 32
+
+entryRight59
+image data/map/animatedObject/animatedObjectTileset.png
+x 96
+y 224
+w 32
+h 32
+
+entryRight60
+image data/map/animatedObject/animatedObjectTileset.png
+x 128
+y 224
+w 32
+h 32
+
+entryRight61
+image data/map/animatedObject/animatedObjectTileset.png
+x 160
+y 224
+w 32
+h 32
+
+entryRight62
+image data/map/animatedObject/animatedObjectTileset.png
+x 192
+y 224
+w 32
+h 32
+
+entryRight63
+image data/map/animatedObject/animatedObjectTileset.png
+x 224
+y 224
+w 32
+h 32
+
+hammer64
+image data/map/animatedObject/animatedObjectTileset.png
+x 0
+y 256
+w 32
+h 32
+
+hammer65
+image data/map/animatedObject/animatedObjectTileset.png
+x 32
+y 256
+w 32
+h 32
+
+hammer66
+image data/map/animatedObject/animatedObjectTileset.png
+x 64
+y 256
+w 32
+h 32
+
+hammer67
+image data/map/animatedObject/animatedObjectTileset.png
+x 96
+y 256
+w 32
+h 32
+
+hammer68
+image data/map/animatedObject/animatedObjectTileset.png
+x 128
+y 256
+w 32
+h 32
+
+hammer69
+image data/map/animatedObject/animatedObjectTileset.png
+x 160
+y 256
+w 32
+h 32
+
+hammer70
+image data/map/animatedObject/animatedObjectTileset.png
+x 192
+y 256
+w 32
+h 32
+
+hammer71
+image data/map/animatedObject/animatedObjectTileset.png
+x 224
+y 256
+w 32
+h 32
+
+hammer72
+image data/map/animatedObject/animatedObjectTileset.png
+x 0
+y 288
+w 32
+h 32
+
+hammer73
+image data/map/animatedObject/animatedObjectTileset.png
+x 32
+y 288
+w 32
+h 32
+
+hammer74
+image data/map/animatedObject/animatedObjectTileset.png
+x 64
+y 288
+w 32
+h 32
+
+hammer75
+image data/map/animatedObject/animatedObjectTileset.png
+x 96
+y 288
+w 32
+h 32
+
+hammer76
+image data/map/animatedObject/animatedObjectTileset.png
+x 128
+y 288
+w 32
+h 32
+
+hammer77
+image data/map/animatedObject/animatedObjectTileset.png
+x 160
+y 288
+w 32
+h 32
+
+hammer78
+image data/map/animatedObject/animatedObjectTileset.png
+x 192
+y 288
+w 32
+h 32
+
+hammer79
+image data/map/animatedObject/animatedObjectTileset.png
+x 224
+y 288
 w 32
 h 32

@@ -117,8 +117,8 @@ public class DataLoader {
 	}
 	
 	private void LoadAnimation() throws IOException {
-		if(animations == null) {
-			animations = new Hashtable<String, Animation>();
+		if(instance.animations == null) {
+			instance.animations = new Hashtable<String, Animation>();
 		}
 		
 		FileReader fr = new FileReader(animationfile);
@@ -146,6 +146,7 @@ public class DataLoader {
 				while((line = br.readLine()).equals("")) {}
 				String[] str = line.split(" ");
 				for(int j=0; j<str.length; j+=2) {
+//					System.out.println(str[j] + " " + str[j + 1]);
 					animation.add(getFrameImage(str[j]), Double.parseDouble(str[j + 1]));
 				}
 				instance.animations.put(animation.getName(), animation);
@@ -201,6 +202,9 @@ public class DataLoader {
 	}
 	
 	public Animation getAnimation(String name) {
+//		for (String key : instance.animations.keySet()) {
+//            System.out.println("Key: " + key);
+//        }
 		return new Animation(instance.animations.get(name));
 	}
 	
@@ -248,5 +252,6 @@ public class DataLoader {
 		
 //		LoadCollisionMap();
 		LoadAnimation();
+		
 	}
 }
