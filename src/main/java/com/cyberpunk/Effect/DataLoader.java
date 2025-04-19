@@ -35,7 +35,10 @@ public class DataLoader {
 	
 	private final String collisionMapfile = "data/map/collisionMap.txt";
 	
-	private final String animationfile = "data/map/animatedObject/animationObject.txt";
+	private final String animationObject = "data/map/animatedObject/animationObject.txt";
+	
+	private final String bikerFramefile = "data/character/biker/frame.txt";
+	private final String bikerObject = "data/character/biker/animation.txt";
 	
 	
 	private Hashtable<String, FrameImage> frameImages = null;
@@ -116,12 +119,12 @@ public class DataLoader {
 		br.close();
 	}
 	
-	private void LoadAnimation() throws IOException {
+	private void LoadAnimation(String fileName) throws IOException {
 		if(instance.animations == null) {
 			instance.animations = new Hashtable<String, Animation>();
 		}
 		
-		FileReader fr = new FileReader(animationfile);
+		FileReader fr = new FileReader(fileName);
 		BufferedReader br = new BufferedReader(fr);
 		
 		String line = null;
@@ -131,7 +134,7 @@ public class DataLoader {
 			throw new IOException();
 			
 		} else {
-			fr = new FileReader(animationfile);
+			fr = new FileReader(fileName);
 			br = new BufferedReader(fr);
 			
 			while((line = br.readLine()).equals("")) {}
@@ -242,6 +245,7 @@ public class DataLoader {
 		LoadFrame(outsideFramefile);
 		LoadFrame(objectFramefile);
 		LoadFrame(animatedFramefile);
+		LoadFrame(bikerFramefile);
 		
 		instance.insideMap = LoadMap(insideMapfile);
 		instance.outsideMap = LoadMap(outsideMapfile);
@@ -251,7 +255,8 @@ public class DataLoader {
 		instance.animatedMap = LoadMap(animatedMapfile);
 		
 //		LoadCollisionMap();
-		LoadAnimation();
-		
+		LoadAnimation(animationObject);
+		LoadAnimation(bikerObject);
 	}
+	
 }

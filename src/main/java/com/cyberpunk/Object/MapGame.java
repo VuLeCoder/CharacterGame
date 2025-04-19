@@ -28,12 +28,15 @@ public class MapGame {
 	private void drawMap(Graphics2D g2, String name, int[][] Map) {
 		for(int i=0; i<Map.length; ++i) {
 			for(int j=0; j<Map[0].length; ++j) {
+				
+				drawTileset(g2, name, Map, i, j);
+				
 											
-				if(Map[i][j] == -1) {
-					continue;
-				}
-				g2.drawImage(DataLoader.getInstance().getFrameImage(name + Map[i][j]).getImage(),
-                    		j * GameWorld.TILESIZE, i * GameWorld.TILESIZE, null);
+//				if(Map[i][j] == -1) {
+//					continue;
+//				}
+//				g2.drawImage(DataLoader.getInstance().getFrameImage(name + Map[i][j]).getImage(),
+//                    		j * GameWorld.TILESIZE, i * GameWorld.TILESIZE, null);
 			}
 		}
 	}
