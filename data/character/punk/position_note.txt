@@ -1,0 +1,97 @@
+24
+
+idle0
+x -7
+y 3
+
+idle1
+x -7
+y 3
+
+idle2
+x -7
+y 3
+
+idle3
+x -7
+y 3
+
+jump0
+x -3
+y 2
+
+jump1
+x -3
+y -1
+
+jump2
+x -3
+y -2
+
+jump3
+x -4
+y 2
+
+run0
+x -4
+y 5
+
+run1
+x -4
+y 5
+
+run2
+x -4
+y 5
+
+run3
+x -4
+y 5
+
+run4
+x -4
+y 5
+
+run5
+x -4
+y 5
+
+sitdown0
+x -7
+y 3
+
+sitdown1
+x -5
+y 6
+
+sitdown2
+x -4
+y 10
+
+sitdown3
+x -5
+y 6
+
+walk0
+x -7
+y 2
+
+walk1
+x -7
+y 2
+
+walk2
+x -7
+y 2
+
+walk3
+x -7
+y 2
+
+walk4
+x -7
+y 2
+
+walk5
+x -7
+y 2

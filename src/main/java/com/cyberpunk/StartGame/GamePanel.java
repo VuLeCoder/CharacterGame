@@ -19,7 +19,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     private InputManager inputManager;
     public GameWorld gameWorld;
     
-    private long FPS = 30;
+    private long FPS = 70;
     private long miliSecond = 1000;
     private long nanoMiliSecond = 1000000;
     
