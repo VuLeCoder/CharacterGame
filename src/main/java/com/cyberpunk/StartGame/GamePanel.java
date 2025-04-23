@@ -50,11 +50,21 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     	long period = miliSecond * nanoMiliSecond / FPS;
     	long beginTime = System.nanoTime();
     	long sleepTime;
+    	float zoom = 1.0f;
     	
     	while(isRunning) {
     		
+    		
+    		if((this.getWidth() * this.getHeight() != 0)) {
+    			zoom = GameFrame.SCREEN_WIDTH * GameFrame.SCREEN_HEIGHT / (this.getWidth() * this.getHeight());
+    		} else {
+    			zoom = 1.0f;
+    		}
+//    		System.setProperty("sun.java2d.uiScale", "" + zoom);
+//    		System.out.println(zoom);
+    		
     		gameWorld.Update();
-    		gameWorld.Render();
+    		gameWorld.Render(zoom);
     		repaint();
     		
     		long deltaTime = System.nanoTime() - beginTime;

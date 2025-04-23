@@ -13,6 +13,9 @@ public class GameFrame extends JFrame{
 
     public static final int SCREEN_WIDTH = 32 * 40 + 18;
     public static final int SCREEN_HEIGHT = 32 * 20 + 45 + GamePanel.posY;
+    
+//    public static final int SCREEN_WIDTH_1 = 32 * 20;
+//    public static final int SCREEN_HEIGHT_1 = 32 * 10 + GamePanel.posY;
 
     public GameFrame() {
         Toolkit toolkit = this.getToolkit();
@@ -21,7 +24,8 @@ public class GameFrame extends JFrame{
                         (dimension.height - SCREEN_HEIGHT)/2,
                         SCREEN_WIDTH, SCREEN_HEIGHT);
         
-        setResizable(false);
+        
+//        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         try {
