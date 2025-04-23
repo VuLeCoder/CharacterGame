@@ -37,12 +37,18 @@ public class DataLoader {
 	
 	private final String animationObject = "data/map/animatedObject/animationObject.txt";
 	
+	//read frame and animation of characters
 	private final String bikerFramefile = "data/character/biker/frame.txt";
 	private final String bikerObject = "data/character/biker/animation.txt";
-	
+	//etc...
+	//read position align between character's body and arm
+	private final String bikerPosition = "data/character/biker/position_note.txt";
+	//etc...
 	
 	private Hashtable<String, FrameImage> frameImages = null;
 	private Hashtable<String, Animation> animations = null;
+	private Hashtable<String, int[]> positionNotes = null;
+
 	
 	private int[][] collisionMap;
 	private int[][] wallMap;
@@ -159,6 +165,30 @@ public class DataLoader {
 		br.close();
 	}
 	
+	private void LoadAlignFrame() throws IOException {
+		FileReader fr = new FileReader(bikerPosition);
+		BufferedReader br = new BufferedReader(fr);
+		
+		String line = br.readLine();
+		int n = Integer.parseInt(line);
+		
+		for(int i = 0; i < n; i++) {
+			while((line = br.readLine()).equals("")) {}
+			String name = line;
+			String[] str = null;
+			System.out.println(name);
+			while((line = br.readLine()).equals("")) {}
+			str = line.split(" ");
+			int x = Integer.parseInt(str[1]);
+			
+			while((line = br.readLine()).equals("")) {}
+			str = line.split(" ");
+			int y = Integer.parseInt(str[1]);
+			
+			instance.positionNotes.put(name, new int[] {x, y});
+		}
+	}
+	
 	private void LoadCollisionMap() throws IOException{
 		FileReader fr = new FileReader(collisionMapfile);
 		BufferedReader br = new BufferedReader(fr);
@@ -257,6 +287,7 @@ public class DataLoader {
 //		LoadCollisionMap();
 		LoadAnimation(animationObject);
 		LoadAnimation(bikerObject);
+		
 	}
 	
 }

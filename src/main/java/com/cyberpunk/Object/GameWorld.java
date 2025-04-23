@@ -1,5 +1,6 @@
 package com.cyberpunk.Object;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -16,12 +17,15 @@ public class GameWorld {
 	private boolean isFirstDrawMap = true;
 	private int[][] collisionMap;
 	private AnimatedObjectManager animatedObjectManager;
+	public BaseCharacter baseCharacter;	
 
 	public GameWorld() {
 		bufferedImage = new BufferedImage(GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		mapGame = new MapGame();
 		collisionMap = DataLoader.getInstance().getCollisionMap();
 		animatedMap = DataLoader.getInstance().getAnimatedMap();
+		
+		baseCharacter = new BaseCharacter(100, 500, "biker", this);
 		
 		animatedObjectManager = new AnimatedObjectManager(this);
 		addAllAnimatedObject();
@@ -57,6 +61,8 @@ public class GameWorld {
 	
 	public void Update() {
 		animatedObjectManager.UpdateObjects();
+		
+		baseCharacter.Update();
 	}
 	
 	public void Render() {
@@ -66,11 +72,14 @@ public class GameWorld {
 		}
 		
 		if(isFirstDrawMap) {
-			mapGame.draw(g2);
+			
 			isFirstDrawMap = false;
 		}
-		
-		animatedObjectManager.draw(g2);
+//		mapGame.draw(g2);
+//		animatedObjectManager.draw(g2);
+		g2.setColor(Color.white);
+		g2.fillRect(0, 0, GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT);
+		baseCharacter.draw(g2);
 	}
 	
 }

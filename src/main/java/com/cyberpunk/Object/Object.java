@@ -1,9 +1,8 @@
 package com.cyberpunk.Object;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-
-import com.cyberpunk.Effect.Animation;
 
 public abstract class Object {
 	private GameWorld gameWorld;
@@ -31,17 +30,24 @@ public abstract class Object {
 	
 	private int width;
 	private int height;
-	private int mass;
-	private int speedX;
-	private int speedY;
+	private float mass;
+	private float speedX = 0;
+	private float speedY;
 	
 	private int direction;
-	
-	private int noBeHurtDuration;
-	private int noBeHurtStart;
-	
-	private Animation hurtForwardAni, hurtBackAni;
 
+	public Object(float posX, float posY, int health, int damage, int width, int height, GameWorld gameWorld) {
+		this.posX = posX;
+		this.posY = posY;
+		this.health = health;
+		this.damage = damage;
+//		this.teamType = teamType;
+		this.width = width;
+		this.height = height;
+//		this.direction = direction;
+		this.gameWorld = gameWorld;
+	}
+	
 	public float getPosX() {
 		return posX;
 	}
@@ -106,28 +112,28 @@ public abstract class Object {
 		this.height = height;
 	}
 
-	public int getMass() {
+	public float getMass() {
 		return mass;
 	}
 
-	public void setMass(int mass) {
+	public void setMass(float mass) {
 		this.mass = mass;
 	}
 
-	public int getSpeedX() {
+	public float getSpeedX() {
 		return speedX;
 	}
 
-	public void setSpeedX(int speedX) {
+	public void setSpeedX(float speedX) {
 		this.speedX = speedX;
 	}
 
-	public int getSpeedY() {
+	public float getSpeedY() {
 		return speedY;
 	}
 
-	public void setSpeedY(int speedY) {
-		this.speedY = speedY;
+	public void setSpeedY(float speedY) {
+		this.speedY = speedY; //jump strength
 	}
 
 	public int getDirection() {
@@ -137,65 +143,33 @@ public abstract class Object {
 	public void setDirection(int direction) {
 		this.direction = direction;
 	}
-
-	public int getNoBeHurtDuration() {
-		return noBeHurtDuration;
-	}
-
-	public void setNoBeHurtDuration(int noBeHurtDuration) {
-		this.noBeHurtDuration = noBeHurtDuration;
-	}
-
-	public int getNoBeHurtStart() {
-		return noBeHurtStart;
-	}
-
-	public void setNoBeHurtStart(int noBeHurtStart) {
-		this.noBeHurtStart = noBeHurtStart;
-	}
-
-	public Animation getHurtForwardAni() {
-		return hurtForwardAni;
-	}
-
-	public void setHurtForwardAni(Animation hurtForwardAni) {
-		this.hurtForwardAni = hurtForwardAni;
-	}
-
-	public Animation getHurtBackAni() {
-		return hurtBackAni;
-	}
-
-	public void setHurtBackAni(Animation hurtBackAni) {
-		this.hurtBackAni = hurtBackAni;
-	}
-
-	public Object(GameWorld gameWorld, float posX, float posY, int health, int damage, int teamType, int width,
-			int height, int direction) {
-		this.gameWorld = gameWorld;
-		this.posX = posX;
-		this.posY = posY;
-		this.health = health;
-		this.damage = damage;
-		this.teamType = teamType;
-		this.width = width;
-		this.height = height;
-		this.direction = direction;
-	}
-	
-	public abstract void attack();
+//	public abstract void attack();
 
 	public Rectangle movingHitbox() {
 		Rectangle hitbox = new Rectangle();
 		hitbox.x = (int) getPosX() - getWidth()/2;
 		hitbox.y = (int) getPosY() - getHeight()/2;
 		hitbox.width = getWidth();
-		hitbox.height = getHeight();
+		hitbox.height = getHeight();	
 
 		return hitbox;
 	}
 	
+	public void drawMovingHitbox(Graphics2D g2) {
+		Rectangle rect = movingHitbox();
+		g2.setColor(Color.red);
+		g2.drawRect(rect.x, rect.y, rect.width, rect.height);
+	}
+	
+	public void drawAttackHitbox(Graphics2D g2) {
+		Rectangle rect = attackHitbox();
+		g2.setColor(Color.black);
+		g2.drawRect(rect.x, rect.y, rect.width, rect.height);
+	}
+	
+	public abstract Rectangle attackHitbox();
 	public abstract void beHurt(int damageGet);
-	public abstract void Update();
 	public abstract void draw(Graphics2D g2);
+	public abstract void Update();
+	
 }

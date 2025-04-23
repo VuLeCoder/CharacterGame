@@ -165,8 +165,9 @@ public class Animation {
 		}
 		
 		if(ignoreFrames.get(currentFrame)) {
-			nextFrame();
-		}
+			if (currentFrame < frameImages.size() - 1) nextFrame();
+			else currentFrame--;
+		} 
 	}
 	
 	public boolean isLastFrame() {
