@@ -61,8 +61,8 @@ public class Animation {
 		return isRepeated;
 	}
 
-	public ArrayList<FrameImage> getFrameImages() {
-		return frameImages;
+	public FrameImage getCurrentFrameImages() {
+		return frameImages.get(currentFrame);
 	}
 
 	public int getCurrentFrame() {
