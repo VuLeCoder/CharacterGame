@@ -141,10 +141,10 @@ h 32
 
 object20
 image data/map/object/objectTileset.png
-x 640
-y 0
-w 32
-h 32
+x 643
+y 15
+w 26
+h 17
 
 object21
 image data/map/object/objectTileset.png
@@ -162,17 +162,17 @@ h 32
 
 object23
 image data/map/object/objectTileset.png
-x 736
-y 0
-w 32
-h 32
+x 739
+y 14
+w 26
+h 18
 
 object24
 image data/map/object/objectTileset.png
-x 768
-y 0
-w 32
-h 32
+x 769
+y 24
+w 30
+h 8
 
 object25
 image data/map/object/objectTileset.png
