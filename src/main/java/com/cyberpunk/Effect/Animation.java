@@ -21,9 +21,9 @@ public class Animation {
 	private boolean drawRectFrame;
 	
 	public Animation() {
-		frameImages = new ArrayList<FrameImage>();
-		ignoreFrames = new ArrayList<Boolean>();
-		delayFrames = new ArrayList<Double>();
+		frameImages = new ArrayList<>();
+		ignoreFrames = new ArrayList<>();
+		delayFrames = new ArrayList<>();
 		
 		isRepeated = true;
 		currentFrame = 0;
@@ -37,17 +37,17 @@ public class Animation {
 		drawRectFrame = animation.drawRectFrame;
 		isRepeated = animation.isRepeated;
 		
-		delayFrames = new ArrayList<Double>();
+		delayFrames = new ArrayList<>();
 		for(Double d : animation.delayFrames) {
 			delayFrames.add(d);
 		}
 		
-		ignoreFrames = new ArrayList<Boolean>();
+		ignoreFrames = new ArrayList<>();
 		for(boolean b : animation.ignoreFrames) {
 			ignoreFrames.add(b);
 		}
 		
-		frameImages = new ArrayList<FrameImage>();
+		frameImages = new ArrayList<>();
 		for(FrameImage fi : animation.frameImages) {
 			frameImages.add(new FrameImage(fi));
 		}
@@ -165,7 +165,9 @@ public class Animation {
 		}
 		
 		if(ignoreFrames.get(currentFrame)) {
-			nextFrame();
+			// nextFrame();
+			if (currentFrame < frameImages.size() - 1) nextFrame();
+ 			else currentFrame--;
 		}
 	}
 	

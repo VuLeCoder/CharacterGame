@@ -34,16 +34,17 @@ public class AnimatedObject extends Object {
 	public static final int BOX_HEALTH = 20;
 	public static final int BARREL_HEALTH = 1;
 //	public static final int LOCKER_HEALTH = 1;
+	
+	public static final float BOX_WEIGTH = 0.05f;
 
 	private final Animation animation;
 	private int id, maxHealth;
 	private String name;
 
 	public AnimatedObject(float posX, float posY, GameWorld gameWorld, int id) {
-		super(gameWorld, posX, posY, 10, 0, GameWorld.TILESIZE, GameWorld.TILESIZE);
+		super(posX, posY, 10, 0, GameWorld.TILESIZE, GameWorld.TILESIZE, gameWorld);
 		
 		setTeamType(MAP_TEAM);
-		setMass(4f);
 
 		this.id = id;
 		setProperties();
@@ -87,6 +88,7 @@ public class AnimatedObject extends Object {
 			name = "object" + id;
 			maxHealth = BOX_HEALTH;
 			setHealth(BOX_HEALTH);
+			setMass(0.05f);
 			break;
 
 		case ID_BARREL:
@@ -127,7 +129,7 @@ public class AnimatedObject extends Object {
 
 			Rectangle hitBox = getGameWorld().getMapGame().haveCollisionWithLand(movingHitbox(), this);
 			if (hitBox == null) {
-				setSpeedY(getMass());
+				setSpeedY(getSpeedY() + getMass());
 			} else {
 				setSpeedY(0);
 			}
@@ -275,31 +277,9 @@ public class AnimatedObject extends Object {
 		setHealth(getHealth() - 2);
 	}
 
-}
+	@Override
+	public Rectangle attackHitbox() {
+		return null;
+	}
 
-//getGameWorld().getMapGame().setCollisionMap(x + 1, y, 1);
-//getGameWorld().getMapGame().setCollisionMap(x + 2, y, 1);
-//
-//for (int i : IS_NOT_HAMMER_BLOCK_1) {
-//	if (id_frame == i) {
-//		getGameWorld().getMapGame().setCollisionMap(x + 2, y, 0);
-//		break;
-//	}
-//}
-//
-//for (int i : IS_NOT_HAMMER_BLOCK_2) {
-//	if (id_frame == i) {
-//		getGameWorld().getMapGame().setCollisionMap(x + 1, y, 0);
-//		getGameWorld().getMapGame().setCollisionMap(x + 2, y, 0);
-//		break;
-//	}
-//}
-//
-//if(animation.getCurrentFrame() == 0) {
-//	if() {
-//		animation.Update(System.nanoTime());
-//	}
-//	
-//} else {
-//	animation.Update(System.nanoTime());
-//}
+}

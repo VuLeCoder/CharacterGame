@@ -16,10 +16,12 @@ public class GameWorld {
 	
 	private boolean isFirstDrawMap = true;
 	private AnimatedObjectManager animatedObjectManager;
+	public BaseCharacter baseCharacter;
 
 	public GameWorld() {
 		bufferedImage = new BufferedImage(GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		mapGame = new MapGame();
+		baseCharacter = new BaseCharacter(100, 500, "biker", this);
 
 		animatedMap = DataLoader.getInstance().getAnimatedMap();
 		
@@ -63,13 +65,14 @@ public class GameWorld {
 		}
 //		g2.scale(zoom, zoom);
 		
-		if(isFirstDrawMap) {
-			mapGame.draw(g2);
-			
+//		if(isFirstDrawMap) {
+//			mapGame.draw(g2);
 //			isFirstDrawMap = false;
-		}
+//		}
+//		
+//		animatedObjectManager.draw(g2);
 		
-		animatedObjectManager.draw(g2);
+		baseCharacter.draw(g2);
 	}
 
 	

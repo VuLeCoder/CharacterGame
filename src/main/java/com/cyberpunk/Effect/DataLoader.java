@@ -34,9 +34,11 @@ public class DataLoader {
 	private final String animatedMapfile = "data/map/animatedObject/animatedMap.txt";
 	
 	private final String collisionMapfile = "data/map/collisionMap.txt";
-	
 	private final String animationObject = "data/map/animatedObject/animationObject.txt";
 	
+	// charater
+	private final String bikerFramefile = "data/character/biker/frame_3.txt";
+ 	private final String bikerObject = "data/character/biker/animation.txt";
 	
 	private Hashtable<String, FrameImage> frameImages = null;
 	private Hashtable<String, Animation> animations = null;
@@ -253,5 +255,9 @@ public class DataLoader {
 		
 		LoadCollisionMap();
 		LoadAnimation(animationObject);	
+		
+		
+		LoadFrame(bikerFramefile);
+		LoadAnimation(bikerObject);
 	}
 }
