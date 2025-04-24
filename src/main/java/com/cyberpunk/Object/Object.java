@@ -1,5 +1,6 @@
 package com.cyberpunk.Object;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
@@ -28,7 +29,7 @@ public abstract class Object {
 	
 	private int width;
 	private int height;
-	private float mass = 0.1f;
+	private float mass;
 	private float speedX;
 	private float speedY;
 	
@@ -134,7 +135,7 @@ public abstract class Object {
 		this.direction = direction;
 	}
 
-	public Object(GameWorld gameWorld, float posX, float posY, int health, int damage, int width, int height) {
+	public Object(float posX, float posY, int health, int damage, int width, int height, GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
 		this.posX = posX;
 		this.posY = posY;
@@ -148,14 +149,25 @@ public abstract class Object {
 		Rectangle hitbox = new Rectangle();
 		hitbox.x = (int) getPosX() - getWidth() / 2;
 		hitbox.y = (int) getPosY() - getHeight() / 2;
-//		hitbox.x = (int) getPosX();
-//		hitbox.y = (int) getPosY();
 		hitbox.width = getWidth();
 		hitbox.height = getHeight();
 
 		return hitbox;
 	}
-	
+
+	public void drawMovingHitbox(Graphics2D g2) {
+ 		Rectangle rect = movingHitbox();
+ 		g2.setColor(Color.red);
+ 		g2.drawRect(rect.x, rect.y, rect.width, rect.height);
+ 	}
+ 	
+ 	public void drawAttackHitbox(Graphics2D g2) {
+ 		Rectangle rect = attackHitbox();
+ 		g2.setColor(Color.black);
+ 		g2.drawRect(rect.x, rect.y, rect.width, rect.height);
+ 	}
+ 	
+ 	public abstract Rectangle attackHitbox();
 	public abstract void Update();
 	public abstract void draw(Graphics2D g2);
 	public abstract void beHurt(int damageGet);
