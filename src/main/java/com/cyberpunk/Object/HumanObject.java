@@ -239,19 +239,17 @@ public abstract class HumanObject extends Object{
 		} else {
 			setOnLadder(false);
 		}
-		
 			
 		setPosX(getPosX() + getSpeedX());
 		setPosY(getPosY() + getSpeedY());
 		Rectangle boundForCollisionWithMapFuture, hitBox;
-		
 		
 		boundForCollisionWithMapFuture = movingHitbox();
 //		boundForCollisionWithMapFuture.x += (getSpeedX()* Object.LEFT_DIR > 0 ? getSpeedX() * Object.LEFT_DIR : -1);
 		hitBox = getGameWorld().getMapGame().haveCollisionWithWallLeft(boundForCollisionWithMapFuture);
 		if (hitBox != null) {
 			if(getSpeedX() * Object.LEFT_DIR > 0) {
-				setPosX(hitBox.x + hitBox.width + getWidth() / 2 );
+				setPosX(hitBox.x + hitBox.width + getWidth() / 2);
 			}
 		}
 		
@@ -279,60 +277,13 @@ public abstract class HumanObject extends Object{
 		}
 		
 		
-		
-		
-		
-		
-		
-		
-//		switch (getState()) {
-//		case ALIVE:
-//			//code for checking collision with object on map here
-//			
-//			break;
-//		
-//		case BEHURT:
-//			setState(NOBEHURT);
-//			isPhasing = true;
-//			noBeHurtStart = System.nanoTime();
-//			if(getHealth() <= 0) setState(DEATH);
-//			break;
-//			
-//		case NOBEHURT:
-//			//code for running
-//			if(System.nanoTime() - noBeHurtStart > noBeHurtDuration) setState(ALIVE);
-////			run();
-//			break;
-//		
-//		case DEATH:
-//			//build death animation here
-//			break;
-//		default:
-//			break;
-//		}
-//		
-//		if(getState() == ALIVE || getState() == NOBEHURT) {
-//			//code for checking collision around character
-//			setPosY(getPosY() + getSpeedY());
-//			setSpeedY(getSpeedY() + getMass());
-//			if(getPosY() >= 500) {
-//				setSpeedY(0);
-//				setPosY(500);
-//				isOnGround = true;
-//				isDoubleJumping = false;
-//				isSingleJumping = false;
-//				isLanding = false;
-//			} else {
-//				isOnGround = false;
-//				setPosY(getPosY() + getSpeedY());
-//				setSpeedY(getSpeedY() + getMass());
-//			}
-//		}
-//		
-//		if(getSpeedY() > 0) isLanding = true;
-////		System.out.println(getSpeedX() + " " + getSpeedY());
-////		System.out.println(isSingleJumping + " " + isDoubleJumping + " " + isOnGround);
-//		setPosX(getPosX() + getSpeedX());
+		boundForCollisionWithMapFuture = movingHitbox();
+		boundForCollisionWithMapFuture.y += (getSpeedY() != 0 ? getSpeedY() : -1);
+		hitBox = getGameWorld().getMapGame().haveCollisionWithTop(boundForCollisionWithMapFuture, this);
+		if(hitBox != null) {
+			setPosY(hitBox.y + 3 * getHeight() / 2);
+			setSpeedY(0);
+		}
 	}
 	
 }
