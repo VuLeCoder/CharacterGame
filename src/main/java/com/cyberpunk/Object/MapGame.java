@@ -8,6 +8,8 @@ import com.cyberpunk.Effect.DataLoader;
 
 public class MapGame {
 	public static final int WALL_TILE = 1;
+	public static final int PLATFORM_TILE = 2;
+	public static final int LADDER_TILE = 3;
 	public static final int TRANSPORT_LEFT_TILE = 4;
 	public static final int DEATH_TILE = -1;
 
@@ -100,7 +102,7 @@ public class MapGame {
 	}
 	
 	public Rectangle haveCollisionWithLand(Rectangle rect, Object object) {
-		int posX1 = rect.x / GameWorld.TILESIZE;
+		int posX1 = (rect.x) / GameWorld.TILESIZE;
 		int posX2 = (rect.x + rect.width) / GameWorld.TILESIZE;
 		int posY = (rect.y + rect.height) / GameWorld.TILESIZE;
 
@@ -111,34 +113,58 @@ public class MapGame {
 		if (posX2 >= getCollisionMap()[0].length) {
 			posX2 = getCollisionMap()[0].length - 1;
 		}
-
-		object.setSpeedX(0);
+		
 		Rectangle collisionRect = null;
 		Rectangle tileRect;
 		int tile;
-
+		
+		if(object.isOnTransportLeft()) {
+			object.setSpeedX(object.getSpeedX() - AnimatedObject.TRANSPORT_SPEED * Object.LEFT_DIR);
+			object.setOnTransportLeft(false);
+		}
+		
 		for (int y = posY; y < getCollisionMap().length; ++y) {
+//		int y = posY;
 			for (int x = posX1; x <= posX2; ++x) {
 
 				tileRect = new Rectangle(x * GameWorld.TILESIZE, y * GameWorld.TILESIZE, GameWorld.TILESIZE,
 						GameWorld.TILESIZE);
 				
 				tile = getCollisionMap()[y][x];
-				if (tile == TRANSPORT_LEFT_TILE && rect.intersects(tileRect)) {
-					object.setSpeedX(AnimatedObject.TRANSPORT_SPEED * Object.LEFT_DIR);
-					collisionRect = tileRect;
-				}
-
-				if (tile == WALL_TILE && rect.intersects(tileRect)) {
-					collisionRect = tileRect;
-				}
-				
-				if(tile == DEATH_TILE && rect.intersects(tileRect)) {
-					collisionRect = tileRect;
-					object.setHealth(-1);
+				if(rect.intersects(tileRect)) {
+					
+					if (tile == TRANSPORT_LEFT_TILE) {
+						collisionRect = tileRect;
+						object.setOnTransportLeft(true);
+						break;
+					}
+					
+					if (tile == WALL_TILE) {
+						collisionRect = tileRect;
+					}
+					
+					if(tile == PLATFORM_TILE) {
+						HumanObject human = (HumanObject)object;
+						if(!human.getIsDrop()) {
+							collisionRect = tileRect;
+						}
+					}
+					
+					
+					
+					if(tile == DEATH_TILE) {
+						collisionRect = tileRect;
+						object.setHealth(-1);
+						break;
+					}
 				}
 			}
 		}
+		
+		if(object.isOnTransportLeft()) {
+			object.setSpeedX(object.getSpeedX() + AnimatedObject.TRANSPORT_SPEED * Object.LEFT_DIR);
+		}
+		
 		return collisionRect;
 	}
 
@@ -146,7 +172,6 @@ public class MapGame {
 		int posX = rect.x / GameWorld.TILESIZE;
 		int posY1 = rect.y / GameWorld.TILESIZE;
 		int posY2 = (rect.y + rect.height) / GameWorld.TILESIZE;
-		posY2 = posY1;
 		
 		if (posY1 < 0) {
 			posY1 = 0;
@@ -168,9 +193,12 @@ public class MapGame {
 						GameWorld.TILESIZE);
 				
 				tile = getCollisionMap()[y][posX];
-				if (tile == WALL_TILE && rect.intersects(tileRect)) {
-					collisionRect = tileRect;
-					break;
+				if (rect.intersects(tileRect)) {
+					
+					if(tile == WALL_TILE) {
+						collisionRect = tileRect;
+						break;
+					}
 				}
 			}
 		}
@@ -181,7 +209,7 @@ public class MapGame {
 		int posX = (rect.x + rect.width) / GameWorld.TILESIZE;
 		int posY1 = rect.y / GameWorld.TILESIZE;
 		int posY2 = (rect.y + rect.height) / GameWorld.TILESIZE;
-		posY2 = posY1;
+//		posY2 = posY1;
 		
 		if (posY1 < 0) {
 			posY1 = 0;
@@ -202,9 +230,12 @@ public class MapGame {
 						GameWorld.TILESIZE);
 				
 				tile = getCollisionMap()[y][x];
-				if (tile == WALL_TILE && rect.intersects(tileRect)) {
-					collisionRect = tileRect;
-					break;
+				if (rect.intersects(tileRect)) {
+					
+					if(tile == WALL_TILE) {
+						collisionRect = tileRect;
+						break;
+					}
 				}
 			}
 		}
@@ -217,7 +248,7 @@ public class MapGame {
 		int posX2 = (rect.x + rect.width - 2) / GameWorld.TILESIZE;
 		int posY = rect.y / GameWorld.TILESIZE;
 
-		System.out.println(posX1 + " " + posX2 + " " + posY + " " + getCollisionMap()[posY][posX1] + " " + getCollisionMap()[posY][posX2]); 
+//		System.out.println(posX1 + " " + posX2 + " " + posY + " " + getCollisionMap()[posY][posX1] + " " + getCollisionMap()[posY][posX2]); 
 		
 		if (posX1 < 0) {
 			posX1 = 0;
@@ -255,6 +286,31 @@ public class MapGame {
 		
 		return collisionRect;
 	}
+	
+	public boolean checkCollisionWithLadder(Rectangle rect) {
+	    int posX1 = rect.x / GameWorld.TILESIZE;
+	    int posX2 = (rect.x + rect.width) / GameWorld.TILESIZE;
+	    int posY1 = rect.y / GameWorld.TILESIZE;
+	    int posY2 = (rect.y + rect.height) / GameWorld.TILESIZE;
+
+	    posX1 = Math.max(0, posX1);
+	    posY1 = Math.max(0, posY1);
+	    posX2 = Math.min(getCollisionMap()[0].length - 1, posX2);
+	    posY2 = Math.min(getCollisionMap().length - 1, posY2);
+
+	    for (int y = posY1; y <= posY2; y++) {
+	        for (int x = posX1; x <= posX2; x++) {
+	            int tile = getCollisionMap()[y][x];
+	            if (tile == LADDER_TILE) {
+	                return true;
+	            }
+	        }
+	    }
+
+	    return false; // Không đụng thang
+	}
+
+	
 	
 	public int[][] getInsideMap() {
 		return insideMap;
