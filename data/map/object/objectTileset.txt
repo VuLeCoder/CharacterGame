@@ -142,9 +142,9 @@ h 32
 object20
 image data/map/object/objectTileset.png
 x 643
-y 15
+y 14
 w 26
-h 17
+h 18
 
 object21
 image data/map/object/objectTileset.png
