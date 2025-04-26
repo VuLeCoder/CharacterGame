@@ -10,8 +10,9 @@ import com.cyberpunk.Effect.DataLoader;
 public class BaseCharacter extends HumanObject{
 	public String name;
 	
-	private float jumpStrength = 5.0f;
+	public static final float JUMP_STRENG = -3.0f;
 	
+	public boolean isRunning;
 	private boolean isAttacking;
 	private boolean isFirstAttack, isSecondAttack, isThirdAttack;
 	
@@ -44,6 +45,7 @@ public class BaseCharacter extends HumanObject{
 	public BaseCharacter(float x, float y, String name, GameWorld gameWorld) {
 		super(x, y, gameWorld);
 		this.name = name;
+		isRunning = false;
 
 		attack1ForwardAnim = DataLoader.getInstance().getAnimation(name + "attack1");
 		attack1BackAnim = DataLoader.getInstance().getAnimation(name + "attack1");
@@ -135,47 +137,52 @@ public class BaseCharacter extends HumanObject{
 
 	@Override
 	public void jump() {
+		setSpeedY(JUMP_STRENG);
 		
-		if(isOnGround()) {
-			setSingleJumping(false);
-			setDoubleJumping(false);
-		}
-		
-		if(!isSingleJumping() && !isDoubleJumping()) {
-			setSingleJumping(true);
-			setSpeedY(-jumpStrength);
-			
-			jumpForwardAnim.reset();
-			jumpBackAnim.reset();
-			jumpSkillForwardAnim.reset();
-			jumpSkillBackAnim.reset();
-			djumpForwardAnim.reset();
-			djumpBackAnim.reset();
-
-			jumpForwardAnim.setIgnoreFrame(3);
-			jumpBackAnim.setIgnoreFrame(3);
-			jumpSkillForwardAnim.setIgnoreFrame(3);
-			jumpSkillBackAnim.setIgnoreFrame(3);
-			djumpForwardAnim.setIgnoreFrame(5);
-			djumpBackAnim.setIgnoreFrame(5);
-			
-		} else if(!isDoubleJumping()) {
-			setSingleJumping(false);
-			setDoubleJumping(true);
-			setSpeedY(-jumpStrength);
-		}
+//		if(isOnGround()) {
+//			setSingleJumping(false);
+//			setDoubleJumping(false);
+//		}
+//		
+//		if(!isSingleJumping() && !isDoubleJumping()) {
+//			setSingleJumping(true);
+//			setSpeedY(-jumpStrength);
+//			
+//			jumpForwardAnim.reset();
+//			jumpBackAnim.reset();
+//			jumpSkillForwardAnim.reset();
+//			jumpSkillBackAnim.reset();
+//			djumpForwardAnim.reset();
+//			djumpBackAnim.reset();
+//
+//			jumpForwardAnim.setIgnoreFrame(3);
+//			jumpBackAnim.setIgnoreFrame(3);
+//			jumpSkillForwardAnim.setIgnoreFrame(3);
+//			jumpSkillBackAnim.setIgnoreFrame(3);
+//			djumpForwardAnim.setIgnoreFrame(5);
+//			djumpBackAnim.setIgnoreFrame(5);
+//			
+//		} else if(!isDoubleJumping()) {
+//			setSingleJumping(false);
+//			setDoubleJumping(true);
+//			setSpeedY(-jumpStrength);
+//		}
 	}
 
 	@Override
 	public void run() {
-		if(!isSitting()) {
-			setSpeedX(HUMAN_RUN_SPEED * getDirection());
+		if(!isSitting() && !isRunning) {
+			isRunning = true;
+			setSpeedX(getSpeedX() + HUMAN_RUN_SPEED * getDirection());
 		}
 	}
 
 	@Override
 	public void stopRun() {
-		setSpeedX(0);
+		if(isRunning) {
+		isRunning = false;
+		setSpeedX(getSpeedX() - HUMAN_RUN_SPEED * getDirection());
+		
 		runForwardAnim.reset();
 		runBackAnim.reset();
 		runAttackForwardAnim.reset();
@@ -189,6 +196,7 @@ public class BaseCharacter extends HumanObject{
 		runAttackBackAnim.setCurrentFrame(1);
 		runSkillForwardAnim.setCurrentFrame(1);
 		runSkillBackAnim.setCurrentFrame(1);
+		}
 	}
 
 	@Override
@@ -259,7 +267,6 @@ public class BaseCharacter extends HumanObject{
 	@Override
 	public void Update() {
 		super.Update();
-		
 		attack1ForwardAnim.Update(System.nanoTime());
 	}
 	
