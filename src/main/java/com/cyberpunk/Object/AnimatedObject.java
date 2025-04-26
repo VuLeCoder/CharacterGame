@@ -27,7 +27,7 @@ public class AnimatedObject extends Object {
 
 	public static final int ID_BOX = 20, ID_BARREL = 10;
 
-	public static final float TRANSPORT_SPEED = 0.75f;
+	public static final float TRANSPORT_SPEED = 0.75f; // 0.75f;
 	public static final int HAMMER_HEALTH = 1;
 	public static final int HAMMER_DAMAGE = 1000000;
 	public static final int ENTRY_HEALTH = 1;
@@ -126,32 +126,36 @@ public class AnimatedObject extends Object {
 	public void Update() {
 
 		if (id >= 0) {
-
-			Rectangle hitBox = getGameWorld().getMapGame().haveCollisionWithLand(movingHitbox(), this);
+			setPosX(getPosX() + getSpeedX());
+			setPosY(getPosY() + getSpeedY());
+			Rectangle boundForCollisionWithMapFuture, hitBox;
+			
+			boundForCollisionWithMapFuture = movingHitbox();
+			boundForCollisionWithMapFuture.y += (getSpeedY() != 0 ? getSpeedY() : 2);
+			hitBox = getGameWorld().getMapGame().haveCollisionWithLand(boundForCollisionWithMapFuture, this);
 			if (hitBox == null) {
 				setSpeedY(getSpeedY() + getMass());
 			} else {
+				setPosY(hitBox.y - getHeight() / 2);
 				setSpeedY(0);
 			}
-			
+
 			hitBox = getGameWorld().getMapGame().haveCollisionWithWallLeft(movingHitbox());
 			if (hitBox != null) {
 				if(getSpeedX() * Object.LEFT_DIR > 0 || getWidth() < GameWorld.TILESIZE) {
-					setSpeedX(0);
+					setPosX(getPosX() - getSpeedX());
 				}
 			}
-			
+		
 			hitBox = getGameWorld().getMapGame().haveCollisionWithWallRight(movingHitbox());
 			if (hitBox != null) {
 				if(getSpeedX() * Object.RIGHT_DIR > 0 || getWidth() < GameWorld.TILESIZE) {
-					setSpeedX(0);
+					setPosX(getPosX() - getSpeedX());
 				}
 			}
 			
 			getGameWorld().getMapGame().haveCollisionWithTop(movingHitbox(), this);
-			
-			setPosX(getPosX() + getSpeedX());
-			setPosY(getPosY() + getSpeedY());
+
 			return;
 		}
 
