@@ -56,6 +56,7 @@ public class GameWorld {
 	public void Update() {
 		animatedObjectManager.dropBox(pointX, pointY, System.nanoTime());
 		animatedObjectManager.UpdateObjects();
+		baseCharacter.Update();
 	}
 	
 	public void Render(float zoom) {
@@ -66,11 +67,11 @@ public class GameWorld {
 //		g2.scale(zoom, zoom);
 		
 //		if(isFirstDrawMap) {
-//			mapGame.draw(g2);
-//			isFirstDrawMap = false;
+			mapGame.draw(g2);
+			isFirstDrawMap = false;
 //		}
 //		
-//		animatedObjectManager.draw(g2);
+		animatedObjectManager.draw(g2);
 		
 		baseCharacter.draw(g2);
 	}

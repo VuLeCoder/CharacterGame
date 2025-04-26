@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
      public GamePanel() {
     	 isRunning = true;
     	 gameWorld = new GameWorld();
+    	 inputManager = new InputManager(gameWorld);
      }
      
      public void startGame(){
