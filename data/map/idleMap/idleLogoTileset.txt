@@ -1,0 +1,22 @@
+2
+logo
+image data/map/idleMap/Logo2.png
+x 0
+y 0
+w 713
+h 288
+
+button
+image data/map/idleMap/button.png
+x 0
+y 0
+w 70
+h 70
+
+
+logo
+image data/map/idleMap/Logo1.png
+x 0
+y 0
+w 285
+h 115
