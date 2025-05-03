@@ -7,10 +7,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class AnimatedObjectManager {
+	public static int SERIAL_NUMBER = 0;
+	
 	private static final int MAX_NUMBER_BOX = 10;
 	private static final long TIME_TO_NEXT_DROP = Duration.ofSeconds(3).toNanos();
 
 	protected List<AnimatedObject> animatedObjects;
+	protected List<AnimatedObject> platforms;
 	private final GameWorld gameWorld;
 	
 	private int numberOfBox = 0;
@@ -18,6 +21,7 @@ public class AnimatedObjectManager {
 
 	public AnimatedObjectManager(GameWorld gameWorld) {
 		animatedObjects = new LinkedList<>();
+		platforms = new LinkedList<>();
 		this.gameWorld = gameWorld;
 		
 		numberOfBox = 0;
@@ -29,15 +33,24 @@ public class AnimatedObjectManager {
 	}
 
 	public void addObject(AnimatedObject animatedObject) {
+		if(animatedObject.getId() == AnimatedObject.ID_PLATFORM) {
+			platforms.add(animatedObject);
+			return;
+		}
+		
 		animatedObjects.add(animatedObject);
 	}
 	
 	public void UpdateObjects() {
+		for(AnimatedObject platform : platforms) {
+			platform.Update();
+		}
+		
 		Iterator<AnimatedObject> iter = animatedObjects.iterator();
 		while (iter.hasNext()) {
 			AnimatedObject obj = iter.next();
 		    
-		    if (obj.getHealth() < 0) {
+		    if (obj.getHealth() < -10) {
 		    	if(obj.getId() == AnimatedObject.ID_BOX) {
 		    		numberOfBox--;
 		    	}
@@ -51,7 +64,12 @@ public class AnimatedObjectManager {
 	}
 
 	public void draw(Graphics2D g2) {
-		for(int i=0; i<animatedObjects.size(); ++i) {
+		
+		for(int i=0; i<platforms.size(); ++i) {
+			platforms.get(i).draw(g2);
+		}
+		
+		for(int i=animatedObjects.size() - 1; i>=0; --i) {
 			animatedObjects.get(i).draw(g2);
 		}
 	}
