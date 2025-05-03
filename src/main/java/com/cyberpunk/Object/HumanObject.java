@@ -6,12 +6,13 @@ import com.cyberpunk.Effect.Animation;
 import com.cyberpunk.StartGame.GameFrame;
 
 public abstract class HumanObject extends Object{
+	public static final float JUMP_STRENGTH = -3f;
 	public static final int HUMAN_HEIGHT = 34;
 	public static final int HUMAN_WIDTH = 21;
-	public static final float HUMAN_WEIGHT = 0.1f;
-	public static final float HUMAN_RUN_SPEED = 3;
+	public static final float HUMAN_WEIGHT = 0.15f;
+	public static final float HUMAN_RUN_SPEED = 2.5f;
 	public static final float HUMAN_WALK_SPEED = 2f;
-	public static final long TIME_TO_CHANGE_DROP_STATE = 300000000L;
+	public static final long TIME_TO_CHANGE_DROP_STATE = 400000000L;
 	
 	private boolean isDrop = false;
 	private boolean isSitting = false;
@@ -48,6 +49,7 @@ public abstract class HumanObject extends Object{
 		
 		beginTime = System.nanoTime();
 		setMass(HUMAN_WEIGHT);
+		
 	}
 
 	public boolean isSitting() {
@@ -66,6 +68,8 @@ public abstract class HumanObject extends Object{
 		isOnLadder = status;
 		if(status) {
 			setSpeedY(0);
+		} else {
+			setClimbing(false);
 		}
 	}
 
@@ -172,7 +176,6 @@ public abstract class HumanObject extends Object{
 		
 	    this.isDrop = true;
 	    this.beginTime = time;
-//	    updateDropState();
 	}
 
 	public void updateDropState(long currentTime) {
@@ -232,20 +235,29 @@ public abstract class HumanObject extends Object{
 	public void Update() {
 		updateDropState(System.nanoTime());
 		
-		if(getGameWorld().getMapGame().checkCollisionWithLadder(movingHitbox())) {
+		Rectangle boundForCollisionWithLadder = getGameWorld().getMapGame().haveCollisionWithLadder(movingHitbox());
+		if(boundForCollisionWithLadder != null) {
 			if(!isOnLadder) {
 				setOnLadder(true);
 			}
 		} else {
 			setOnLadder(false);
 		}
+		
+		if(getIsOnLadder() && isClimbing()) {
+			setPosX(boundForCollisionWithLadder.x + boundForCollisionWithLadder.width / 2 + 3);
+		}
 			
-		setPosX(getPosX() + getSpeedX());
+		if(!isClimbing) {
+			setPosX(getPosX() + getSpeedX());
+		}
 		setPosY(getPosY() + getSpeedY());
+		
 		Rectangle boundForCollisionWithMapFuture, hitBox;
 		
 		boundForCollisionWithMapFuture = movingHitbox();
-//		boundForCollisionWithMapFuture.x += (getSpeedX()* Object.LEFT_DIR > 0 ? getSpeedX() * Object.LEFT_DIR : -1);
+		boundForCollisionWithMapFuture.y -= 1;
+		// boundForCollisionWithMapFuture.x += (getSpeedX()* Object.LEFT_DIR > 0 ? getSpeedX() * Object.LEFT_DIR : -1);
 		hitBox = getGameWorld().getMapGame().haveCollisionWithWallLeft(boundForCollisionWithMapFuture);
 		if (hitBox != null) {
 			if(getSpeedX() * Object.LEFT_DIR > 0) {
@@ -254,7 +266,8 @@ public abstract class HumanObject extends Object{
 		}
 		
 		boundForCollisionWithMapFuture = movingHitbox();
-//		boundForCollisionWithMapFuture.x += (getSpeedX() != 0 ? getSpeedX() * Object.RIGHT_DIR : 1);
+		boundForCollisionWithMapFuture.y -= 1;
+		//		boundForCollisionWithMapFuture.x += (getSpeedX() != 0 ? getSpeedX() * Object.RIGHT_DIR : 1);
 		hitBox = getGameWorld().getMapGame().haveCollisionWithWallRight(boundForCollisionWithMapFuture);
 		if (hitBox != null) {
 			if(getSpeedX() * Object.RIGHT_DIR > 0) {
@@ -271,18 +284,19 @@ public abstract class HumanObject extends Object{
 			}
 		} else {
 			if(getSpeedY() > 0) {
-				setPosY(hitBox.y - getHeight() / 2);
+				setPosY(hitBox.y - (getHeight()) / 2);
 				setSpeedY(0);
 			}
 		}
 		
-		
-		boundForCollisionWithMapFuture = movingHitbox();
-		boundForCollisionWithMapFuture.y += (getSpeedY() != 0 ? getSpeedY() : -1);
-		hitBox = getGameWorld().getMapGame().haveCollisionWithTop(boundForCollisionWithMapFuture, this);
-		if(hitBox != null) {
-			setPosY(hitBox.y + 3 * getHeight() / 2);
-			setSpeedY(0);
+		if(!getIsOnLadder()) {
+			boundForCollisionWithMapFuture = movingHitbox();
+			boundForCollisionWithMapFuture.y += (getSpeedY() != 0 ? getSpeedY() : -1);
+			hitBox = getGameWorld().getMapGame().haveCollisionWithTop(boundForCollisionWithMapFuture, this);
+			if(hitBox != null) {
+				setPosY(hitBox.y + 3 * getHeight() / 2);
+				setSpeedY(0);
+			}
 		}
 	}
 	
