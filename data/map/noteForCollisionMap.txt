@@ -1,3 +1,4 @@
+-2	- búa đập
 -1  - chạm là hẹo
 0   - không có vật chắn
 1   - vật chắn cứng
