@@ -1,0 +1,680 @@
+97
+
+attack1_0
+image data/character/biker/biker_frame.png
+x 0
+y 0
+w 48
+h 48
+
+attack1_1
+image data/character/biker/biker_frame.png
+x 48
+y 0
+w 48
+h 48
+
+attack1_2
+image data/character/biker/biker_frame.png
+x 96
+y 0
+w 48
+h 48
+
+attack1_3
+image data/character/biker/biker_frame.png
+x 144
+y 0
+w 48
+h 48
+
+attack1_4
+image data/character/biker/biker_frame.png
+x 192
+y 0
+w 48
+h 48
+
+attack1_5
+image data/character/biker/biker_frame.png
+x 240
+y 0
+w 48
+h 48
+
+attack2_0
+image data/character/biker/biker_frame.png
+x 288
+y 0
+w 48
+h 48
+
+attack2_1
+image data/character/biker/biker_frame.png
+x 336
+y 0
+w 48
+h 48
+
+attack2_2
+image data/character/biker/biker_frame.png
+x 384
+y 0
+w 48
+h 48
+
+attack2_3
+image data/character/biker/biker_frame.png
+x 432
+y 0
+w 48
+h 48
+
+attack2_4
+image data/character/biker/biker_frame.png
+x 480
+y 0
+w 48
+h 48
+
+attack2_5
+image data/character/biker/biker_frame.png
+x 528
+y 0
+w 48
+h 48
+
+attack2_6
+image data/character/biker/biker_frame.png
+x 576
+y 0
+w 48
+h 48
+
+attack2_7
+image data/character/biker/biker_frame.png
+x 624
+y 0
+w 48
+h 48
+
+attack3_0
+image data/character/biker/biker_frame.png
+x 0
+y 48
+w 48
+h 48
+
+attack3_1
+image data/character/biker/biker_frame.png
+x 48
+y 48
+w 48
+h 48
+
+attack3_2
+image data/character/biker/biker_frame.png
+x 96
+y 48
+w 48
+h 48
+
+attack3_3
+image data/character/biker/biker_frame.png
+x 144
+y 48
+w 48
+h 48
+
+attack3_4
+image data/character/biker/biker_frame.png
+x 192
+y 48
+w 48
+h 48
+
+attack3_5
+image data/character/biker/biker_frame.png
+x 240
+y 48
+w 48
+h 48
+
+attack3_6
+image data/character/biker/biker_frame.png
+x 288
+y 48
+w 48
+h 48
+
+attack3_7
+image data/character/biker/biker_frame.png
+x 336
+y 48
+w 48
+h 48
+
+climb0
+image data/character/biker/biker_frame.png
+x 384
+y 48
+w 48
+h 48
+
+climb1
+image data/character/biker/biker_frame.png
+x 432
+y 48
+w 48
+h 48
+
+climb2
+image data/character/biker/biker_frame.png
+x 480
+y 48
+w 48
+h 48
+
+climb3
+image data/character/biker/biker_frame.png
+x 528
+y 48
+w 48
+h 48
+
+climb4
+image data/character/biker/biker_frame.png
+x 576
+y 48
+w 48
+h 48
+
+climb5
+image data/character/biker/biker_frame.png
+x 624
+y 48
+w 48
+h 48
+
+death0
+image data/character/biker/biker_frame.png
+x 0
+y 96
+w 48
+h 48
+
+death1
+image data/character/biker/biker_frame.png
+x 48
+y 96
+w 48
+h 48
+
+death2
+image data/character/biker/biker_frame.png
+x 96
+y 96
+w 48
+h 48
+
+death3
+image data/character/biker/biker_frame.png
+x 144
+y 96
+w 48
+h 48
+
+death4
+image data/character/biker/biker_frame.png
+x 192
+y 96
+w 48
+h 48
+
+death5
+image data/character/biker/biker_frame.png
+x 240
+y 96
+w 48
+h 48
+
+doublejump0
+image data/character/biker/biker_frame.png
+x 0
+y 144
+w 48
+h 48
+
+doublejump1
+image data/character/biker/biker_frame.png
+x 48
+y 144
+w 48
+h 48
+
+doublejump2
+image data/character/biker/biker_frame.png
+x 96
+y 144
+w 48
+h 48
+
+doublejump3
+image data/character/biker/biker_frame.png
+x 144
+y 144
+w 48
+h 48
+
+doublejump4
+image data/character/biker/biker_frame.png
+x 192
+y 144
+w 48
+h 48
+
+doublejump5
+image data/character/biker/biker_frame.png
+x 240
+y 144
+w 48
+h 48
+
+punch0
+image data/character/biker/biker_frame.png
+x 0
+y 192
+w 48
+h 48
+
+punch1
+image data/character/biker/biker_frame.png
+x 48
+y 192
+w 48
+h 48
+
+punch2
+image data/character/biker/biker_frame.png
+x 96
+y 192
+w 48
+h 48
+
+punch3
+image data/character/biker/biker_frame.png
+x 144
+y 192
+w 48
+h 48
+
+punch4
+image data/character/biker/biker_frame.png
+x 192
+y 192
+w 48
+h 48
+
+punch5
+image data/character/biker/biker_frame.png
+x 240
+y 192
+w 48
+h 48
+
+run0
+image data/character/biker/biker_frame.png
+x 0
+y 240
+w 48
+h 48
+
+run1
+image data/character/biker/biker_frame.png
+x 48
+y 240
+w 48
+h 48
+
+run2
+image data/character/biker/biker_frame.png
+x 96
+y 240
+w 48
+h 48
+
+run3
+image data/character/biker/biker_frame.png
+x 144
+y 240
+w 48
+h 48
+
+run4
+image data/character/biker/biker_frame.png
+x 192
+y 240
+w 48
+h 48
+
+run5
+image data/character/biker/biker_frame.png
+x 240
+y 240
+w 48
+h 48
+
+runattack0
+image data/character/biker/biker_frame.png
+x 0
+y 288
+w 48
+h 48
+
+runattack1
+image data/character/biker/biker_frame.png
+x 48
+y 288
+w 48
+h 48
+
+runattack2
+image data/character/biker/biker_frame.png
+x 96
+y 288
+w 48
+h 48
+
+runattack3
+image data/character/biker/biker_frame.png
+x 144
+y 288
+w 48
+h 48
+
+runattack4
+image data/character/biker/biker_frame.png
+x 192
+y 288
+w 48
+h 48
+
+runattack5
+image data/character/biker/biker_frame.png
+x 240
+y 288
+w 48
+h 48
+
+runskill0
+image data/character/biker/biker_frame.png
+x 288
+y 192
+w 48
+h 48
+
+runskill1
+image data/character/biker/biker_frame.png
+x 336
+y 192
+w 48
+h 48
+
+runskill2
+image data/character/biker/biker_frame.png
+x 384
+y 192
+w 48
+h 48
+
+runskill3
+image data/character/biker/biker_frame.png
+x 432
+y 192
+w 48
+h 48
+
+runskill4
+image data/character/biker/biker_frame.png
+x 480
+y 192
+w 48
+h 48
+
+runskill5
+image data/character/biker/biker_frame.png
+x 528
+y 192
+w 48
+h 48
+
+idle0
+image data/character/biker/biker_frame.png
+x 288
+y 96
+w 48
+h 48
+
+idle1
+image data/character/biker/biker_frame.png
+x 336
+y 96
+w 48
+h 48
+
+idle2
+image data/character/biker/biker_frame.png
+x 384
+y 96
+w 48
+h 48
+
+idle3
+image data/character/biker/biker_frame.png
+x 432
+y 96
+w 48
+h 48
+
+idleskill0
+image data/character/biker/biker_frame.png
+x 480
+y 96
+w 48
+h 48
+
+idleskill1
+image data/character/biker/biker_frame.png
+x 528
+y 96
+w 48
+h 48
+
+idleskill2
+image data/character/biker/biker_frame.png
+x 576
+y 96
+w 48
+h 48
+
+idleskill3
+image data/character/biker/biker_frame.png
+x 624
+y 96
+w 48
+h 48
+
+jump0
+image data/character/biker/biker_frame.png
+x 288
+y 144
+w 48
+h 48
+
+jump1
+image data/character/biker/biker_frame.png
+x 336
+y 144
+w 48
+h 48
+
+jump2
+image data/character/biker/biker_frame.png
+x 384
+y 144
+w 48
+h 48
+
+jump3
+image data/character/biker/biker_frame.png
+x 432
+y 144
+w 48
+h 48
+
+jumpskill0
+image data/character/biker/biker_frame.png
+x 480
+y 144
+w 48
+h 48
+
+jumpskill1
+image data/character/biker/biker_frame.png
+x 528
+y 144
+w 48
+h 48
+
+jumpskill2
+image data/character/biker/biker_frame.png
+x 576
+y 144
+w 48
+h 48
+
+jumpskill3
+image data/character/biker/biker_frame.png
+x 624
+y 144
+w 48
+h 48
+
+hurt0
+image data/character/biker/biker_frame.png
+x 576
+y 192
+w 48
+h 48
+
+hurt1
+image data/character/biker/biker_frame.png
+x 624
+y 192
+w 48
+h 48
+
+walkskill0
+image data/character/biker/biker_frame.png
+x 288
+y 240
+w 48
+h 48
+
+walkskill1
+image data/character/biker/biker_frame.png
+x 336
+y 240
+w 48
+h 48
+
+walkskill2
+image data/character/biker/biker_frame.png
+x 384
+y 240
+w 48
+h 48
+
+walkskill3
+image data/character/biker/biker_frame.png
+x 432
+y 240
+w 48
+h 48
+
+walkskill4
+image data/character/biker/biker_frame.png
+x 480
+y 240
+w 48
+h 48
+
+walkskill5
+image data/character/biker/biker_frame.png
+x 528
+y 240
+w 48
+h 48
+
+sitdownskill0
+image data/character/biker/biker_frame.png
+x 288
+y 288
+w 48
+h 48
+
+sitdownskill1
+image data/character/biker/biker_frame.png
+x 336
+y 288
+w 48
+h 48
+
+sitdownskill2
+image data/character/biker/biker_frame.png
+x 384
+y 288
+w 48
+h 48
+
+sitdownskill3
+image data/character/biker/biker_frame.png
+x 432
+y 288
+w 48
+h 48
+
+hand0
+image data/character/biker/biker_frame.png
+x 480
+y 288
+w 48
+h 48
+
+hand1
+image data/character/biker/biker_frame.png
+x 528
+y 288
+w 48
+h 48
+
+hand2
+image data/character/biker/biker_frame.png
+x 576
+y 288
+w 48
+h 48
+
+hand3
+image data/character/biker/biker_frame.png
+x 624
+y 288
+w 48
+h 48
+
+hand4
+image data/character/biker/biker_frame.png
+x 576
+y 240
+w 48
+h 48

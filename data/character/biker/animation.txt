@@ -1,0 +1,54 @@
+18
+bikeridle
+bikeridle0 50000000 bikeridle1 50000000 bikeridle2 50000000 bikeridle3 50000000
+
+bikeridleskill
+bikeridleskill0 50000000 bikeridleskill1 50000000 bikeridleskill2 50000000 bikeridleskill3 50000000
+
+bikerjump
+bikerjump0 50000000 bikerjump1 50000000 bikerjump2 50000000 bikerjump3 50000000
+
+bikerjumpskill
+bikerjumpskill0 50000000 bikerjumpskill1 50000000 bikerjumpskill2 50000000 bikerjumpskill3 50000000
+
+bikersitdownskill
+bikersitdownskill0 50000000 bikersitdownskill1 50000000 bikersitdownskill2 50000000 bikersitdownskill3 50000000
+
+bikerattack2
+bikerattack2_0 50000000 bikerattack2_1 50000000 bikerattack2_2 50000000 bikerattack2_3 50000000 bikerattack2_4 50000000 bikerattack2_5 50000000 bikerattack2_6 50000000 bikerattack2_7 50000000
+
+bikerattack3
+bikerattack3_0 50000000 bikerattack3_1 50000000 bikerattack3_2 50000000 bikerattack3_3 50000000 bikerattack3_4 50000000 bikerattack3_5 50000000 bikerattack3_6 50000000 bikerattack3_7 50000000
+
+bikerattack1
+bikerattack1_0 200000000 bikerattack1_1 200000000 bikerattack1_2 200000000 bikerattack1_3 200000000 bikerattack1_4 200000000 bikerattack1_5 200000000
+
+bikerpunch
+bikerpunch0 50000000 bikerpunch1 50000000 bikerpunch2 50000000 bikerpunch3 50000000 bikerpunch4 50000000 bikerpunch5 50000000
+
+bikerdeath
+bikerdeath0 50000000 bikerdeath1 50000000 bikerdeath2 50000000 bikerdeath3 50000000 bikerdeath4 50000000 bikerdeath5 50000000
+
+bikerclimb
+bikerclimb0 50000000 bikerclimb1 50000000 bikerclimb2 50000000 bikerclimb3 50000000 bikerclimb4 50000000 bikerclimb5 50000000
+
+bikerrun
+bikerrun0 50000000 bikerrun1 50000000 bikerrun2 50000000 bikerrun3 50000000 bikerrun4 50000000 bikerrun5 50000000
+
+bikerrunskill
+bikerrunskill0 50000000 bikerrunskill1 50000000 bikerrunskill2 50000000 bikerrunskill3 50000000 bikerrunskill4 50000000 bikerrunskill5 50000000
+
+bikerrunattack
+bikerrunattack0 50000000 bikerrunattack1 50000000 bikerrunattack2 50000000 bikerrunattack3 50000000 bikerrunattack4 50000000 bikerrunattack5 50000000
+
+bikerdoublejump
+bikerdoublejump0 50000000 bikerdoublejump1 50000000 bikerdoublejump2 50000000 bikerdoublejump3 50000000 bikerdoublejump4 50000000 bikerdoublejump5 50000000
+
+bikerhurt
+bikerhurt0 50000000 bikerhurt1 50000000
+
+bikerhand
+bikerhand0 50000000 bikerhand1 50000000 bikerhand2 50000000 bikerhand3 50000000 bikerhand4 50000000
+
+bikerwalkskill
+bikerwalkskill0 50000000 bikerwalkskill1 50000000 bikerwalkskill2 50000000 bikerwalkskill3 50000000 bikerwalkskill4 50000000

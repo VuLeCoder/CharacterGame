@@ -1,0 +1,97 @@
+24
+
+bikeridleskill0
+x -5
+y 2
+
+bikeridleskill1
+x -5
+y 2
+
+bikeridleskill2
+x -5
+y 2
+
+bikeridleskill3
+x -5
+y 2
+
+bikerjumpskill0
+x 1
+y -1
+
+bikerjumpskill1
+x -2
+y -4
+
+bikerjumpskill2
+x -4
+y 1
+
+bikerjumpskill3
+x -3
+y 5
+
+bikerrunskill0
+x 0
+y 3
+
+bikerrunskill1
+x 0
+y 3
+
+bikerrunskill2
+x 0
+y 3
+
+bikerrunskill3
+x 0
+y 3
+
+bikerrunskill4
+x 0
+y 3
+
+bikerrunskill5
+x 0
+y 3
+
+bikersitdownskill0
+x -5
+y 2
+
+bikersitdownskill1
+x -4
+y 5
+
+bikersitdownskill2
+x -3
+y 9
+
+bikersitdownskill3
+x -4
+y 5
+
+bikerwalkskill0
+x -5
+y 2
+
+bikerwalkskill1
+x -5
+y 2
+
+bikerwalkskill2
+x -5
+y 2
+
+bikerwalkskill3
+x -5
+y 2
+
+bikerwalkskill4
+x -5
+y 2
+
+bikerwalkskill5
+x -5
+y 2

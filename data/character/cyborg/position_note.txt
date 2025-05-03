@@ -1,0 +1,97 @@
+24
+
+cyborgidleskill0
+x -6
+y 0
+
+cyborgidleskill1
+x -6
+y 0
+
+cyborgidleskill2
+x -6
+y 0
+
+cyborgidleskill3
+x -6
+y 0
+
+cyborgjumpskill0
+x -2
+y 0
+
+cyborgjumpskill1
+x -2
+y -2
+
+cyborgjumpskill2
+x -2
+y 0
+
+cyborgjumpskill3
+x -2
+y 1
+
+cyborgrunskill0
+x -2
+y 4
+
+cyborgrunskill1
+x -2
+y 4
+
+cyborgrunskill2
+x -2
+y 4
+
+cyborgrunskill3
+x -2
+y 4
+
+cyborgrunskill4
+x -2
+y 4
+
+cyborgrunskill5
+x -2
+y 4
+
+cyborgsitdownskill0
+x -6
+y 0
+
+cyborgsitdownskill1
+x -5
+y 3
+
+cyborgsitdownskill2
+x -4
+y 6
+
+cyborgsitdownskill3
+x -5
+y 3
+
+cyborgwalkskill0
+x -6
+y -1
+
+cyborgwalkskill1
+x -6
+y -1
+
+cyborgwalkskill2
+x -6
+y -1
+
+cyborgwalkskill3
+x -6
+y -1
+
+cyborgwalkskill4
+x -6
+y -1
+
+cyborgwalkskill5
+x -6
+y -1
