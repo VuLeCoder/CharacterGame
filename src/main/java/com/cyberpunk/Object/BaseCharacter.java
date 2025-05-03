@@ -1,6 +1,12 @@
 package com.cyberpunk.Object;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.Collections;
+
+import javax.imageio.ImageIO;
 
 import com.cyberpunk.Effect.Animation;
 import com.cyberpunk.Effect.DataLoader;
@@ -9,8 +15,22 @@ public class BaseCharacter extends HumanObject{
 	public String name;
 	
 	private float jumpStrength = 5.0f;
+	private int previousDirX;
+	private int previousDirY = 1;
 	
-	private boolean isAttacking;
+	private float previousHealth = getHealth();
+	
+	private BufferedImage healthBarFull, healthBarDrain, healthBarBlank, healthBarHeal;
+	private BufferedImage healthBarFull_sub, healthBarDrain_sub, healthBarHeal_sub;
+
+	
+//	private boolean isRunning = false;
+	
+	private int hurtDisplay = 0;
+	
+	private boolean isGetDamage;
+	
+	private boolean isAttacking, isLastFrameReached;
 	private boolean isFirstAttack, isSecondAttack, isThirdAttack;
 	
 	private Animation attack1ForwardAnim, attack1BackAnim, attack2ForwardAnim, attack2BackAnim;
@@ -27,6 +47,17 @@ public class BaseCharacter extends HumanObject{
 	public BaseCharacter(float x, float y, String name, GameWorld gameWorld) {
 		super(x, y, gameWorld);
 		this.name = name;
+		this.previousDirX = getDirection();
+		
+		try {
+			healthBarFull = ImageIO.read(new File("data/gui/health_bar_full.png"));
+			healthBarDrain = ImageIO.read(new File("data/gui/health_bar_drain1.png"));
+			healthBarBlank = ImageIO.read(new File("data/gui/health_bar_blank.png"));
+			healthBarHeal = ImageIO.read(new File("data/gui/health_bar_heal.png"));
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 
 		attack1ForwardAnim = DataLoader.getInstance().getAnimation(name + "attack1");
 		attack1BackAnim = DataLoader.getInstance().getAnimation(name + "attack1");
@@ -41,7 +72,9 @@ public class BaseCharacter extends HumanObject{
 		attack3BackAnim.flipAllImage();
 		
 		deathForwardAnim = DataLoader.getInstance().getAnimation(name + "death");
+		deathForwardAnim.setRepeated(false);
 		deathBackAnim = DataLoader.getInstance().getAnimation(name + "death");
+		deathBackAnim.setRepeated(false);
 		deathBackAnim.flipAllImage();
 		
 		idleForwardAnim = DataLoader.getInstance().getAnimation(name + "idle");
@@ -116,6 +149,9 @@ public class BaseCharacter extends HumanObject{
 	@Override
 	public void jump() {
 		
+//		setSpeedY(-jumpStrength);
+		setRunning(false);
+		
 		if(isOnGround()) {
 			setSingleJumping(false);
 			setDoubleJumping(false);
@@ -149,14 +185,16 @@ public class BaseCharacter extends HumanObject{
 	@Override
 	public void run() {
 		if(!isSitting()) {
-			if(getDirection() == LEFT_DIR) setSpeedX(-5);
-			else setSpeedX(5);
+			setRunning(true);
+			setSpeedX(getDirection() * HUMAN_RUN_SPEED);
 		}
 	}
 
 	@Override
 	public void stopRun() {
 		setSpeedX(0);
+		setRunning(false);
+		
 		runForwardAnim.reset();
 		runBackAnim.reset();
 		runAttackForwardAnim.reset();
@@ -176,12 +214,15 @@ public class BaseCharacter extends HumanObject{
 	public void sitDown() {
 		if(!isSingleJumping() && !isDoubleJumping() && !isLanding() && !isSitting()) {
 			setSitting(true);
+			
 			sitdownSkillForwardAnim.reset();
 			sitdownSkillBackAnim.reset();
 			sitdownSkillForwardAnim.setIgnoreFrame(3);
 			sitdownSkillBackAnim.setIgnoreFrame(3);
 		}
 		
+		setSpeedX(0);
+		setRunning(false);
 	}
 
 	@Override
@@ -192,54 +233,132 @@ public class BaseCharacter extends HumanObject{
 		sitdownSkillBackAnim.unIgnoreFrame(3);
 		
 	}
+	
+	@Override
+	public void climb(float speed) {
+		if(speed == 100) {
+			if(isClimbing() == false) {
+				setClimbing(true);
+				
+				float ladderX = (int) getPosX() / GameWorld.TILESIZE;
+				setPosX(ladderX * GameWorld.TILESIZE + getWidth()/2);
+				setSpeedY(0);
+			}
+			else setClimbing(false);
+		}
+		else setSpeedY(speed);
+	}
 
 	@Override
 	public void attack() {
 		
+		if(isRunning()) {
+			setSpeedX(0.7f * getDirection());
+			setRunning(false);
+		}
+		
 		isAttacking = true;
 		if(!isFirstAttack && !isSecondAttack && !isThirdAttack && !isSitting() && !isDoubleJumping()) {
 			isFirstAttack = true;
-//			attack1ForwardAnim.reset();
-//			attack1BackAnim.reset();
+			
 			attack2ForwardAnim.reset();
-			attack2BackAnim.reset();
 			attack3ForwardAnim.reset();
 			attack3BackAnim.reset();
-		} else if(!isSecondAttack && (attack1ForwardAnim.getCurrentFrame() == 3 || attack1BackAnim.getCurrentFrame() == 3)) {
+			
+		} else if(!isSecondAttack && (attack1ForwardAnim.getCurrentFrame() >= 3 || attack1BackAnim.getCurrentFrame() >= 3)) {
 			isSecondAttack = true;
 			isFirstAttack = false;
-			attack2ForwardAnim.setCurrentFrame(attack1ForwardAnim.getCurrentFrame());
-			attack2BackAnim.setCurrentFrame(attack1BackAnim.getCurrentFrame());
+			attack2ForwardAnim.setCurrentFrame(attack1ForwardAnim.getCurrentFrame() + 1);
+			attack2BackAnim.setCurrentFrame(attack1BackAnim.getCurrentFrame() + 1);
 			attack1ForwardAnim.reset();
 			attack1BackAnim.reset();
+			
 		} else if(!isThirdAttack && (attack2ForwardAnim.isLastFrame() || attack2BackAnim.isLastFrame())) {
 			isSecondAttack = false;
 			isThirdAttack = true;
+			isLastFrameReached = false;
+			
+			
+			
 		} else if(attack3ForwardAnim.isLastFrame() || attack3BackAnim.isLastFrame()) {
-			isThirdAttack = false;
-//			isFirstAttack = false;
-		}
-		
-		if(isFirstAttack) {
+			if(isLastFrameReached) {
+				isThirdAttack = false;
+				isAttacking = false;
+			} else isLastFrameReached = true;
 			
-		} else if(isSecondAttack) {
 			
 		}
 			
-	
+
 	}
 	
 	@Override
 	public void stopAttack() {
-//		isAttacking = false;
+		
+//		setSpeedX(0);
+		if(!isFirstAttack) isAttacking = false;
 		
 		isSecondAttack = false;
 		isThirdAttack = false;
+		
+		attack2ForwardAnim.reset();
+		attack2BackAnim.reset();
+		attack3ForwardAnim.reset();
+		attack3BackAnim.reset();
+		
+	}
+	
+	@Override
+	public void beHurt(int damageGet) {
+		super.beHurt(damageGet);
+		
+		isGetDamage = true;
+	}  
+	
+	@Override
+	public void beHeal(float healedGet) {
+		float health = Math.min(100, getHealth() + healedGet);
+		setHealth(health);
+		
+	}
+	
+	public void drawHealthBar(Graphics2D g2) {
+		
+		g2.drawImage(healthBarBlank, 0, 0, 262, 14 * 2, null);
+		
+		if(previousHealth >= getHealth()) { //draw health drained
+			
+			if(previousHealth > getHealth()) previousHealth -= 1;			
+		
+			if(previousHealth > 0 ) {
+				healthBarDrain_sub = healthBarDrain.getSubimage(0, 0, (int) (1.31 * previousHealth), 14);
+				g2.drawImage(healthBarDrain_sub, 0, 0, (int) (previousHealth * 1.31) * 2, 14 * 2, null);
+			}
+			
+			if(getHealth() > 0) {
+				healthBarFull_sub = healthBarFull.getSubimage(0, 0, (int) (1.31 * getHealth()), 14);
+				g2.drawImage(healthBarFull_sub, 0, 0, (int) (getHealth() * 2.62), 14 * 2, null);
+			}
+		}
+		else if(previousHealth < getHealth()) { //draw health healed
+			previousHealth += 1;
+			
+			healthBarHeal_sub = healthBarHeal.getSubimage(0, 0, (int) (1.31 * getHealth()), 14);
+			g2.drawImage(healthBarHeal_sub, 0, 0, (int) (1.31 * getHealth()) * 2, 14 * 2, null);
+			 
+			healthBarFull_sub = healthBarFull.getSubimage(0, 0, (int) (1.31 * previousHealth), 14);
+			g2.drawImage(healthBarFull_sub, 0, 0, (int) (1.31 * previousHealth) * 2, 14 * 2, null);
+		}
 	}
 	
 	@Override
 	public void Update() {
 		super.Update();
+		
+//		if(getDirection() != previousDir) {
+//			 setPosX(getPosX() + 24 * getDirection());
+//			 previousDir = getDirection();
+//		}
 		
 		if(isLanding()) {
 			if(getPosY() >= 498) {
@@ -265,106 +384,163 @@ public class BaseCharacter extends HumanObject{
 			  sitdownSkillBackAnim.setCurrentFrame(sitdownSkillForwardAnim.getCurrentFrame());
 			else sitdownSkillForwardAnim.setCurrentFrame(sitdownSkillBackAnim.getCurrentFrame());
 		
+		System.out.println(attack1ForwardAnim.getCurrentFrame() + " " + attack2ForwardAnim.getCurrentFrame() + " " + attack3ForwardAnim.getCurrentFrame() + " " + isFirstAttack + " " + isSecondAttack + " " + isThirdAttack + " " + isAttacking);
+		
 		if(attack1ForwardAnim.isLastFrame() || attack1BackAnim.isLastFrame()) {
 			isAttacking = false;
 			isFirstAttack = false;
+			attack1ForwardAnim.reset();
+			attack1BackAnim.reset();
 		}
-		System.out.println(attack1ForwardAnim.getCurrentFrame());
+		
+		System.out.println(hurtDisplay + " " + getHealth() + " " + getState());
 	}
 	
 	@Override
 	public void draw(Graphics2D g2) {
 		
-		switch (getState()) {
-		case ALIVE:
-		case NOBEHURT:
-			if(isSitting()) {
-				
-				if(getDirection() == RIGHT_DIR) {
-					sitdownSkillForwardAnim.Update(System.nanoTime());
-					sitdownSkillForwardAnim.draw((int) getPosX(),(int)  getPosY(), g2);
-				} else {
-					sitdownSkillBackAnim.Update(System.nanoTime());
-					sitdownSkillBackAnim.draw((int) getPosX(),(int)  getPosY(), g2);
-				}
-			} else if(isSingleJumping()) {
-				
-				if(getDirection() == RIGHT_DIR) {
-					jumpForwardAnim.Update(System.nanoTime());
-					jumpForwardAnim.draw((int) getPosX(), (int) getPosY(), g2);
-				} else {
-					jumpBackAnim.Update(System.nanoTime());
-					jumpBackAnim.draw((int) getPosX(), (int) getPosY(), g2);
-				}
-			} else if(isDoubleJumping()) {
-				if(getDirection() == RIGHT_DIR) {
-					djumpForwardAnim.Update(System.nanoTime());
-					djumpForwardAnim.draw((int) getPosX(), (int) getPosY(), g2);
-				} else {
-					djumpBackAnim.Update(System.nanoTime());
-					djumpBackAnim.draw((int) getPosX(), (int) getPosY(), g2);
-				}
-			} else if(isLanding()) {
-				jumpForwardAnim.setCurrentFrame(2);
-				jumpBackAnim.setCurrentFrame(2);
-				if(getDirection() == RIGHT_DIR) 
-					jumpForwardAnim.draw((int) getPosX(), (int) getPosY(), g2);
-				else jumpBackAnim.draw((int) getPosX(), (int) getPosY(), g2);
-				
-			} else if(isAttacking) {
-				if(isFirstAttack) {
-					if(getDirection() == RIGHT_DIR) {
-						attack1ForwardAnim.Update(System.nanoTime());
-						attack1ForwardAnim.draw((int) getPosX(), (int) getPosY(), g2);
-					} else {
-						attack1BackAnim.Update(System.nanoTime());
-						attack1BackAnim.draw((int) getPosX(), (int) getPosY(), g2);
-					}
-				} else if(isSecondAttack) {
-					if(getDirection() == RIGHT_DIR) {
-						attack2ForwardAnim.Update(System.nanoTime());
-						attack2ForwardAnim.draw((int) getPosX(), (int) getPosY(), g2);
-					} else {
-						attack2BackAnim.Update(System.nanoTime());
-						attack2BackAnim.draw((int) getPosX(), (int) getPosY(), g2);
-					}
-				} else if(isThirdAttack) {
-					if(getDirection() == RIGHT_DIR) {
-						attack3ForwardAnim.Update(System.nanoTime());
-						attack3ForwardAnim.draw((int) getPosX(), (int) getPosY(), g2);
-					} else {
-						attack3BackAnim.Update(System.nanoTime());
-						attack3BackAnim.draw((int) getPosX(), (int) getPosY(), g2);
-					}
-				}
-			
-			} else if(isOnGround()) {
-				
-				if(getSpeedX() > 0) {
-					runForwardAnim.Update(System.nanoTime());
-					runForwardAnim.draw((int) getPosX(), (int) getPosY(), g2);
-				} else if(getSpeedX() < 0) {
-					runBackAnim.Update(System.nanoTime());
-					runBackAnim.draw((int) getPosX(), (int) getPosY(), g2);
-				} else {
-					if(getDirection() == RIGHT_DIR) {
-						idleForwardAnim.Update(System.nanoTime());
-						idleForwardAnim.draw((int) getPosX(), (int) getPosY(), g2);
-					} else {
-						idleBackAnim.Update(System.nanoTime());
-						idleBackAnim.draw((int) getPosX(), (int) getPosY(), g2);
-					}
-				}
-			}
-			
-			break;
-
-		default:
-			break;
-		}
-		
 		drawAttackHitbox(g2);
 		drawMovingHitbox(g2);
+		g2.setColor(Color.black);
+		g2.drawRect((int) getPosX(), (int) getPosY(), 1, 1);
+		
+		drawHealthBar(g2);
+		
+		if(getState() == NOBEHURT) {
+			if(getState() != DEATH) {
+				
+				if(hurtDisplay < 5) hurtDisplay++;
+				else {
+					hurtDisplay++;
+					if(hurtDisplay > 9) hurtDisplay = 0;
+					return;
+				}
+			} else hurtDisplay = 0;
+		}
+		
+		switch (getState()) {
+			case ALIVE:
+			case NOBEHURT:
+				if(isSitting()) {
+					
+					if(getDirection() == RIGHT_DIR) {
+						sitdownSkillForwardAnim.Update(System.nanoTime());
+						sitdownSkillForwardAnim.draw((int) getPosX() + 12, (int) getPosY(), g2);
+					} else {
+						sitdownSkillBackAnim.Update(System.nanoTime());
+						sitdownSkillBackAnim.draw((int) getPosX() - 8, (int) getPosY(), g2);
+					}
+				}
+				else if(isClimbing()) {
+					if(getSpeedY() != 0) {
+						if(previousDirY * getSpeedY() < 0) {
+							Collections.reverse(climdAnim.getFramImages());
+							climdAnim.setCurrentFrame(climdAnim.getFramImages().size() - 1 - climdAnim.getCurrentFrame());
+							previousDirY *= -1;
+						}
+						climdAnim.Update(System.nanoTime());
+						climdAnim.draw((int) getPosX() + 12, (int) getPosY(), g2);
+					} else climdAnim.draw((int) getPosX() + 12, (int) getPosY(), g2);
+				}
+				else if(isSingleJumping()) {
+					
+					if(getDirection() == RIGHT_DIR) {
+						jumpForwardAnim.Update(System.nanoTime());
+						jumpForwardAnim.draw((int) getPosX() + 12, (int) getPosY(), g2);
+					} else {
+						jumpBackAnim.Update(System.nanoTime());
+						jumpBackAnim.draw((int) getPosX() - 8, (int) getPosY(), g2);
+					}
+				} 
+				else if(isDoubleJumping()) {
+					if(getDirection() == RIGHT_DIR) {
+						djumpForwardAnim.Update(System.nanoTime());
+						djumpForwardAnim.draw((int) getPosX() + 12, (int) getPosY(), g2);
+					} else {
+						djumpBackAnim.Update(System.nanoTime());
+						djumpBackAnim.draw((int) getPosX() - 8, (int) getPosY(), g2);
+					}
+				}
+				else if(isLanding()) {
+					jumpForwardAnim.setCurrentFrame(2);
+					jumpBackAnim.setCurrentFrame(2);
+					if(getDirection() == RIGHT_DIR) 
+						jumpForwardAnim.draw((int) getPosX() + 12, (int) getPosY(), g2);
+					else jumpBackAnim.draw((int) getPosX() - 8, (int) getPosY(), g2);
+					
+				}
+				else if(isAttacking) {
+					if(isFirstAttack) {
+						if(getDirection() == RIGHT_DIR) {
+							attack1ForwardAnim.Update(System.nanoTime());
+							attack1ForwardAnim.draw((int) getPosX() + 12, (int) getPosY(), g2);
+						} else {
+							attack1BackAnim.Update(System.nanoTime());
+							attack1BackAnim.draw((int) getPosX() - 8, (int) getPosY(), g2);
+						}
+					} else if(isSecondAttack) {
+						if(getDirection() == RIGHT_DIR) {
+							attack2ForwardAnim.Update(System.nanoTime());
+							attack2ForwardAnim.draw((int) getPosX() + 12, (int) getPosY(), g2);
+						} else {
+							attack2BackAnim.Update(System.nanoTime());
+							attack2BackAnim.draw((int) getPosX() - 8, (int) getPosY(), g2);
+						}
+					} else if(isThirdAttack) {
+						if(getDirection() == RIGHT_DIR) {
+							attack3ForwardAnim.Update(System.nanoTime());
+							attack3ForwardAnim.draw((int) getPosX() + 12, (int) getPosY(), g2);
+						} else {
+							attack3BackAnim.Update(System.nanoTime());
+							attack3BackAnim.draw((int) getPosX() - 8, (int) getPosY(), g2);
+						}
+					}
+				
+				}
+				else if(getState() == NOBEHURT) {
+					if(getDirection() == RIGHT_DIR) {
+						beHurtForwardAnim.Update(System.nanoTime());
+						beHurtForwardAnim.draw((int) getPosX() + 12, (int) getPosY(), g2);
+					} else {
+						beHurtBackAnim.Update(System.nanoTime());
+						beHurtBackAnim.draw((int) getPosX() - 8, (int) getPosY(), g2);
+					}
+				}
+				else if(isOnGround()) {
+					
+					if(getSpeedX() > 0) {
+						runForwardAnim.Update(System.nanoTime());
+						runForwardAnim.draw((int) getPosX() + 12, (int) getPosY(), g2);
+					} else if(getSpeedX() < 0) {
+						runBackAnim.Update(System.nanoTime());
+						runBackAnim.draw((int) getPosX() - 8, (int) getPosY(), g2);
+					} else {
+						if(getDirection() == RIGHT_DIR) {
+							idleForwardAnim.Update(System.nanoTime());
+							idleForwardAnim.draw((int) getPosX() + 12, (int) getPosY(), g2);
+						} else {
+							idleBackAnim.Update(System.nanoTime());
+							idleBackAnim.draw((int) getPosX() - 8, (int) getPosY(), g2);
+						}
+					}
+				}
+				
+				break;
+			
+			case DEATH:
+				if(getDirection() == RIGHT_DIR) {
+					deathForwardAnim.Update(System.nanoTime());
+					deathForwardAnim.draw((int) getPosX() + 12, (int) getPosY(), g2);
+				} else {
+					deathBackAnim.Update(System.nanoTime());
+					deathBackAnim.draw((int) getPosX() - 8, (int) getPosY(), g2);
+				}
+				break;
+			default:
+				break;
+				
+		}
+			
 	}
 	
 }

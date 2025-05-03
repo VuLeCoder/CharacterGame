@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.10" tiledversion="1.11.2" name="Biker_idle_skill" tilewidth="48" tileheight="48" tilecount="4" columns="4">
- <image source="Biker_idle_skill.png" width="192" height="48"/>
+ <image source="small_frame/Biker_idle_skill.png" width="192" height="48"/>
  <tile id="0">
   <animation>
    <frame tileid="0" duration="200"/>

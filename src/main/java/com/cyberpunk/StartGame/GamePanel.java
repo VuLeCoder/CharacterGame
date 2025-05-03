@@ -12,14 +12,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private static final long serialVersionUID = 1L;
 	
 	// Vị trí vẽ map game
-	public static int posX = 0, posY = 0;
+	public static int posX = 0, posY = 100;
 	
     private Thread gameThread;
     private boolean isRunning;
     private InputManager inputManager;
     public GameWorld gameWorld;
     
-    private long FPS = 70;
+    private long FPS = 60;
     private long miliSecond = 1000;
     private long nanoMiliSecond = 1000000;
     
@@ -56,6 +56,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     		
     		gameWorld.Update();
     		gameWorld.Render();
+    		
+    		inputManager.UpdateMoving();
     		repaint();
     		
     		long deltaTime = System.nanoTime() - beginTime;

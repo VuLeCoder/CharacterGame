@@ -2,10 +2,14 @@ package com.cyberpunk.Object;
 
 import java.awt.Rectangle;
 
-import com.cyberpunk.Effect.Animation;
 import com.cyberpunk.StartGame.GameFrame;
 
 public abstract class HumanObject extends Object{
+	public static final float HUMAN_RUN_SPEED = 5;
+	public static final float HUMAN_WALK_SPEED = 2.5f;
+	public static final float HUMAN_MASS = 0.2f;
+	
+	private boolean isRunning;
 	private boolean isSitting;
 	private boolean isClimbing;
 	private boolean isDoubleJumping;
@@ -14,13 +18,13 @@ public abstract class HumanObject extends Object{
 	private boolean isOnGround;
 	private boolean isPhasing;
 	
-	private long noBeHurtDuration = 500000000L;
+	private long noBeHurtDuration = 1000000000L;
 	private long noBeHurtStart;
 	
-	private Animation hurtForwardAni, hurtBackAni;
+//	private Animation hurtForwardAni, hurtBackAni;
 	
 	public HumanObject(float x, float y, GameWorld gameWorld) {
-		super(x, y, 100, 10, 48, 48, gameWorld);
+		super(x, y, 100, 10, 24, 34, gameWorld);
 		
 		//set temp direction, team type
 		if(x > GameFrame.SCREEN_WIDTH/2) {
@@ -31,7 +35,7 @@ public abstract class HumanObject extends Object{
 			 setTeamType(P1_TEAM);
 		}
 		
-		setMass(0.1f);
+		setMass(HUMAN_MASS);
 	}
 
 	public boolean isSitting() {
@@ -90,6 +94,14 @@ public abstract class HumanObject extends Object{
 		this.isPhasing = isPhasing;
 	}
 
+	public boolean isRunning() {
+		return isRunning;
+	}
+
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
+	}
+
 	public long getNoBeHurtDuration() {
 		return noBeHurtDuration;
 	}
@@ -105,46 +117,33 @@ public abstract class HumanObject extends Object{
 	public void setNoBeHurtStart(int noBeHurtStart) {
 		this.noBeHurtStart = noBeHurtStart;
 	}
-
-	public Animation getHurtForwardAni() {
-		return hurtForwardAni;
-	}
-
-	public void setHurtForwardAni(Animation hurtForwardAni) {
-		this.hurtForwardAni = hurtForwardAni;
-	}
-
-	public Animation getHurtBackAni() {
-		return hurtBackAni;
-	}
-
-	public void setHurtBackAni(Animation hurtBackAni) {
-		this.hurtBackAni = hurtBackAni;
-	}
 	
 	public abstract void jump();
 	public abstract void run();
 	public abstract void stopRun();
+	public abstract void climb(float speed);
 	public abstract void sitDown();
 	public abstract void standUp();
 	public abstract void attack();
 	public abstract void stopAttack();
-
+	public abstract void beHeal(float healedGet);
 	@Override
 	public Rectangle attackHitbox() {
 		Rectangle rect = movingHitbox();
 
 		if(isSitting) {
 			rect.x = (int) getPosX() - 12;
-			rect.y = (int) getPosY() - 18;
+			rect.y = (int) getPosY() - 10;
 			rect.width = 24;
-			rect.height = 36;
+			rect.height = 27;
 		} else {
 			rect.x = (int) getPosX() - 12;
-			rect.y = (int) getPosY() - 24;
+			rect.y = (int) getPosY() - 17;
 			rect.width = 24;
-			rect.height = 48;
+			rect.height = 34;
 		}
+		
+//		if(getDirection() == LEFT_DIR && rect.x < getPosX() + getWidth()/2) rect.x += getWidth();
 		
 		return rect;
 	}
@@ -175,7 +174,10 @@ public abstract class HumanObject extends Object{
 			
 		case NOBEHURT:
 			//code for running
-			if(System.nanoTime() - noBeHurtStart > noBeHurtDuration) setState(ALIVE);
+			if(System.nanoTime() - noBeHurtStart > noBeHurtDuration) {
+				setState(ALIVE);
+				isPhasing = false;
+			}
 //			run();
 			break;
 		
@@ -186,28 +188,73 @@ public abstract class HumanObject extends Object{
 			break;
 		}
 		
-		if(getState() == ALIVE || getState() == NOBEHURT) {
+		if(getState() == ALIVE || getState() == NOBEHURT || getState() == DEATH) {
 			//code for checking collision around character
-			setPosY(getPosY() + getSpeedY());
-			setSpeedY(getSpeedY() + getMass());
-			if(getPosY() >= 500) {
-				setSpeedY(0);
-				setPosY(500);
-				isOnGround = true;
-				isDoubleJumping = false;
-				isSingleJumping = false;
-				isLanding = false;
-			} else {
-				isOnGround = false;
+			if(!isClimbing) {
 				setPosY(getPosY() + getSpeedY());
 				setSpeedY(getSpeedY() + getMass());
+				
+				if(getPosY() >= 500) {
+					setSpeedY(0);
+					setPosY(500);
+					isOnGround = true;
+					isDoubleJumping = false;
+					isSingleJumping = false;
+					isLanding = false;
+				} else {
+					isOnGround = false;
+					setPosY(getPosY() + getSpeedY());
+					setSpeedY(getSpeedY() + getMass());
+				}
+				
+				setPosX(getPosX() + getSpeedX());
 			}
+			else {
+				setPosY(getPosY() + getSpeedY());
+			}
+			
+////			if(!isPhasing) {
+//				
+//				Rectangle rectRightWall = getGameWorld().getMapGame().haveCollisionWithWallRight(movingHitbox());
+//				Rectangle rectLeftWall = getGameWorld().getMapGame().haveCollisionWithWallLeft(movingHitbox());
+//				
+//				if(rectRightWall != null)
+//					setPosX(rectRightWall.x - getWidth()/2);
+//				
+//				if(rectLeftWall != null)
+//					setPosX(rectLeftWall.x + rectLeftWall.width + getWidth()/2 + 10);
+////			}
+//		
+//		
+//			Rectangle movingHitboxFuture = movingHitbox();
+//			movingHitboxFuture.y += getSpeedY() < 0 ? getSpeedY() : 2;
+//			
+//			SimpleEntry<Rectangle, Integer> rectLand = getGameWorld().getMapGame().haveCollisionWithLand(movingHitboxFuture);
+//			Rectangle rectTop = getGameWorld().getMapGame().haveCollisionWithTop(movingHitboxFuture, this);
+//			
+//			if(rectLand != null) {
+//				setSpeedY(0);
+//				setPosY(rectLand.getKey().y - getHeight()/2);
+//				isOnGround = true;
+//				isDoubleJumping = false;
+//				isSingleJumping = false;
+//				isLanding = false;
+//				
+//				if(rectLand.getValue() == MapGame.TRANSPORT_LEFT_TILE) {
+//					setSpeedX(getSpeedX() - AnimatedObject.TRANSPORT_SPEED);
+//				}
+//			} else {
+//				isOnGround = false;
+//				setPosY(getPosY() + getSpeedY());
+//				setSpeedY(getSpeedY() + getMass());
+//			}
+//			
+//			if(rectTop != null) {
+//				setSpeedY(0);
+//				setPosY(rectTop.y + rectTop.height + getHeight()/2);
+//			}
+//			if(getSpeedY() > 0) isLanding = true;
 		}
-		
-		if(getSpeedY() > 0) isLanding = true;
-//		System.out.println(getSpeedX() + " " + getSpeedY());
-//		System.out.println(isSingleJumping + " " + isDoubleJumping + " " + isOnGround);
-		setPosX(getPosX() + getSpeedX());
 	}
 	
 }

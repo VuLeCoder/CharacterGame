@@ -1,39 +1,27 @@
-13
+9
 platform
 platform0 200000000 platform1 200000000 platform2 200000000 platform3 200000000 platform4 1250000000 platform5 200000000 platform6 200000000 platform7 3000000000
 
-transport1_toRight
-transport18 100000000 transport19 100000000 transport110 100000000 transport111 100000000
+transport1_left
+transport10 100000000 transport11 100000000 transport12 100000000 transport13 100000000
 
-transport1_toLeft
-transport115 100000000 transport114 100000000 transport113 100000000 transport112 100000000
+transport2_left
+transport20 100000000 transport21 100000000 transport22 100000000 transport23 100000000
 
-transport2_toRight
-transport216 100000000 transport217 100000000 transport218 100000000 transport219 100000000
+transport3_left
+transport30 100000000 transport31 100000000 transport32 100000000 transport33 100000000
 
-transport2_toLeft
-transport223 100000000 transport222 100000000 transport221 100000000 transport220 100000000
+entry_left
+entry_left0 2000000000 entry_left1 150000000 entry_left2 150000000 entry_left3 150000000 entry_left4 4000000000 entry_left5 150000000 entry_left6 150000000 entry_left7 150000000
 
-transport3_toRight
-transport324 100000000 transport325 100000000 transport326 100000000 transport327 100000000
+hammer
+hammer0 2000000000 hammer1 150000000 hammer2 150000000 hammer3 150000000 hammer4 150000000 hammer5 150000000 hammer6 150000000 hammer7 150000000 hammer8 150000000 hammer9 150000000 hammer10 150000000
 
-transport3_toLeft
-transport331 100000000 transport330 100000000 transport329 100000000 transport328 100000000
+object10
+object10 0 object12 0 object13 0
 
-entryLeft_Up
-entryLeft32 2000000000 entryLeft33 150000000 entryLeft34 150000000 entryLeft35 150000000 entryLeft36 4000000000 entryLeft37 150000000 entryLeft38 150000000 entryLeft39 150000000
+object11
+object11 0 object12 0 object13 0
 
-entryLeft_Down
-entryLeft40 2000000000 entryLeft41 150000000 entryLeft42 150000000 entryLeft43 150000000 entryLeft44 4000000000 entryLeft45 150000000 entryLeft46 150000000 entryLeft47 150000000
-
-entryRight_Up
-entryRight48 150000000 entryRight49 150000000 entryRight50 150000000 entryRight51 2000000000 entryRight52 150000000 entryRight53 150000000 entryRight54 150000000 entryRight55 3000000000
-
-entryRight_Down
-entryRight56 150000000 entryRight57 150000000 entryRight58 150000000 entryRight59 2000000000 entryRight60 150000000 entryRight61 150000000 entryRight62 150000000 entryRight63 3000000000
-
-hammer_Up
-hammer64 1500000000 hammer65 150000000 hammer66 150000000 hammer67 150000000 hammer68 150000000 hammer69 150000000 hammer70 150000000 hammer71 150000000
-
-hammer_Down
-hammer72 1500000000 hammer73 150000000 hammer74 150000000 hammer75 150000000 hammer76 150000000 hammer77 150000000 hammer78 150000000 hammer79 150000000
+object20
+object20 0 object23 0 object24 0 

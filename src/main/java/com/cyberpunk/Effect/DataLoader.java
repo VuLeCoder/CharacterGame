@@ -75,7 +75,7 @@ public class DataLoader {
 		FileReader fr = new FileReader(fileName);
 		BufferedReader br = new BufferedReader(fr);
 		
-		String line = null;
+		String line = null; 
 		
 		if(br.readLine() == null) {
 			System.out.println("No data");
@@ -187,6 +187,8 @@ public class DataLoader {
 			
 			instance.positionNotes.put(name, new int[] {x, y});
 		}
+		
+		br.close();
 	}
 	
 	private void LoadCollisionMap() throws IOException{
@@ -201,7 +203,7 @@ public class DataLoader {
 		instance.collisionMap = new int[numberOfRows][numberOfColumns];
 		for(int i=0; i<numberOfRows; ++i) {
 			line = br.readLine();
-			String[] str = line.split(" ");
+			String[] str = line.split("\\s+");;
 			for(int j=0; j<numberOfColumns; ++j) {
 				instance.collisionMap[i][j] = Integer.parseInt(str[j]);
 			}
@@ -284,7 +286,7 @@ public class DataLoader {
 		instance.ladderMap = LoadMap(ladderMapfile);
 		instance.animatedMap = LoadMap(animatedMapfile);
 		
-//		LoadCollisionMap();
+		LoadCollisionMap();
 		LoadAnimation(animationObject);
 		LoadAnimation(bikerObject);
 		

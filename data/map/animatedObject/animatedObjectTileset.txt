@@ -1,4 +1,4 @@
-80
+39
 platform0
 image data/map/animatedObject/animatedObjectTileset.png
 x 0
@@ -55,506 +55,219 @@ y 0
 w 32
 h 32
 
-transport18
+transport10
 image data/map/animatedObject/animatedObjectTileset.png
 x 0
 y 32
 w 32
 h 32
 
-transport19
+transport11
 image data/map/animatedObject/animatedObjectTileset.png
 x 32
 y 32
 w 32
 h 32
 
-transport110
+transport12
 image data/map/animatedObject/animatedObjectTileset.png
 x 64
 y 32
 w 32
 h 32
 
-transport111
+transport13
 image data/map/animatedObject/animatedObjectTileset.png
 x 96
 y 32
 w 32
 h 32
 
-transport112
+transport20
 image data/map/animatedObject/animatedObjectTileset.png
 x 128
 y 32
 w 32
 h 32
 
-transport113
+transport21
 image data/map/animatedObject/animatedObjectTileset.png
 x 160
 y 32
 w 32
 h 32
 
-transport114
+transport22
 image data/map/animatedObject/animatedObjectTileset.png
 x 192
 y 32
 w 32
 h 32
 
-transport115
+transport23
 image data/map/animatedObject/animatedObjectTileset.png
 x 224
 y 32
 w 32
 h 32
 
-transport216
+transport30
 image data/map/animatedObject/animatedObjectTileset.png
 x 0
 y 64
 w 32
 h 32
 
-transport217
+transport31
 image data/map/animatedObject/animatedObjectTileset.png
 x 32
 y 64
 w 32
 h 32
 
-transport218
+transport32
 image data/map/animatedObject/animatedObjectTileset.png
 x 64
 y 64
 w 32
 h 32
 
-transport219
+transport33
 image data/map/animatedObject/animatedObjectTileset.png
 x 96
 y 64
 w 32
 h 32
 
-transport220
-image data/map/animatedObject/animatedObjectTileset.png
-x 128
-y 64
-w 32
-h 32
-
-transport221
-image data/map/animatedObject/animatedObjectTileset.png
-x 160
-y 64
-w 32
-h 32
-
-transport222
-image data/map/animatedObject/animatedObjectTileset.png
-x 192
-y 64
-w 32
-h 32
-
-transport223
-image data/map/animatedObject/animatedObjectTileset.png
-x 224
-y 64
-w 32
-h 32
-
-transport324
-image data/map/animatedObject/animatedObjectTileset.png
+entry_left0
+image data/map/animatedObject/entry.png
 x 0
-y 96
+y 0
 w 32
-h 32
+h 64
 
-transport325
-image data/map/animatedObject/animatedObjectTileset.png
+entry_left1
+image data/map/animatedObject/entry.png
 x 32
-y 96
+y 0
 w 32
-h 32
+h 64
 
-transport326
-image data/map/animatedObject/animatedObjectTileset.png
+entry_left2
+image data/map/animatedObject/entry.png
 x 64
-y 96
+y 0
 w 32
-h 32
+h 64
 
-transport327
-image data/map/animatedObject/animatedObjectTileset.png
+entry_left3
+image data/map/animatedObject/entry.png
 x 96
-y 96
+y 0
 w 32
-h 32
+h 64
 
-transport328
-image data/map/animatedObject/animatedObjectTileset.png
+entry_left4
+image data/map/animatedObject/entry.png
 x 128
-y 96
+y 0
 w 32
-h 32
+h 64
 
-transport329
-image data/map/animatedObject/animatedObjectTileset.png
+entry_left5
+image data/map/animatedObject/entry.png
 x 160
-y 96
+y 0
 w 32
-h 32
+h 64
 
-transport330
-image data/map/animatedObject/animatedObjectTileset.png
+entry_left6
+image data/map/animatedObject/entry.png
 x 192
-y 96
+y 0
 w 32
-h 32
+h 64
 
-transport331
-image data/map/animatedObject/animatedObjectTileset.png
+entry_left7
+image data/map/animatedObject/entry.png
 x 224
-y 96
+y 0
 w 32
-h 32
+h 64
 
-entryLeft32
-image data/map/animatedObject/animatedObjectTileset.png
+hammer0
+image data/map/animatedObject/hammer.png
 x 0
-y 128
+y 0
 w 32
-h 32
+h 96
 
-entryLeft33
-image data/map/animatedObject/animatedObjectTileset.png
+hammer1
+image data/map/animatedObject/hammer.png
 x 32
-y 128
+y 0
 w 32
-h 32
+h 96
 
-entryLeft34
-image data/map/animatedObject/animatedObjectTileset.png
+hammer2
+image data/map/animatedObject/hammer.png
 x 64
-y 128
+y 0
 w 32
-h 32
+h 96
 
-entryLeft35
-image data/map/animatedObject/animatedObjectTileset.png
+hammer3
+image data/map/animatedObject/hammer.png
 x 96
-y 128
+y 0
 w 32
-h 32
+h 96
 
-entryLeft36
-image data/map/animatedObject/animatedObjectTileset.png
+hammer4
+image data/map/animatedObject/hammer.png
 x 128
-y 128
+y 0
 w 32
-h 32
+h 96
 
-entryLeft37
-image data/map/animatedObject/animatedObjectTileset.png
+hammer5
+image data/map/animatedObject/hammer.png
 x 160
-y 128
+y 0
 w 32
-h 32
+h 96
 
-entryLeft38
-image data/map/animatedObject/animatedObjectTileset.png
+hammer6
+image data/map/animatedObject/hammer.png
 x 192
-y 128
+y 0
 w 32
-h 32
+h 96
 
-entryLeft39
-image data/map/animatedObject/animatedObjectTileset.png
+hammer7
+image data/map/animatedObject/hammer.png
 x 224
-y 128
+y 0
 w 32
-h 32
+h 96
 
-entryLeft40
-image data/map/animatedObject/animatedObjectTileset.png
-x 0
-y 160
+hammer8
+image data/map/animatedObject/hammer.png
+x 256
+y 0
 w 32
-h 32
+h 96
 
-entryLeft41
-image data/map/animatedObject/animatedObjectTileset.png
-x 32
-y 160
+hammer9
+image data/map/animatedObject/hammer.png
+x 288
+y 0
 w 32
-h 32
+h 96
 
-entryLeft42
-image data/map/animatedObject/animatedObjectTileset.png
-x 64
-y 160
+hammer10
+image data/map/animatedObject/hammer.png
+x 320
+y 0
 w 32
-h 32
-
-entryLeft43
-image data/map/animatedObject/animatedObjectTileset.png
-x 96
-y 160
-w 32
-h 32
-
-entryLeft44
-image data/map/animatedObject/animatedObjectTileset.png
-x 128
-y 160
-w 32
-h 32
-
-entryLeft45
-image data/map/animatedObject/animatedObjectTileset.png
-x 160
-y 160
-w 32
-h 32
-
-entryLeft46
-image data/map/animatedObject/animatedObjectTileset.png
-x 192
-y 160
-w 32
-h 32
-
-entryLeft47
-image data/map/animatedObject/animatedObjectTileset.png
-x 224
-y 160
-w 32
-h 32
-
-entryRight48
-image data/map/animatedObject/animatedObjectTileset.png
-x 0
-y 192
-w 32
-h 32
-
-entryRight49
-image data/map/animatedObject/animatedObjectTileset.png
-x 32
-y 192
-w 32
-h 32
-
-entryRight50
-image data/map/animatedObject/animatedObjectTileset.png
-x 64
-y 192
-w 32
-h 32
-
-entryRight51
-image data/map/animatedObject/animatedObjectTileset.png
-x 96
-y 192
-w 32
-h 32
-
-entryRight52
-image data/map/animatedObject/animatedObjectTileset.png
-x 128
-y 192
-w 32
-h 32
-
-entryRight53
-image data/map/animatedObject/animatedObjectTileset.png
-x 160
-y 192
-w 32
-h 32
-
-entryRight54
-image data/map/animatedObject/animatedObjectTileset.png
-x 192
-y 192
-w 32
-h 32
-
-entryRight55
-image data/map/animatedObject/animatedObjectTileset.png
-x 224
-y 192
-w 32
-h 32
-
-entryRight56
-image data/map/animatedObject/animatedObjectTileset.png
-x 0
-y 224
-w 32
-h 32
-
-entryRight57
-image data/map/animatedObject/animatedObjectTileset.png
-x 32
-y 224
-w 32
-h 32
-
-entryRight58
-image data/map/animatedObject/animatedObjectTileset.png
-x 64
-y 224
-w 32
-h 32
-
-entryRight59
-image data/map/animatedObject/animatedObjectTileset.png
-x 96
-y 224
-w 32
-h 32
-
-entryRight60
-image data/map/animatedObject/animatedObjectTileset.png
-x 128
-y 224
-w 32
-h 32
-
-entryRight61
-image data/map/animatedObject/animatedObjectTileset.png
-x 160
-y 224
-w 32
-h 32
-
-entryRight62
-image data/map/animatedObject/animatedObjectTileset.png
-x 192
-y 224
-w 32
-h 32
-
-entryRight63
-image data/map/animatedObject/animatedObjectTileset.png
-x 224
-y 224
-w 32
-h 32
-
-hammer64
-image data/map/animatedObject/animatedObjectTileset.png
-x 0
-y 256
-w 32
-h 32
-
-hammer65
-image data/map/animatedObject/animatedObjectTileset.png
-x 32
-y 256
-w 32
-h 32
-
-hammer66
-image data/map/animatedObject/animatedObjectTileset.png
-x 64
-y 256
-w 32
-h 32
-
-hammer67
-image data/map/animatedObject/animatedObjectTileset.png
-x 96
-y 256
-w 32
-h 32
-
-hammer68
-image data/map/animatedObject/animatedObjectTileset.png
-x 128
-y 256
-w 32
-h 32
-
-hammer69
-image data/map/animatedObject/animatedObjectTileset.png
-x 160
-y 256
-w 32
-h 32
-
-hammer70
-image data/map/animatedObject/animatedObjectTileset.png
-x 192
-y 256
-w 32
-h 32
-
-hammer71
-image data/map/animatedObject/animatedObjectTileset.png
-x 224
-y 256
-w 32
-h 32
-
-hammer72
-image data/map/animatedObject/animatedObjectTileset.png
-x 0
-y 288
-w 32
-h 32
-
-hammer73
-image data/map/animatedObject/animatedObjectTileset.png
-x 32
-y 288
-w 32
-h 32
-
-hammer74
-image data/map/animatedObject/animatedObjectTileset.png
-x 64
-y 288
-w 32
-h 32
-
-hammer75
-image data/map/animatedObject/animatedObjectTileset.png
-x 96
-y 288
-w 32
-h 32
-
-hammer76
-image data/map/animatedObject/animatedObjectTileset.png
-x 128
-y 288
-w 32
-h 32
-
-hammer77
-image data/map/animatedObject/animatedObjectTileset.png
-x 160
-y 288
-w 32
-h 32
-
-hammer78
-image data/map/animatedObject/animatedObjectTileset.png
-x 192
-y 288
-w 32
-h 32
-
-hammer79
-image data/map/animatedObject/animatedObjectTileset.png
-x 224
-y 288
-w 32
-h 32
+h 96

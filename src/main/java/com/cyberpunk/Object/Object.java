@@ -13,7 +13,7 @@ public abstract class Object {
 //	public static final int FEY = 3;
 	public static final int NOBEHURT = 4;
 	
-	public static final int LEFT_DIR = 0;
+	public static final int LEFT_DIR = -1;
 	public static final int RIGHT_DIR = 1;
 	
 	public static final int MAP_TEAM = 0;
@@ -24,8 +24,8 @@ public abstract class Object {
 	private float posY;
 	
 	private int state = ALIVE;
-	private int health;
-	private int damage;
+	private float health;
+	private float damage;
 	private int teamType;
 	
 	private int width;
@@ -35,17 +35,22 @@ public abstract class Object {
 	private float speedY;
 	
 	private int direction;
-
+	private boolean isOnTransportLeft;
+	
 	public Object(float posX, float posY, int health, int damage, int width, int height, GameWorld gameWorld) {
 		this.posX = posX;
 		this.posY = posY;
 		this.health = health;
 		this.damage = damage;
-//		this.teamType = teamType;
 		this.width = width;
 		this.height = height;
-//		this.direction = direction;
 		this.gameWorld = gameWorld;
+		
+		isOnTransportLeft = false;
+	}
+	
+	public GameWorld getGameWorld() {
+		return gameWorld;
 	}
 	
 	public float getPosX() {
@@ -72,19 +77,19 @@ public abstract class Object {
 		this.state = state;
 	}
 
-	public int getHealth() {
+	public float getHealth() {
 		return health;
 	}
 
-	public void setHealth(int health) {
+	public void setHealth(Float health) {
 		this.health = health;
 	}
 
-	public int getDamage() {
+	public float getDamage() {
 		return damage;
 	}
 
-	public void setDamage(int damage) {
+	public void setDamage(Float damage) {
 		this.damage = damage;
 	}
 
@@ -144,6 +149,13 @@ public abstract class Object {
 		this.direction = direction;
 	}
 //	public abstract void attack();
+	public boolean isOnTransportLeft() {
+ 		return isOnTransportLeft;
+ 	}
+ 
+ 	public void setOnTransportLeft(boolean isOnTransportLeft) {
+ 		this.isOnTransportLeft = isOnTransportLeft;
+ 	}
 
 	public Rectangle movingHitbox() {
 		Rectangle hitbox = new Rectangle();
@@ -151,6 +163,8 @@ public abstract class Object {
 		hitbox.y = (int) getPosY() - getHeight()/2;
 		hitbox.width = getWidth();
 		hitbox.height = getHeight();	
+		
+//		if(getDirection() == LEFT_DIR && hitbox.x < getPosX() + getWidth()/2) hitbox.x += getWidth();
 
 		return hitbox;
 	}
@@ -165,6 +179,8 @@ public abstract class Object {
 		Rectangle rect = attackHitbox();
 		g2.setColor(Color.black);
 		g2.drawRect(rect.x, rect.y, rect.width, rect.height);
+		
+		
 	}
 	
 	public abstract Rectangle attackHitbox();
