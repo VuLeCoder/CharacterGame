@@ -13,20 +13,33 @@ public class GameWorld {
 	private final BufferedImage bufferedImage;
 	private final MapGame mapGame;
 	private final int[][] animatedMap;
+	private final StartScreen startScreen;
 	
+	private boolean isStartGame = false;
 	private boolean isFirstDrawMap = true;
 	private AnimatedObjectManager animatedObjectManager;
 	public BaseCharacter baseCharacter;
 
 	public GameWorld() {
 		bufferedImage = new BufferedImage(GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		
+		startScreen = new StartScreen();
 		mapGame = new MapGame();
+		
 		baseCharacter = new BaseCharacter(100, 500, "biker", this);
 
 		animatedMap = DataLoader.getInstance().getAnimatedMap();
 		
 		animatedObjectManager = new AnimatedObjectManager(this);
 		addAllAnimatedObject();
+	}
+	
+	public boolean isStartGame() {
+		return isStartGame;
+	}
+	
+	public void StartGame() {
+		isStartGame = true;
 	}
 	
 	public BufferedImage getBufferedImage(){
@@ -54,6 +67,10 @@ public class GameWorld {
 	}
 	
 	public void Update() {
+		if(!isStartGame) {
+			startScreen.Update();
+			return;
+		}
 		animatedObjectManager.dropBox(pointX, pointY, System.nanoTime());
 		animatedObjectManager.UpdateObjects();
 		baseCharacter.Update();
@@ -64,13 +81,18 @@ public class GameWorld {
 		if(g2 == null) {
 			return;
 		}
-//		g2.scale(zoom, zoom);
+
+		if(!isStartGame) {
+			startScreen.draw(g2);
+			return;
+		}
 		
-//		if(isFirstDrawMap) {
+//		g2.scale(zoom, zoom);
+		if(isFirstDrawMap) {
 			mapGame.draw(g2);
-			isFirstDrawMap = false;
-//		}
-//		
+//			isFirstDrawMap = false;
+		}
+		
 		animatedObjectManager.draw(g2);
 		
 		baseCharacter.draw(g2);

@@ -12,6 +12,13 @@ import javax.imageio.ImageIO;
 public class DataLoader {
 	private static DataLoader instance = null;
 	
+	// Start screen
+	private final String idleScreenFrameFile = "data/map/idleMap/idleScreenTileset.txt";
+	private final String idleLogoFrameFile = "data/map/idleMap/idleLogoTileset.txt";
+	private final String idleScreenAnimationFile = "data/map/idleMap/idleScreenAnimation.txt";
+
+//	private final String idleScreenAnimationFile = "data/map/idleMap/idleScreenAnimation.txt";
+	
 	//data/map/wall/wallTileset.png
 	private final String wallFramefile = "data/map/wall/wallTileset.txt";
 	private final String wallMapfile = "data/map/wall/wallMap.txt";
@@ -238,8 +245,16 @@ public class DataLoader {
 	public int[][] getAnimatedMap() {
 		return animatedMap;
 	}
+	
+	
 
 	public void LoadData() throws IOException {
+		// start screen
+		LoadFrame(idleScreenFrameFile);
+		LoadFrame(idleLogoFrameFile);
+		LoadAnimation(idleScreenAnimationFile);
+		
+		// Map game
 		LoadFrame(wallFramefile);
 		LoadFrame(insideFramefile);
 		LoadFrame(outsideFramefile);
@@ -257,6 +272,7 @@ public class DataLoader {
 		LoadAnimation(animationObject);	
 		
 		
+		// Character
 		LoadFrame(bikerFramefile);
 		LoadAnimation(bikerObject);
 	}
