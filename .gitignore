@@ -1,6 +1,9 @@
 .mvn/
 .settings/
 target/
-data/
-!data/map
-!data/character
+data/**
+!data/
+!data/map/
+!data/map/**
+!data/character/
+!data/character/**
