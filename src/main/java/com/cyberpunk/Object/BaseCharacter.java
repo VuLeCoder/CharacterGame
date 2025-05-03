@@ -10,7 +10,7 @@ import com.cyberpunk.Effect.DataLoader;
 public class BaseCharacter extends HumanObject{
 	public String name;
 	
-	public static final float JUMP_STRENG = -3.0f;
+	public static final float JUMP_STRENGTH = -3f;
 	
 	public boolean isRunning;
 	private boolean isAttacking;
@@ -137,7 +137,10 @@ public class BaseCharacter extends HumanObject{
 
 	@Override
 	public void jump() {
-		setSpeedY(JUMP_STRENG);
+		if(!isSingleJumping()) {
+			setSpeedY(JUMP_STRENGTH);
+			// setSingleJumping(true);
+		}
 		
 //		if(isOnGround()) {
 //			setSingleJumping(false);
@@ -171,6 +174,7 @@ public class BaseCharacter extends HumanObject{
 
 	@Override
 	public void run() {
+		
 		if(!isSitting() && !isRunning) {
 			isRunning = true;
 			setSpeedX(getSpeedX() + HUMAN_RUN_SPEED * getDirection());
@@ -181,7 +185,7 @@ public class BaseCharacter extends HumanObject{
 	public void stopRun() {
 		if(isRunning) {
 		isRunning = false;
-		setSpeedX(getSpeedX() - HUMAN_RUN_SPEED * getDirection());
+		setSpeedX((Math.abs(getSpeedX()) - Math.abs(HUMAN_RUN_SPEED)) * getDirection());
 		
 		runForwardAnim.reset();
 		runBackAnim.reset();
@@ -267,7 +271,7 @@ public class BaseCharacter extends HumanObject{
 	@Override
 	public void Update() {
 		super.Update();
-		attack1ForwardAnim.Update(System.nanoTime());
+//		attack1ForwardAnim.Update(System.nanoTime());
 	}
 	
 	@Override
@@ -279,12 +283,4 @@ public class BaseCharacter extends HumanObject{
 	}
 	
 }
-
-
-
-
-
-
-
-
 
