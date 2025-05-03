@@ -23,9 +23,10 @@ public abstract class Object {
 	private float posY;
 	
 	private int state = ALIVE;
-	private int health;
-	private int damage;
 	private int teamType;
+	
+	private float health;
+	private float damage;
 	
 	private int width;
 	private int height;
@@ -64,19 +65,19 @@ public abstract class Object {
 		this.state = state;
 	}
 
-	public int getHealth() {
+	public float getHealth() {
 		return health;
 	}
 
-	public void setHealth(int health) {
+	public void setHealth(float health) {
 		this.health = health;
 	}
 
-	public int getDamage() {
+	public float getDamage() {
 		return damage;
 	}
 
-	public void setDamage(int damage) {
+	public void setDamage(float damage) {
 		this.damage = damage;
 	}
 
