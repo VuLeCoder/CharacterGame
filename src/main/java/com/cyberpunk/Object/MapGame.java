@@ -12,6 +12,7 @@ public class MapGame {
 	public static final int LADDER_TILE = 3;
 	public static final int TRANSPORT_LEFT_TILE = 4;
 	public static final int DEATH_TILE = -1;
+	public static final int HAMMER_TILE = -2;
 
 	public static final String OUTSIDE	= "outside";
 	public static final String INSIDE 	= "inside";
@@ -54,7 +55,7 @@ public class MapGame {
 	}
 	
 	public void draw(Graphics2D g2) {
-//		drawMap(g2, "", 		collisionMap);
+		// drawMap(g2, "", 		collisionMap);
 		drawMap(g2, OUTSIDE,	outsideMap);
 		drawMap(g2, INSIDE,		insideMap);
 		drawMap(g2, WALL,		wallMap);
@@ -150,11 +151,9 @@ public class MapGame {
 						}
 					}
 					
-					
-					
 					if(tile == DEATH_TILE) {
 						collisionRect = tileRect;
-						object.setHealth(-1);
+						object.setHealth(-100);
 						break;
 					}
 				}
@@ -195,7 +194,7 @@ public class MapGame {
 				tile = getCollisionMap()[y][posX];
 				if (rect.intersects(tileRect)) {
 					
-					if(tile == WALL_TILE) {
+					if(tile == WALL_TILE || tile == TRANSPORT_LEFT_TILE || tile == HAMMER_TILE) {
 						collisionRect = tileRect;
 						break;
 					}
@@ -232,7 +231,7 @@ public class MapGame {
 				tile = getCollisionMap()[y][x];
 				if (rect.intersects(tileRect)) {
 					
-					if(tile == WALL_TILE) {
+					if(tile == WALL_TILE || tile == TRANSPORT_LEFT_TILE || tile == HAMMER_TILE) {
 						collisionRect = tileRect;
 						break;
 					}
@@ -270,16 +269,26 @@ public class MapGame {
 						GameWorld.TILESIZE);
 				
 				tile = getCollisionMap()[y][x];
-
-				if (tile == WALL_TILE && rect.intersects(tileRect)) {
-					collisionRect = tileRect;
-					object.beHurt(10);
-					break;
-				}
 				
-				if(tile == DEATH_TILE && rect.intersects(tileRect)) {
-					collisionRect = tileRect;
-					object.setHealth(-1);
+				if(rect.intersects(tileRect)) {
+					if(tile == PLATFORM_TILE) {
+						HumanObject human = (HumanObject) object;
+						human.startDrop(System.nanoTime());
+						break;
+					}
+					
+					if(tile == WALL_TILE) {
+						collisionRect = tileRect;
+//						object.beHurt(10);
+//						break;
+					}
+					
+					if(tile == HAMMER_TILE) {
+						collisionRect = tileRect;
+//						object.setSpeedX(0);
+						object.beHurt(20);
+						break;
+					}
 				}
 			}
 //		}
@@ -287,7 +296,7 @@ public class MapGame {
 		return collisionRect;
 	}
 	
-	public boolean checkCollisionWithLadder(Rectangle rect) {
+	public Rectangle haveCollisionWithLadder(Rectangle rect) {
 	    int posX1 = rect.x / GameWorld.TILESIZE;
 	    int posX2 = (rect.x + rect.width) / GameWorld.TILESIZE;
 	    int posY1 = rect.y / GameWorld.TILESIZE;
@@ -301,13 +310,15 @@ public class MapGame {
 	    for (int y = posY1; y <= posY2; y++) {
 	        for (int x = posX1; x <= posX2; x++) {
 	            int tile = getCollisionMap()[y][x];
+	            Rectangle rectLadder =  new Rectangle(x * GameWorld.TILESIZE, y * GameWorld.TILESIZE, GameWorld.TILESIZE,
+						GameWorld.TILESIZE);
 	            if (tile == LADDER_TILE) {
-	                return true;
+	                return rectLadder;
 	            }
 	        }
 	    }
 
-	    return false; // Không đụng thang
+	    return null; // Không đụng thang
 	}
 
 	
@@ -326,6 +337,14 @@ public class MapGame {
 
 	public int[][] getWallMap() {
 		return wallMap;
+	}
+	
+	public int[][] getOutsideMap() {
+		return outsideMap;
+	}
+	
+	public int[][] getLadderMap() {
+		return ladderMap;
 	}
 
 	public int[][] getCollisionMap() {
