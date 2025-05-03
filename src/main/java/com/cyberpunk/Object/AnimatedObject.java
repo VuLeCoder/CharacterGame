@@ -1,8 +1,8 @@
 package com.cyberpunk.Object;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.time.Duration;
 
 import com.cyberpunk.Effect.Animation;
 import com.cyberpunk.Effect.DataLoader;
@@ -22,8 +22,8 @@ public class AnimatedObject extends Object {
 
 	public static final int ID_HAMER = -11;
 	public static final int HAMMER_HEIGHT = 3;
-	public static final int[] IS_NOT_HAMMER_BLOCK_1 = {1, 8};
-	public static final int[] IS_NOT_HAMMER_BLOCK_2 = {0, 9, 10};
+	public static final int[] IS_NOT_HAMMER_BLOCK_1 = { 1, 8 };
+	public static final int[] IS_NOT_HAMMER_BLOCK_2 = { 0, 9, 10 };
 
 	public static final int ID_BOX = 20, ID_BARREL = 10;
 
@@ -34,8 +34,11 @@ public class AnimatedObject extends Object {
 	public static final int BOX_HEALTH = 20;
 	public static final int BARREL_HEALTH = 1;
 //	public static final int LOCKER_HEALTH = 1;
-	
+
 	public static final float BOX_WEIGTH = 0.05f;
+
+	private final long timeNoBeHurt = Duration.ofSeconds(1).toNanos();
+	private long startTimeNoBeHurt;
 
 	private final Animation animation;
 	private int id, maxHealth;
@@ -43,7 +46,7 @@ public class AnimatedObject extends Object {
 
 	public AnimatedObject(float posX, float posY, GameWorld gameWorld, int id) {
 		super(posX, posY, 10, 0, GameWorld.TILESIZE, GameWorld.TILESIZE, gameWorld);
-		
+
 		setTeamType(MAP_TEAM);
 
 		this.id = id;
@@ -60,13 +63,13 @@ public class AnimatedObject extends Object {
 				animation.setRepeated(false);
 			}
 		}
-		
+
 		setPosX(posX + getWidth() / 2);
 		setPosY(posY + getHeight() / 2);
 		setWidth(animation.getCurrentFrameImages().getImageWidth());
 		setHeight(animation.getCurrentFrameImages().getImageHeight());
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -115,21 +118,32 @@ public class AnimatedObject extends Object {
 			break;
 
 		case ID_HAMER:
-			name = "hammer";
+			name = "hammer_";
+			name += AnimatedObjectManager.SERIAL_NUMBER + 1;
+			AnimatedObjectManager.SERIAL_NUMBER = (AnimatedObjectManager.SERIAL_NUMBER + 1) % 2;
+
 			setHeight(HAMMER_HEIGHT * GameWorld.TILESIZE);
 			setHealth(HAMMER_HEALTH);
 			setDamage(HAMMER_DAMAGE);
 			break;
 		}
 	}
-	
+
 	public void Update() {
 
+		if (System.nanoTime() - startTimeNoBeHurt >= timeNoBeHurt) {
+			setState(ALIVE);
+		}
+
 		if (id >= 0) {
+			if (getHealth() <= 0) {
+				beHurt(1);
+			}
+
 			setPosX(getPosX() + getSpeedX());
 			setPosY(getPosY() + getSpeedY());
 			Rectangle boundForCollisionWithMapFuture, hitBox;
-			
+
 			boundForCollisionWithMapFuture = movingHitbox();
 			boundForCollisionWithMapFuture.y += (getSpeedY() != 0 ? getSpeedY() : 2);
 			hitBox = getGameWorld().getMapGame().haveCollisionWithLand(boundForCollisionWithMapFuture, this);
@@ -140,36 +154,38 @@ public class AnimatedObject extends Object {
 				setSpeedY(0);
 			}
 
+			getGameWorld().getMapGame().haveCollisionWithTop(movingHitbox(), this);
+
 			hitBox = getGameWorld().getMapGame().haveCollisionWithWallLeft(movingHitbox());
 			if (hitBox != null) {
-				if(getSpeedX() * Object.LEFT_DIR > 0 || getWidth() < GameWorld.TILESIZE) {
+				if (getSpeedX() * Object.LEFT_DIR > 0 || getWidth() < GameWorld.TILESIZE) {
 					setPosX(getPosX() - getSpeedX());
 				}
 			}
-		
+
 			hitBox = getGameWorld().getMapGame().haveCollisionWithWallRight(movingHitbox());
 			if (hitBox != null) {
-				if(getSpeedX() * Object.RIGHT_DIR > 0 || getWidth() < GameWorld.TILESIZE) {
+				if (getSpeedX() * Object.RIGHT_DIR > 0 || getWidth() < GameWorld.TILESIZE) {
 					setPosX(getPosX() - getSpeedX());
 				}
 			}
-			
-			getGameWorld().getMapGame().haveCollisionWithTop(movingHitbox(), this);
 
 			return;
 		}
 
 		animation.Update(System.nanoTime());
 
-		int id_frame = animation.getCurrentFrame();
-		int x = (int)(getPosY() - getHeight() / 2) / GameWorld.TILESIZE;
-		int y = (int)((getPosX() - getWidth() / 2) / GameWorld.TILESIZE);
+		int id_frame = Character.getNumericValue(animation.getCurrentFrameImages().getName()
+				.charAt(animation.getCurrentFrameImages().getName().length() - 1));
+		int x = (int) (getPosY() - getHeight() / 2) / GameWorld.TILESIZE;
+		int y = (int) ((getPosX() - getWidth() / 2) / GameWorld.TILESIZE);
+
 		switch (id) {
 		case ID_PLATFORM:
 			getGameWorld().getMapGame().setCollisionMap(x, y, 0);
 			for (int i : IS_PLATFORM_CLOSE) {
 				if (id_frame == i) {
-					getGameWorld().getMapGame().setCollisionMap(x, y, 1);
+					getGameWorld().getMapGame().setCollisionMap(x, y, MapGame.WALL_TILE);
 					break;
 				}
 			}
@@ -181,24 +197,24 @@ public class AnimatedObject extends Object {
 			getGameWorld().getMapGame().setCollisionMap(x + 1, y, 0);
 			for (int i : IS_ENTRY_CLOSE) {
 				if (id_frame == i) {
-					getGameWorld().getMapGame().setCollisionMap(x, y, 1);
-					getGameWorld().getMapGame().setCollisionMap(x + 1, y, 1);
+					getGameWorld().getMapGame().setCollisionMap(x, y, MapGame.WALL_TILE);
+					getGameWorld().getMapGame().setCollisionMap(x + 1, y, MapGame.WALL_TILE);
 					break;
 				}
 			}
 			break;
 
 		case ID_HAMER:
-			getGameWorld().getMapGame().setCollisionMap(x + 1, y, 1);
-			getGameWorld().getMapGame().setCollisionMap(x + 2, y, 1);
-			
+			getGameWorld().getMapGame().setCollisionMap(x + 1, y, MapGame.WALL_TILE);
+			getGameWorld().getMapGame().setCollisionMap(x + 2, y, MapGame.HAMMER_TILE);
+
 			for (int i : IS_NOT_HAMMER_BLOCK_1) {
 				if (id_frame == i) {
 					getGameWorld().getMapGame().setCollisionMap(x + 2, y, 0);
 					break;
 				}
 			}
-			
+
 			for (int i : IS_NOT_HAMMER_BLOCK_2) {
 				if (id_frame == i) {
 					getGameWorld().getMapGame().setCollisionMap(x + 1, y, 0);
@@ -213,62 +229,63 @@ public class AnimatedObject extends Object {
 
 	public void draw(Graphics2D g2) {
 
+//		Rectangle rect = movingHitbox();
+//		int posX1 = rect.x / GameWorld.TILESIZE;
+//	    int posX2 = (rect.x + rect.width - 1) / GameWorld.TILESIZE;
+//	    int posY1 = rect.y / GameWorld.TILESIZE;
+//	    int posY2 = (rect.y + rect.height - 1) / GameWorld.TILESIZE;
+//
+//	    posX1 = Math.max(0, posX1);
+//	    posY1 = Math.max(0, posY1);
+//	    posX2 = Math.min(getGameWorld().getMapGame().getWallMap()[0].length - 1, posX2);
+//	    posY2 = Math.min(getGameWorld().getMapGame().getWallMap().length - 1, posY2);
+//	    
+//	    for(int x=posX1; x<=posX2; ++x) {
+//	    	for(int y=posY1; y<=posY2; ++y) {
+//	    		getGameWorld().getMapGame().drawTileset(g2, MapGame.OUTSIDE, 	getGameWorld().getMapGame().getOutsideMap(),	y, x);
+//	    		getGameWorld().getMapGame().drawTileset(g2, MapGame.INSIDE,		getGameWorld().getMapGame().getInsideMap(),		y, x);
+//	    		getGameWorld().getMapGame().drawTileset(g2, MapGame.WALL, 		getGameWorld().getMapGame().getWallMap(),		y, x);
+//	    		getGameWorld().getMapGame().drawTileset(g2, MapGame.OBJECT, 	getGameWorld().getMapGame().getLadderMap(), 	y, x);
+//	    		getGameWorld().getMapGame().drawTileset(g2, MapGame.OBJECT, 	getGameWorld().getMapGame().getObjectMap(), 	y, x);
+//	    	}
+//	    }
 
 		if (id >= 0) {
-			Rectangle rect = movingHitbox();
-			g2.setColor(Color.BLUE);
-			g2.drawRect(rect.x, rect.y, rect.width, rect.height);
-			
-			animation.draw((int)getPosX(), (int)getPosY(), g2);
-			
-//			animation.draw((int)getPosY(), (int)getPosX(), g2);
-//			animation.setCurrentFrame(1);
-//			g2.drawImage(animation.getCurrentImage(), (int) (getPosX()), (int) (getPosY()), null);
-//			
-			return;
+			drawMovingHitbox(g2);
 		}
-		
-		animation.draw((int)getPosX(), (int)getPosY(), g2);
-//		g2.drawImage(image, x - image.getWidth() / 2, y - image.getHeight() / 2, null);
-		
-//		g2.drawImage(animation.getCurrentImage(), (int) getPosY() * GameWorld.TILESIZE,
-//				(int) getPosX() * GameWorld.TILESIZE, null);
-//		for(int w=0; w<getWidth() / GameWorld.TILESIZE; ++w) {
-//			for(int h=0; h<getHeight() / GameWorld.TILESIZE; ++h) {
-//				getGameWorld().getMapGame().drawTileset(g2, MapGame.INSIDE, getGameWorld().getMapGame().getInsideMap(), (int)getPosX() + h, (int)getPosY() + w);
-//				getGameWorld().getMapGame().drawTileset(g2, MapGame.OBJECT, getGameWorld().getMapGame().getObjectMap(), (int)getPosX() + h, (int)getPosY() + w);
-//			}
-//		}
 
-//		for(int w=0; w<getWidth() / GameWorld.TILESIZE; ++w) {
-//			for(int h=0; h<getHeight() / GameWorld.TILESIZE; ++h) {
-//				getGameWorld().getMapGame().drawTileset(g2, MapGame.WALL, getGameWorld().getMapGame().getWallMap(), (int)getPosX() + h, (int)getPosY() + w);
-//			}
-//		}
+		animation.draw((int) getPosX(), (int) getPosY(), g2);
 	}
 
 	@Override
 	public void beHurt(int damageGet) {
-		int magicNumber = 3;
-		
+		if (getState() == NOBEHURT) {
+			return;
+		}
+		setState(NOBEHURT);
+		startTimeNoBeHurt = System.nanoTime();
+
+		int magicNumber = 5;
+
 		if (id >= 0) {
+
 			int deltaY = animation.getCurrentFrameImages().getImageHeight();
+			setHealth(getHealth() - damageGet);
+//			setSpeedX(0);
+//			setPosX(getPosX() + getSpeedX());	
 			
-//			setHealth(getHealth() - damageGet);
-			setHealth(0);
-			
-			if (getHealth() == 0) {
+			if (getHealth() <= 0) {
 				animation.setCurrentFrame(2);
 				deltaY -= animation.getCurrentFrameImages().getImageHeight() + magicNumber;
-				if(deltaY > 3) {
+				if (deltaY >= magicNumber) {
 					setPosY(getPosY() + deltaY);
 				}
-				
+
 			} else if (getHealth() <= 0.75 * maxHealth) {
 				animation.setCurrentFrame(1);
 				deltaY -= animation.getCurrentFrameImages().getImageHeight();
 				setPosY(getPosY() + deltaY);
-				
+
 			} else {
 				animation.setCurrentFrame(0);
 			}
