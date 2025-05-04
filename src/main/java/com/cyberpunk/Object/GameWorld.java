@@ -86,7 +86,7 @@ public class GameWorld{
 		animatedObjectManager.dropBox(pointX, pointY, System.nanoTime());
 		animatedObjectManager.UpdateObjects();
 		
-		P1.Update();
+//		P1.Update();
 		P2.Update();
 	}
 	

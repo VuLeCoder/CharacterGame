@@ -53,12 +53,16 @@ public class InputManager {
         switch(key) {
         	case KeyConfig.UP:
         		player.jump();
-//				if(player.isClimbing()) player.climb(-1.5f);
+        		
+				if(player.isClimbing()) {
+					player.climbUp();
+				}
         		break;
         		
         	case KeyConfig.LEFT:
         		if(!movingDir.contains(KeyConfig.LEFT)) {
         			movingDir.push(KeyConfig.LEFT);
+//        			player.isRunning = false;
         		}
 				UpdateMoving();
         		break;
@@ -66,12 +70,18 @@ public class InputManager {
         	case KeyConfig.RIGHT:
         		if(!movingDir.contains(KeyConfig.RIGHT)) {
         			movingDir.push(KeyConfig.RIGHT);
+//        			player.isRunning = false;
         		}
 				UpdateMoving();
         		break;
         		
         	case KeyConfig.DOWN:
-        		player.sitDown();
+        		if(player.isClimbing()) {
+					player.climbDown();
+					break;
+				}
+        		
+				player.sitDown();	
         		break;
         		
         	case KeyConfig.ATTACK:
@@ -83,6 +93,9 @@ public class InputManager {
     private void keyReleased(int key) {
     	switch(key) {
 	    	case KeyConfig.UP:
+	    		if(player.isClimbing()) {
+	    			player.stopClimb();
+	    		}
 	    		break;
 	    		
 	    	case KeyConfig.LEFT:
@@ -96,6 +109,12 @@ public class InputManager {
 	    		break;
 	    		
 	    	case KeyConfig.DOWN:
+	    		if(player.isClimbing()) {
+	    			player.stopClimb();
+	    			break;
+	    		}
+	    		
+	    		player.standUp();
 	    		break;
 	    		
 	    	case KeyConfig.ATTACK:
@@ -103,21 +122,34 @@ public class InputManager {
 	    }
     }
 
-    public void UpdateMoving() {
-		if(movingDir.isEmpty()) {
-			player.stopRun();
-		} else {
-			if(movingDir.peek() == HumanObject.LEFT_DIR) {
-				player.setDirection(HumanObject.LEFT_DIR);
-			} else {
-				player.setDirection(HumanObject.RIGHT_DIR);
-			}
-			player.run();
-		}
-		
-//		if(atttack) gameWorld.baseCharacter.attack();
-	}
+//    public void UpdateMoving() {
+//		if(movingDir.isEmpty()) {
+//			player.stopRun();
+//		} else {
+//			if(movingDir.peek() == HumanObject.LEFT_DIR) {
+//				player.setDirection(HumanObject.LEFT_DIR);
+//			} else {
+//				player.setDirection(HumanObject.RIGHT_DIR);
+//			}
+//			player.run();
+//		}
+//		
+////		if(atttack) gameWorld.baseCharacter.attack();
+//	}
 
+    public void UpdateMoving() {
+        boolean hasLeft = movingDir.contains(HumanObject.LEFT_DIR);
+        boolean hasRight = movingDir.contains(HumanObject.RIGHT_DIR);
+        
+        if(movingDir.isEmpty() || (hasLeft && hasRight)) {
+        	player.stopRun();
+        } else {
+        	player.setDirection(movingDir.peek());
+            player.run();
+        }
+    }
+
+    
     // Cho phép đổi phím nếu muốn (ví dụ từ menu cài đặt)
     public void setKey(String action, String newKeyName) {
 //        keyBindings.put(action, newKeyName.toUpperCase());

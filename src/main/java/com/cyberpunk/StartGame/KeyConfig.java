@@ -16,6 +16,7 @@ public class KeyConfig {
     public static final int ATTACK 	= 3;
 
     public KeyConfig() {
+    	// Check KeyEvent.VK_ để rõ :v
     	P1_KeyMap = new HashMap<>();
     	P1_KeyMap.put(UP,		"W");
     	P1_KeyMap.put(DOWN, 	"S");
@@ -28,7 +29,7 @@ public class KeyConfig {
         P2_KeyMap.put(DOWN, 	"DOWN");
         P2_KeyMap.put(LEFT,		"LEFT");
         P2_KeyMap.put(RIGHT,	"RIGHT");
-        P2_KeyMap.put(ATTACK,	",");
+        P2_KeyMap.put(ATTACK,	"COMMA");
     }
 
     public void setKey(int player, int action, String keyName) {
