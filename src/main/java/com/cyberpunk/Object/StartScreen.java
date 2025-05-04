@@ -1,5 +1,7 @@
 package com.cyberpunk.Object;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -49,16 +51,23 @@ public class StartScreen {
 	}
 	
 	public void draw(Graphics2D g2) {
+		// Hoạt cảnh phía sau
 		for(int i=0; i<numberFrame; ++i) {
 			screenAnimation[i].draw(i * tileWidth + tileWidth / 2, tileHeight / 2, g2);
 		}
-		g2.drawImage(logoImage, LOGO_X, LOGO_Y, null);
-		g2.drawImage(buttonImage, BUTTON_X, BUTTON_Y, null);
 		
-//		g2.setColor(Color.ORANGE);
-//		g2.fillRect(StartScreen.BUTTON_X, StartScreen.BUTTON_Y, StartScreen.BUTTON_WIDTH, StartScreen.BUTTON_HEIGHT);
-
-//		g2.setColor(Color.WHITE);
-//		g2.drawString("START GAME", StartScreen.BUTTON_X + 12, StartScreen.BUTTON_Y + 30);
+		// Phần bảng game
+		g2.drawImage(logoImage, LOGO_X, LOGO_Y, null);
+		g2.setColor(Color.WHITE);
+		Font bigFont = new Font("Arial", Font.PLAIN, 30);
+        g2.setFont(bigFont);
+		g2.drawString("GAME Superfighter lỏ :)))", StartScreen.LOGO_X + 200, StartScreen.LOGO_Y + 120);
+		
+		Font smallFont = new Font("Arial", Font.PLAIN, 24);
+        g2.setFont(smallFont);
+		g2.drawString("Never update :>", StartScreen.LOGO_X + 250, StartScreen.LOGO_Y + 260);
+		
+		// Nút bấm
+		g2.drawImage(buttonImage, BUTTON_X, BUTTON_Y, null);
 	}
 }
