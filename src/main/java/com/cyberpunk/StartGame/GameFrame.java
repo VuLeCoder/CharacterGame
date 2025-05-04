@@ -13,11 +13,6 @@ public class GameFrame extends JFrame{
 
     public static final int SCREEN_WIDTH = 32 * 40 + 18;
     public static final int SCREEN_HEIGHT = 32 * 20 + 45 + GamePanel.posY;
-//    public static final int SCREEN_WIDTH = 576 * 2;
-//    public static final int SCREEN_HEIGHT = 324  * 2 + GamePanel.posY;
-    
-//    public static final int SCREEN_WIDTH_1 = 32 * 20;
-//    public static final int SCREEN_HEIGHT_1 = 32 * 10 + GamePanel.posY;
 
     public GameFrame() {
         Toolkit toolkit = this.getToolkit();
@@ -38,7 +33,6 @@ public class GameFrame extends JFrame{
 
         GamePanel gamePanel = new GamePanel();
         add(gamePanel);
-        this.addKeyListener(gamePanel);
         gamePanel.startGame();
     }
 }

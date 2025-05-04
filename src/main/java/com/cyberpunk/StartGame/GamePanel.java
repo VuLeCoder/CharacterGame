@@ -3,8 +3,6 @@ package com.cyberpunk.StartGame;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -14,7 +12,7 @@ import javax.swing.JPanel;
 import com.cyberpunk.Object.GameWorld;
 import com.cyberpunk.Object.StartScreen;
 
-public class GamePanel extends JPanel implements Runnable, KeyListener {
+public class GamePanel extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
 
 	// Vị trí vẽ map game
@@ -22,8 +20,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 	private Thread gameThread;
 	private boolean isRunning;
-	private InputManager inputManager;
 	public GameWorld gameWorld;
+	public KeyConfig keyConfig;
+	public InputManager inputManager1, inputManager2;
 
 	private long FPS = 60;
 	private long miliSecond = 1000;
@@ -37,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		
 		isRunning = true;
 		gameWorld = new GameWorld();
-		inputManager = new InputManager(gameWorld);
+		keyConfig = new KeyConfig();
 		
 		addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
@@ -68,7 +67,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 				}
 			}
 		});
-
+		
+		
+		this.setFocusable(true);
+		inputManager1 = new InputManager(gameWorld.getP1(), keyConfig.getP1_KeyMap());
+		inputManager1.register(this);
+		
+		inputManager2 = new InputManager(gameWorld.getP2(), keyConfig.getP2_KeyMap());
+		inputManager2.register(this);
 	}
 
 	public void startGame() {
@@ -81,12 +87,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		super.paintComponent(g);
 		g.drawImage(gameWorld.getBufferedImage(), posX, posY, this);
 	}
-
-//    @Override
-//    public void paint(Graphics g) {
-//    	g.drawImage(gameWorld.getBufferedImage(), 0, 0, this);
-//    }
-
+	
 	@Override
 	public void run() {
 		long period = miliSecond * nanoMiliSecond / FPS;
@@ -101,8 +102,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			} else {
 				zoom = 1.0f;
 			}
-//    		System.setProperty("sun.java2d.uiScale", "" + zoom);
-//    		System.out.println(zoom);
 
 			gameWorld.Update();
 			gameWorld.Render(zoom);
@@ -123,19 +122,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 			beginTime = System.nanoTime();
 		}
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		inputManager.processKeyPressed(e.getKeyCode());
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		inputManager.processKeyReleased(e.getKeyCode());
 	}
 }
