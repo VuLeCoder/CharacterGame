@@ -137,39 +137,21 @@ public class BaseCharacter extends HumanObject{
 
 	@Override
 	public void jump() {
+		setSitting(false);
+		
+		if(isClimbing()) {
+			return;
+		}
+		
+		if(getSpeedY() > 0 && getIsOnLadder()) {
+			setClimbing(true);
+			return;
+		}
+		
 		if(!isSingleJumping()) {
 			setSpeedY(JUMP_STRENGTH);
 			// setSingleJumping(true);
 		}
-		
-//		if(isOnGround()) {
-//			setSingleJumping(false);
-//			setDoubleJumping(false);
-//		}
-//		
-//		if(!isSingleJumping() && !isDoubleJumping()) {
-//			setSingleJumping(true);
-//			setSpeedY(-jumpStrength);
-//			
-//			jumpForwardAnim.reset();
-//			jumpBackAnim.reset();
-//			jumpSkillForwardAnim.reset();
-//			jumpSkillBackAnim.reset();
-//			djumpForwardAnim.reset();
-//			djumpBackAnim.reset();
-//
-//			jumpForwardAnim.setIgnoreFrame(3);
-//			jumpBackAnim.setIgnoreFrame(3);
-//			jumpSkillForwardAnim.setIgnoreFrame(3);
-//			jumpSkillBackAnim.setIgnoreFrame(3);
-//			djumpForwardAnim.setIgnoreFrame(5);
-//			djumpBackAnim.setIgnoreFrame(5);
-//			
-//		} else if(!isDoubleJumping()) {
-//			setSingleJumping(false);
-//			setDoubleJumping(true);
-//			setSpeedY(-jumpStrength);
-//		}
 	}
 
 	@Override
@@ -184,82 +166,29 @@ public class BaseCharacter extends HumanObject{
 	@Override
 	public void stopRun() {
 		if(isRunning) {
-		isRunning = false;
-		setSpeedX((Math.abs(getSpeedX()) - Math.abs(HUMAN_RUN_SPEED)) * getDirection());
-		
-		runForwardAnim.reset();
-		runBackAnim.reset();
-		runAttackForwardAnim.reset();
-		runAttackBackAnim.reset();
-		runSkillForwardAnim.reset();
-		runSkillBackAnim.reset();
-		
-		runForwardAnim.setCurrentFrame(1);
-		runBackAnim.setCurrentFrame(1);
-		runAttackForwardAnim.setCurrentFrame(1);
-		runAttackBackAnim.setCurrentFrame(1);
-		runSkillForwardAnim.setCurrentFrame(1);
-		runSkillBackAnim.setCurrentFrame(1);
+			isRunning = false;
+			setSpeedX((Math.abs(getSpeedX()) - Math.abs(HUMAN_RUN_SPEED)) * getDirection());
 		}
 	}
 
 	@Override
 	public void sitDown() {
-		if(!isSingleJumping() && !isDoubleJumping() && !isLanding() && !isSitting()) {
-			setSitting(true);
-			sitdownSkillForwardAnim.reset();
-			sitdownSkillBackAnim.reset();
-			
-			sitdownSkillForwardAnim.setIgnoreFrame(3);
-			sitdownSkillBackAnim.setIgnoreFrame(3);
+		if(isSingleJumping() || isDoubleJumping() || isLanding()) {
+			return;
 		}
+		
+		setSitting(true);
 		
 	}
 
 	@Override
 	public void standUp() {
-		idleForwardAnim.reset();
-		idleBackAnim.reset();
-		
-		sitdownSkillForwardAnim.unIgnoreFrame(3);
-		sitdownSkillBackAnim.unIgnoreFrame(3);
-		
+		setSitting(false);
 	}
 
 	@Override
 	public void attack() {
-		
-		isAttacking = true;
-		if(!isFirstAttack && !isSecondAttack && !isThirdAttack && !isSitting() && !isDoubleJumping()) {
-			isFirstAttack = true;
-//			attack1ForwardAnim.reset();
-//			attack1BackAnim.reset();
-			attack2ForwardAnim.reset();
-			attack2BackAnim.reset();
-			attack3ForwardAnim.reset();
-			attack3BackAnim.reset();
-		} else if(!isSecondAttack && (attack1ForwardAnim.getCurrentFrame() == 3 || attack1BackAnim.getCurrentFrame() == 3)) {
-			isSecondAttack = true;
-			isFirstAttack = false;
-			attack2ForwardAnim.setCurrentFrame(attack1ForwardAnim.getCurrentFrame());
-			attack2BackAnim.setCurrentFrame(attack1BackAnim.getCurrentFrame());
-			attack1ForwardAnim.reset();
-			attack1BackAnim.reset();
-		} else if(!isThirdAttack && (attack2ForwardAnim.isLastFrame() || attack2BackAnim.isLastFrame())) {
-			isSecondAttack = false;
-			isThirdAttack = true;
-		} else if(attack3ForwardAnim.isLastFrame() || attack3BackAnim.isLastFrame()) {
-			isThirdAttack = false;
-//			isFirstAttack = false;
-		}
-		
-		if(isFirstAttack) {
-			
-		} else if(isSecondAttack) {
-			
-		}
-			
-	
+		System.out.println("Attack nè");
 	}
 	
 	@Override
@@ -280,6 +209,12 @@ public class BaseCharacter extends HumanObject{
 		g2.setColor(Color.BLUE);
 		g2.drawRect(rect.x, rect.y, rect.width, rect.height);
 		attack1ForwardAnim.draw((int)getPosX(), (int)getPosY(), g2);
+	}
+
+	@Override
+	public Rectangle attackHitbox() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
