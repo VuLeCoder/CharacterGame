@@ -142,32 +142,72 @@ public class AnimatedObject extends Object {
 
 			setPosX(getPosX() + getSpeedX());
 			setPosY(getPosY() + getSpeedY());
-			Rectangle boundForCollisionWithMapFuture, hitBox;
+			Rectangle boundForCollisionWithMapFuture;
+			CollisionResult hitBox;
+
+			// Va chạm với đất
+			if (isOnTransportLeft()) {
+				setSpeedX(getSpeedX() - AnimatedObject.TRANSPORT_SPEED * Object.LEFT_DIR);
+				setOnTransportLeft(false);
+			}
 
 			boundForCollisionWithMapFuture = movingHitbox();
 			boundForCollisionWithMapFuture.y += (getSpeedY() != 0 ? getSpeedY() : 2);
 			hitBox = getGameWorld().getMapGame().haveCollisionWithLand(boundForCollisionWithMapFuture, this);
-			if (hitBox == null) {
-				setSpeedY(getSpeedY() + getMass());
-			} else {
-				setPosY(hitBox.y - getHeight() / 2);
-				setSpeedY(0);
+
+			switch (hitBox.getCollisionWithTile()) {
+				case MapGame.TRANSPORT_LEFT_TILE:
+					setOnTransportLeft(true);
+					setSpeedX(getSpeedX() + AnimatedObject.TRANSPORT_SPEED * Object.LEFT_DIR);
+	
+				case MapGame.WALL_TILE:
+				case MapGame.PLATFORM_TILE:
+					setPosY(hitBox.getCollisionRect().y - getHeight() / 2);
+					setSpeedY(0);
+					break;
+	
+				case MapGame.DEATH_TILE:
+					setPosY(hitBox.getCollisionRect().y - getHeight() / 2);
+					setSpeedY(0);
+					setHealth(-1000);
+					break;
+	
+				default:
+					setSpeedY(getSpeedY() + getMass());
+					break;
 			}
 
-			getGameWorld().getMapGame().haveCollisionWithTop(movingHitbox(), this);
+			// Va chạm với trên đầu
+			hitBox = getGameWorld().getMapGame().haveCollisionWithTop(movingHitbox());
+			if(hitBox.getCollisionWithTile() == MapGame.HAMMER_TILE) {
+				beHurt(20);
+			}
 
+			// Va chạm với bên trái
 			hitBox = getGameWorld().getMapGame().haveCollisionWithWallLeft(movingHitbox());
-			if (hitBox != null) {
-				if (getSpeedX() * Object.LEFT_DIR > 0 || getWidth() < GameWorld.TILESIZE) {
+			switch (hitBox.getCollisionWithTile()) {
+				case MapGame.WALL_TILE:
+				case MapGame.TRANSPORT_LEFT_TILE:
+					setSpeedX(0);
+					setPosX(hitBox.getCollisionRect().x + hitBox.getCollisionRect().width + getWidth() / 2);
+					break;
+	
+				case MapGame.HAMMER_TILE:
 					setPosX(getPosX() - getSpeedX());
-				}
+					break;
 			}
 
 			hitBox = getGameWorld().getMapGame().haveCollisionWithWallRight(movingHitbox());
-			if (hitBox != null) {
-				if (getSpeedX() * Object.RIGHT_DIR > 0 || getWidth() < GameWorld.TILESIZE) {
+			switch (hitBox.getCollisionWithTile()) {
+				case MapGame.WALL_TILE:
+				case MapGame.TRANSPORT_LEFT_TILE:
+					setSpeedX(0);
+					setPosX(hitBox.getCollisionRect().x - getWidth() / 2 - 1);
+					break;
+	
+				case MapGame.HAMMER_TILE:
 					setPosX(getPosX() - getSpeedX());
-				}
+					break;
 			}
 
 			return;
@@ -273,7 +313,7 @@ public class AnimatedObject extends Object {
 			setHealth(getHealth() - damageGet);
 //			setSpeedX(0);
 //			setPosX(getPosX() + getSpeedX());	
-			
+
 			if (getHealth() <= 0) {
 				animation.setCurrentFrame(2);
 				deltaY -= animation.getCurrentFrameImages().getImageHeight() + magicNumber;

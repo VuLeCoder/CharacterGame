@@ -49,7 +49,6 @@ public abstract class HumanObject extends Object{
 		
 		beginTime = System.nanoTime();
 		setMass(HUMAN_WEIGHT);
-		
 	}
 
 	public boolean isSitting() {
@@ -66,11 +65,6 @@ public abstract class HumanObject extends Object{
 	
 	public void setOnLadder(boolean status) {
 		isOnLadder = status;
-		if(status) {
-			setSpeedY(0);
-		} else {
-			setClimbing(false);
-		}
 	}
 
 	public boolean isClimbing() {
@@ -185,48 +179,19 @@ public abstract class HumanObject extends Object{
 	}
 	
 	public void climbUp() {
-		isClimbing = true;
 		setSpeedY(-2);
 	}
 	
 	public void climbDown() {
-		isClimbing = true;
 		setSpeedY(2);
 	}
 	
 	public void stopClimb() {
-		isClimbing = false;
 		setSpeedY(0);
-	}
-	
-	public static final int x = 0;
-	public static final int y = 0;
-	public static final int z = 0;
-	public static final int t = 0;
-	
-	@Override
-	public Rectangle attackHitbox() {
-		Rectangle rect = movingHitbox();
-
-		if(isSitting) {
-			rect.x = (int) getPosX() - 12;
-			rect.y = (int) getPosY() - 18;
-			rect.width = 24;
-			rect.height = 36;
-			
-		} else {
-			rect.x = (int) getPosX() - 12;
-			rect.y = (int) getPosY() - 24;
-			rect.width = 24;
-			rect.height = 48;
-		}
-		
-		return rect;
 	}
 
 	@Override
 	public void beHurt(int damageGet) {
-		
 		setHealth(getHealth() - damageGet);
 		setState(BEHURT);
 	}
@@ -237,66 +202,121 @@ public abstract class HumanObject extends Object{
 		
 		Rectangle boundForCollisionWithLadder = getGameWorld().getMapGame().haveCollisionWithLadder(movingHitbox());
 		if(boundForCollisionWithLadder != null) {
-			if(!isOnLadder) {
-				setOnLadder(true);
-			}
+			setOnLadder(true);
 		} else {
 			setOnLadder(false);
+			setClimbing(false);
 		}
 		
-		if(getIsOnLadder() && isClimbing()) {
-			setPosX(boundForCollisionWithLadder.x + boundForCollisionWithLadder.width / 2 + 3);
+		if (isClimbing && getSpeedY() != 0) {
+		    setPosX(boundForCollisionWithLadder.x + boundForCollisionWithLadder.width / 2 + 3);
+		} else {
+		    setPosX(getPosX() + getSpeedX());
 		}
-			
-		if(!isClimbing) {
-			setPosX(getPosX() + getSpeedX());
-		}
+
 		setPosY(getPosY() + getSpeedY());
 		
-		Rectangle boundForCollisionWithMapFuture, hitBox;
+		UpdateLeftRight();
+		UpdateTop();
+		UpdateLand();
+	}
+	
+	private void UpdateLeftRight() {
+		Rectangle boundForCollisionWithMapFuture;
+		CollisionResult hitBox;
 		
 		boundForCollisionWithMapFuture = movingHitbox();
 		boundForCollisionWithMapFuture.y -= 1;
-		// boundForCollisionWithMapFuture.x += (getSpeedX()* Object.LEFT_DIR > 0 ? getSpeedX() * Object.LEFT_DIR : -1);
 		hitBox = getGameWorld().getMapGame().haveCollisionWithWallLeft(boundForCollisionWithMapFuture);
-		if (hitBox != null) {
-			if(getSpeedX() * Object.LEFT_DIR > 0) {
-				setPosX(hitBox.x + hitBox.width + getWidth() / 2);
-			}
+		switch(hitBox.getCollisionWithTile()) {
+			case MapGame.WALL_TILE:
+			case MapGame.TRANSPORT_LEFT_TILE:
+				if(getSpeedX() * Object.LEFT_DIR > 0) {
+					setPosX(hitBox.getCollisionRect().x + hitBox.getCollisionRect().width + getWidth() / 2 + 1);
+				}
+				break;
+				
+			case MapGame.PLATFORM_TILE:
+				startDrop(System.nanoTime());
+				break;
 		}
 		
 		boundForCollisionWithMapFuture = movingHitbox();
 		boundForCollisionWithMapFuture.y -= 1;
-		//		boundForCollisionWithMapFuture.x += (getSpeedX() != 0 ? getSpeedX() * Object.RIGHT_DIR : 1);
 		hitBox = getGameWorld().getMapGame().haveCollisionWithWallRight(boundForCollisionWithMapFuture);
-		if (hitBox != null) {
-			if(getSpeedX() * Object.RIGHT_DIR > 0) {
-				setPosX(hitBox.x - getWidth() / 2 - 1);
-			}
+		switch(hitBox.getCollisionWithTile()) {
+			case MapGame.WALL_TILE:
+			case MapGame.TRANSPORT_LEFT_TILE:
+				if(getSpeedX() * Object.RIGHT_DIR > 0) {
+					setPosX(hitBox.getCollisionRect().x - getWidth() / 2 - 1);
+				}
+				break;
+				
+			case MapGame.PLATFORM_TILE:
+				startDrop(System.nanoTime());
+				break;
 		}
+	}
+	
+	private void UpdateTop() {
+		Rectangle boundForCollisionWithMapFuture = movingHitbox();
+		boundForCollisionWithMapFuture.y += (getSpeedY() != 0 ? getSpeedY() : -1);
+		CollisionResult hitBox = getGameWorld().getMapGame().haveCollisionWithTop(boundForCollisionWithMapFuture);
 		
-		boundForCollisionWithMapFuture = movingHitbox();
+		switch (hitBox.getCollisionWithTile()) {
+			case MapGame.WALL_TILE:
+				setPosY(hitBox.getCollisionRect().y + 3 * getHeight() / 2);
+				setSpeedY(0);				
+				break;
+				
+			case MapGame.HAMMER_TILE:
+				break;
+		}
+	}
+	
+	private void UpdateLand() {
+		if (isOnTransportLeft()) {
+			setSpeedX(getSpeedX() - AnimatedObject.TRANSPORT_SPEED * Object.LEFT_DIR);
+			setOnTransportLeft(false);
+		}
+
+		Rectangle boundForCollisionWithMapFuture = movingHitbox();
 		boundForCollisionWithMapFuture.y += (getSpeedY() != 0 ? getSpeedY() : 2);
-		hitBox = getGameWorld().getMapGame().haveCollisionWithLand(boundForCollisionWithMapFuture, this);
-		if (hitBox == null) {
-			if(!getIsOnLadder()) {
+		CollisionResult hitBox = getGameWorld().getMapGame().haveCollisionWithLand(boundForCollisionWithMapFuture, this);
+
+		switch (hitBox.getCollisionWithTile()) {
+			case MapGame.TRANSPORT_LEFT_TILE:
+				if(isClimbing()) {
+					break;
+				}
+ 				setOnTransportLeft(true);
+				setSpeedX(getSpeedX() + AnimatedObject.TRANSPORT_SPEED * Object.LEFT_DIR);
+
+			case MapGame.PLATFORM_TILE:
+				if(getIsDrop()) {
+					setSpeedY(getSpeedY() + getMass());
+					break;
+				}
+				
+			case MapGame.WALL_TILE:
+				if(getSpeedY() > 0) {
+					setPosY(hitBox.getCollisionRect().y - getHeight() / 2);
+					setSpeedY(0);
+				}
+				break;
+
+			case MapGame.DEATH_TILE:
+				setPosY(hitBox.getCollisionRect().y - getHeight() / 2);
+				setSpeedY(0);
+				setHealth(-1000);
+				break;
+
+			default:
+				if(isClimbing()) {
+					break;
+				}
 				setSpeedY(getSpeedY() + getMass());
-			}
-		} else {
-			if(getSpeedY() > 0) {
-				setPosY(hitBox.y - (getHeight()) / 2);
-				setSpeedY(0);
-			}
-		}
-		
-		if(!getIsOnLadder()) {
-			boundForCollisionWithMapFuture = movingHitbox();
-			boundForCollisionWithMapFuture.y += (getSpeedY() != 0 ? getSpeedY() : -1);
-			hitBox = getGameWorld().getMapGame().haveCollisionWithTop(boundForCollisionWithMapFuture, this);
-			if(hitBox != null) {
-				setPosY(hitBox.y + 3 * getHeight() / 2);
-				setSpeedY(0);
-			}
+				break;
 		}
 	}
 	
