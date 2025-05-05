@@ -10,8 +10,6 @@ import com.cyberpunk.Effect.DataLoader;
 public class BaseCharacter extends HumanObject{
 	public String name;
 	
-	public static final float JUMP_STRENGTH = -3f;
-	
 	public boolean isRunning;
 	private boolean isAttacking;
 	private boolean isFirstAttack, isSecondAttack, isThirdAttack;
@@ -138,6 +136,7 @@ public class BaseCharacter extends HumanObject{
 	@Override
 	public void jump() {
 		setSitting(false);
+//		setOnGround(false);
 		
 		if(isClimbing()) {
 			return;
@@ -148,9 +147,14 @@ public class BaseCharacter extends HumanObject{
 			return;
 		}
 		
-		if(!isSingleJumping()) {
+		if(!isSingleJumping() && !isDoubleJumping()) {
+			setSingleJumping(true);
 			setSpeedY(JUMP_STRENGTH);
-			// setSingleJumping(true);
+			
+		} else if(!isDoubleJumping()) {
+			setSingleJumping(false);
+			setDoubleJumping(true);
+			setSpeedY(JUMP_STRENGTH);
 		}
 	}
 
@@ -172,13 +176,26 @@ public class BaseCharacter extends HumanObject{
 	}
 
 	@Override
-	public void sitDown() {
+	public void sitDown(long time) {
+		if(isClimbing()) {
+			return;
+		}
+		
+		if(getSpeedY() > 0 && getIsOnLadder()) {
+			setClimbing(true);
+			return;
+		}
+		
 		if(isSingleJumping() || isDoubleJumping() || isLanding()) {
 			return;
 		}
 		
-		setSitting(true);
-		
+		if(time - getStartSittingTime() > DOUBLE_CLICK_THRESHOLD) {
+			setSitting(true);
+		} else {
+			startDrop(time);
+		}
+		setStartSittingTime(time);
 	}
 
 	@Override
