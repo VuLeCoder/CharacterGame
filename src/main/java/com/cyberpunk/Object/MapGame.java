@@ -55,7 +55,7 @@ public class MapGame {
 	}
 
 	public void draw(Graphics2D g2) {
-		// drawMap(g2, "", collisionMap);
+//		 drawMap(g2, "", collisionMap);
 		drawMap(g2, OUTSIDE, outsideMap);
 		drawMap(g2, INSIDE, insideMap);
 		drawMap(g2, WALL, wallMap);
@@ -114,13 +114,7 @@ public class MapGame {
 		Rectangle tileRect;
 		int tile;
 
-//		if(object.isOnTransportLeft()) {
-//			object.setSpeedX(object.getSpeedX() - AnimatedObject.TRANSPORT_SPEED * Object.LEFT_DIR);
-//			object.setOnTransportLeft(false);
-//		}
-
 		for (int y = posY; y < getCollisionMap().length; ++y) {
-//		int y = posY;
 			for (int x = posX1; x <= posX2; ++x) {
 
 				tileRect = new Rectangle(x * GameWorld.TILESIZE, y * GameWorld.TILESIZE, GameWorld.TILESIZE,
@@ -153,11 +147,6 @@ public class MapGame {
 				}
 			}
 		}
-
-//		if(object.isOnTransportLeft()) {
-//			object.setSpeedX(object.getSpeedX() + AnimatedObject.TRANSPORT_SPEED * Object.LEFT_DIR);
-//		}
-
 		return collisionRect;
 	}
 
