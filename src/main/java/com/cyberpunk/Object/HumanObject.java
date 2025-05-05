@@ -6,16 +6,22 @@ import com.cyberpunk.Effect.Animation;
 import com.cyberpunk.StartGame.GameFrame;
 
 public abstract class HumanObject extends Object{
-	public static final float JUMP_STRENGTH = -3f;
+	public static final float JUMP_STRENGTH = -3.8f;
 	public static final int HUMAN_HEIGHT = 34;
 	public static final int HUMAN_WIDTH = 21;
-	public static final float HUMAN_WEIGHT = 0.15f;
+	public static final float HUMAN_WEIGHT = 0.2f;
 	public static final float HUMAN_RUN_SPEED = 2.5f;
 	public static final float HUMAN_WALK_SPEED = 2f;
-	public static final long TIME_TO_CHANGE_DROP_STATE = 400000000L;
 	
+//	public static final long TIME_TO_CHANGE_DROP_STATE = 0000000L;
+	public static final long TIME_TO_CHANGE_DROP_STATE = 320000000L;
 	private boolean isDrop = false;
+	private long startDropTime = 0;
+	
+	public static final long DOUBLE_CLICK_THRESHOLD = 250000000L;
 	private boolean isSitting = false;
+	private long startSittingTime = 0;
+	
 	private boolean isOnLadder, isClimbing;
 	private boolean isDoubleJumping = false;
 	private boolean isSingleJumping = false;
@@ -25,7 +31,6 @@ public abstract class HumanObject extends Object{
 	
 	private long noBeHurtDuration = 500000000L;
 	private long noBeHurtStart;
-	private long beginTime = 0;
 	
 	private Animation hurtForwardAnim, hurtBackAnim;
 	
@@ -47,7 +52,7 @@ public abstract class HumanObject extends Object{
 			 setTeamType(P1_TEAM);
 		}
 		
-		beginTime = System.nanoTime();
+		startDropTime = System.nanoTime();
 		setMass(HUMAN_WEIGHT);
 	}
 
@@ -59,6 +64,14 @@ public abstract class HumanObject extends Object{
 		this.isSitting = isSitting;
 	}
 	
+	public long getStartSittingTime() {
+		return startSittingTime;
+	}
+
+	public void setStartSittingTime(long startSittingTime) {
+		this.startSittingTime = startSittingTime;
+	}
+
 	public boolean getIsOnLadder() {
 		return isOnLadder;
 	}
@@ -105,6 +118,12 @@ public abstract class HumanObject extends Object{
 
 	public void setOnGround(boolean isOnGround) {
 		this.isOnGround = isOnGround;
+		if(isOnGround) {
+			setSingleJumping(false);
+			setDoubleJumping(false);
+		} else {
+			setSingleJumping(true);
+		}
 	}
 
 	public boolean isPhasing() {
@@ -158,7 +177,7 @@ public abstract class HumanObject extends Object{
 	public abstract void jump();
 	public abstract void run();
 	public abstract void stopRun();
-	public abstract void sitDown();
+	public abstract void sitDown(long time);
 	public abstract void standUp();
 	public abstract void attack();
 	public abstract void stopAttack();
@@ -169,11 +188,11 @@ public abstract class HumanObject extends Object{
 		}
 		
 	    this.isDrop = true;
-	    this.beginTime = time;
+	    this.startDropTime = time;
 	}
 
 	public void updateDropState(long currentTime) {
-	    if (isDrop && currentTime - beginTime >= TIME_TO_CHANGE_DROP_STATE) {
+	    if (isDrop && currentTime - startDropTime >= TIME_TO_CHANGE_DROP_STATE) {
 	        this.isDrop = false;
 	    }
 	}
@@ -216,12 +235,12 @@ public abstract class HumanObject extends Object{
 
 		setPosY(getPosY() + getSpeedY());
 		
-		UpdateLeftRight();
-		UpdateTop();
-		UpdateLand();
+		UpdateColiisionWithMapLeftRight();
+		UpdateColiisionWithMapTop();
+		UpdateColiisionWithMapLand();
 	}
 	
-	private void UpdateLeftRight() {
+	private void UpdateColiisionWithMapLeftRight() {
 		Rectangle boundForCollisionWithMapFuture;
 		CollisionResult hitBox;
 		
@@ -258,7 +277,7 @@ public abstract class HumanObject extends Object{
 		}
 	}
 	
-	private void UpdateTop() {
+	private void UpdateColiisionWithMapTop() {
 		Rectangle boundForCollisionWithMapFuture = movingHitbox();
 		boundForCollisionWithMapFuture.y += (getSpeedY() != 0 ? getSpeedY() : -1);
 		CollisionResult hitBox = getGameWorld().getMapGame().haveCollisionWithTop(boundForCollisionWithMapFuture);
@@ -274,7 +293,9 @@ public abstract class HumanObject extends Object{
 		}
 	}
 	
-	private void UpdateLand() {
+	private void UpdateColiisionWithMapLand() {
+		setOnGround(false);
+		
 		if (isOnTransportLeft()) {
 			setSpeedX(getSpeedX() - AnimatedObject.TRANSPORT_SPEED * Object.LEFT_DIR);
 			setOnTransportLeft(false);
@@ -294,6 +315,7 @@ public abstract class HumanObject extends Object{
 
 			case MapGame.PLATFORM_TILE:
 				if(getIsDrop()) {
+					
 					setSpeedY(getSpeedY() + getMass());
 					break;
 				}
@@ -303,6 +325,7 @@ public abstract class HumanObject extends Object{
 					setPosY(hitBox.getCollisionRect().y - getHeight() / 2);
 					setSpeedY(0);
 				}
+				setOnGround(true);
 				break;
 
 			case MapGame.DEATH_TILE:
