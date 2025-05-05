@@ -76,12 +76,11 @@ public class InputManager {
         		break;
         		
         	case KeyConfig.DOWN:
-        		if(player.isClimbing()) {
-					player.climbDown();
-					break;
-				}
+        		player.sitDown(System.nanoTime());
         		
-				player.sitDown();	
+        		if(player.isClimbing()) {
+        			player.climbDown();
+				}
         		break;
         		
         	case KeyConfig.ATTACK:
