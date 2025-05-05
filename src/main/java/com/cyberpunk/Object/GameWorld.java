@@ -17,7 +17,8 @@ public class GameWorld{
 	
 	private boolean isStartGame = false;
 	private boolean isFirstDrawMap = true;
-	private AnimatedObjectManager animatedObjectManager;
+//	private AnimatedObjectManager animatedObjectManager;
+	private ObjectManager objectManager;
 	
 	private BaseCharacter P1;
 	public BaseCharacter P2;
@@ -27,14 +28,18 @@ public class GameWorld{
 		
 		startScreen = new StartScreen();
 		mapGame = new MapGame();
-
-		P1 = new BaseCharacter(100, 500, "biker", this);
-		P2 = new BaseCharacter(600, 500, "biker", this);
-		
-
 		animatedMap = DataLoader.getInstance().getAnimatedMap();
+
 		
-		animatedObjectManager = new AnimatedObjectManager(this);
+//		animatedObjectManager = new AnimatedObjectManager(this);
+		objectManager = new ObjectManager(this);
+		
+		P1 = new BaseCharacter(100, 500, "biker", this);
+		objectManager.addObject(P1);
+		
+		P2 = new BaseCharacter(600, 500, "biker", this);
+		objectManager.addObject(P2);
+		
 		addAllAnimatedObject();
 	}
 	
@@ -73,7 +78,8 @@ public class GameWorld{
 					continue;
 				}
 				
-				animatedObjectManager.addObject(new AnimatedObject(j * GameWorld.TILESIZE, i * GameWorld.TILESIZE, this, animatedMap[i][j]));
+//				animatedObjectManager.addObject(new AnimatedObject(j * GameWorld.TILESIZE, i * GameWorld.TILESIZE, this, animatedMap[i][j]));
+				objectManager.addObject(new AnimatedObject(j * GameWorld.TILESIZE, i * GameWorld.TILESIZE, this, animatedMap[i][j]));
 			}
 		}
 	}
@@ -83,11 +89,13 @@ public class GameWorld{
 			startScreen.Update();
 			return;
 		}
-		animatedObjectManager.dropBox(pointX, pointY, System.nanoTime());
-		animatedObjectManager.UpdateObjects();
-		
+//		animatedObjectManager.dropBox(pointX, pointY, System.nanoTime());
+//		animatedObjectManager.UpdateObjects();
 //		P1.Update();
-		P2.Update();
+//		P2.Update();
+		
+		objectManager.dropBox(pointX, pointY, System.nanoTime());
+		objectManager.UpdateObjects();
 	}
 	
 	public void Render(float zoom) {
@@ -107,9 +115,10 @@ public class GameWorld{
 //			isFirstDrawMap = false;
 		}
 		
-		animatedObjectManager.draw(g2);
+//		animatedObjectManager.draw(g2);
+//		P1.draw(g2);
+//		P2.draw(g2);
 		
-		P1.draw(g2);
-		P2.draw(g2);
+		objectManager.draw(g2);
 	}
 }
