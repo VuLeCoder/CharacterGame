@@ -276,8 +276,9 @@ public class BaseCharacter extends HumanObject {
 	public void attack() {
 
 		if (getIsRunning()) {
-			setSpeedX(0.7f * getDirection());
-			setRunning(false);
+//			setSpeedX(0.7f * getDirection());
+//			setRunning(false);
+			return;
 		}
 
 		isAttacking = true;
@@ -420,6 +421,17 @@ public class BaseCharacter extends HumanObject {
 
 //		System.out.println(hurtDisplay + " " + getHealth() + " " + getState());
 	}
+	
+	private void drawCharacterAnimation(Animation animForward, Animation animBack, Graphics2D g2, int offsetXForward, int offsetXBack) {
+		long currentTime = System.nanoTime();
+		if (getDirection() == RIGHT_DIR) {
+			animForward.Update(currentTime);
+			animForward.draw((int) getPosX() + offsetXForward, (int) getPosY() - 7, g2);
+		} else {
+			animBack.Update(currentTime);
+			animBack.draw((int) getPosX() + offsetXBack, (int) getPosY() - 7, g2);
+		}
+	}
 
 	@Override
 	public void draw(Graphics2D g2) {
@@ -450,89 +462,53 @@ public class BaseCharacter extends HumanObject {
 		case ALIVE:
 		case NOBEHURT:
 			if (isSitting()) {
+				drawCharacterAnimation(sitdownSkillForwardAnim, sitdownSkillBackAnim, g2, 12, -8);
+				break;
+			}
 
-				if (getDirection() == RIGHT_DIR) {
-					sitdownSkillForwardAnim.Update(System.nanoTime());
-					sitdownSkillForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
-				} else {
-					sitdownSkillBackAnim.Update(System.nanoTime());
-					sitdownSkillBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
-				}
-			} else if (isClimbing()) {
+			if (isClimbing()) {
 				if (getSpeedY() != 0) {
-					if (previousDirY * getSpeedY() < 0) {
-						Collections.reverse(climdAnim.getFrameImages());
-						climdAnim.setCurrentFrame(climdAnim.getFrameImages().size() - 1 - climdAnim.getCurrentFrame());
-						previousDirY *= -1;
-					}
 					climdAnim.Update(System.nanoTime());
-					climdAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
-				} else
-					climdAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
-			} else if (isSingleJumping()) {
-
+				}
+				climdAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
+				break;
+			}
+			
+			if (isSingleJumping()) {
 				System.out.println("Nhảy 1 nè");
-				if (getDirection() == RIGHT_DIR) {
-					jumpForwardAnim.Update(System.nanoTime());
-					jumpForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
-				} else {
-					jumpBackAnim.Update(System.nanoTime());
-					jumpBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
-				}
-			} else if (isDoubleJumping()) {
-				
-				if (getDirection() == RIGHT_DIR) {
-					djumpForwardAnim.Update(System.nanoTime());
-					djumpForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
-				} else {
-					djumpBackAnim.Update(System.nanoTime());
-					djumpBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
-				}
-			} else if (isLanding()) {
+				drawCharacterAnimation(jumpForwardAnim, jumpBackAnim, g2, 12, -8);
+				break;
+			} 
+			
+			if (isDoubleJumping()) {
+				drawCharacterAnimation(djumpForwardAnim, djumpBackAnim, g2, 12, -8);
+				break;
+			} 
+			
+			if (isLanding()) {
 				jumpForwardAnim.setCurrentFrame(2);
 				jumpBackAnim.setCurrentFrame(2);
-				if (getDirection() == RIGHT_DIR)
-					jumpForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
-				else
-					jumpBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
-
-			} else if (isAttacking) {
+				drawCharacterAnimation(jumpForwardAnim, jumpBackAnim, g2, 12, -8);
+				break;
+			}
+			
+			if (isAttacking) {
 				if (isFirstAttack) {
-					if (getDirection() == RIGHT_DIR) {
-						attack1ForwardAnim.Update(System.nanoTime());
-						attack1ForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
-					} else {
-						attack1BackAnim.Update(System.nanoTime());
-						attack1BackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
-					}
+					drawCharacterAnimation(attack1ForwardAnim, attack1BackAnim, g2, 12, -8);
 				} else if (isSecondAttack) {
-					if (getDirection() == RIGHT_DIR) {
-						attack2ForwardAnim.Update(System.nanoTime());
-						attack2ForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
-					} else {
-						attack2BackAnim.Update(System.nanoTime());
-						attack2BackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
-					}
+					drawCharacterAnimation(attack2ForwardAnim, attack2BackAnim, g2, 12, -8);
 				} else if (isThirdAttack) {
-					if (getDirection() == RIGHT_DIR) {
-						attack3ForwardAnim.Update(System.nanoTime());
-						attack3ForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
-					} else {
-						attack3BackAnim.Update(System.nanoTime());
-						attack3BackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
-					}
+					drawCharacterAnimation(attack3ForwardAnim, attack3BackAnim, g2, 12, -8);
 				}
+				break;
+			}
 
-			} else if (getState() == NOBEHURT) {
-				if (getDirection() == RIGHT_DIR) {
-					beHurtForwardAnim.Update(System.nanoTime());
-					beHurtForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
-				} else {
-					beHurtBackAnim.Update(System.nanoTime());
-					beHurtBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
-				}
-			} else if (isOnGround()) {
+			if (getState() == NOBEHURT) {
+				drawCharacterAnimation(beHurtForwardAnim, beHurtBackAnim, g2, 12, -8);
+				break;
+			}
 
+			if (isOnGround()) {
 				if (getSpeedX() > 0) {
 					runForwardAnim.Update(System.nanoTime());
 					runForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
@@ -540,35 +516,165 @@ public class BaseCharacter extends HumanObject {
 					runBackAnim.Update(System.nanoTime());
 					runBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
 				} else {
-					if (getDirection() == RIGHT_DIR) {
-						idleForwardAnim.Update(System.nanoTime());
-						idleForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
-					} else {
-						idleBackAnim.Update(System.nanoTime());
-						idleBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
-					}
+					drawCharacterAnimation(idleForwardAnim, idleBackAnim, g2, 12, -8);
 				}
-			} else {
-				System.out.println("Ảo thật đấy");
+				break;
 			}
 
+//			System.out.println("Ảo thật đấy");
+			drawCharacterAnimation(jumpForwardAnim, jumpBackAnim, g2, 12, -8);
 			break;
 
 		case DEATH:
-			if (getDirection() == RIGHT_DIR) {
-				deathForwardAnim.Update(System.nanoTime());
-				deathForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
-			} else {
-				deathBackAnim.Update(System.nanoTime());
-				deathBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
-			}
+			drawCharacterAnimation(deathForwardAnim, deathBackAnim, g2, 12, -8);
 			break;
-		default:
-			break;
-
 		}
-
 	}
+	
+//	@Override
+//	public void draw(Graphics2D g2) {
+//
+////		drawAttackHitbox(g2);
+//		drawMovingHitbox(g2);
+//		g2.setColor(Color.black);
+//		g2.drawRect((int) getPosX(), (int) getPosY(), 1, 1);
+//
+////		drawHealthBar(g2);
+//
+//		if (getState() == NOBEHURT) {
+//			if (getState() != DEATH) {
+//
+//				if (hurtDisplay < 5)
+//					hurtDisplay++;
+//				else {
+//					hurtDisplay++;
+//					if (hurtDisplay > 9)
+//						hurtDisplay = 0;
+//					return;
+//				}
+//			} else
+//				hurtDisplay = 0;
+//		}
+//
+//		switch (getState()) {
+//		case ALIVE:
+//		case NOBEHURT:
+//			if (isSitting()) {
+//
+//				if (getDirection() == RIGHT_DIR) {
+//					sitdownSkillForwardAnim.Update(System.nanoTime());
+//					sitdownSkillForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
+//				} else {
+//					sitdownSkillBackAnim.Update(System.nanoTime());
+//					sitdownSkillBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
+//				}
+//			} else if (isClimbing()) {
+//				if (getSpeedY() != 0) {
+//					if (previousDirY * getSpeedY() < 0) {
+//						Collections.reverse(climdAnim.getFrameImages());
+//						climdAnim.setCurrentFrame(climdAnim.getFrameImages().size() - 1 - climdAnim.getCurrentFrame());
+//						previousDirY *= -1;
+//					}
+//					climdAnim.Update(System.nanoTime());
+//					climdAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
+//				} else
+//					climdAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
+//			} else if (isSingleJumping()) {
+//
+//				System.out.println("Nhảy 1 nè");
+//				if (getDirection() == RIGHT_DIR) {
+//					jumpForwardAnim.Update(System.nanoTime());
+//					jumpForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
+//				} else {
+//					jumpBackAnim.Update(System.nanoTime());
+//					jumpBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
+//				}
+//			} else if (isDoubleJumping()) {
+//				
+//				if (getDirection() == RIGHT_DIR) {
+//					djumpForwardAnim.Update(System.nanoTime());
+//					djumpForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
+//				} else {
+//					djumpBackAnim.Update(System.nanoTime());
+//					djumpBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
+//				}
+//			} else if (isLanding()) {
+//				jumpForwardAnim.setCurrentFrame(2);
+//				jumpBackAnim.setCurrentFrame(2);
+//				if (getDirection() == RIGHT_DIR)
+//					jumpForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
+//				else
+//					jumpBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
+//
+//			} else if (isAttacking) {
+//				if (isFirstAttack) {
+//					if (getDirection() == RIGHT_DIR) {
+//						attack1ForwardAnim.Update(System.nanoTime());
+//						attack1ForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
+//					} else {
+//						attack1BackAnim.Update(System.nanoTime());
+//						attack1BackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
+//					}
+//				} else if (isSecondAttack) {
+//					if (getDirection() == RIGHT_DIR) {
+//						attack2ForwardAnim.Update(System.nanoTime());
+//						attack2ForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
+//					} else {
+//						attack2BackAnim.Update(System.nanoTime());
+//						attack2BackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
+//					}
+//				} else if (isThirdAttack) {
+//					if (getDirection() == RIGHT_DIR) {
+//						attack3ForwardAnim.Update(System.nanoTime());
+//						attack3ForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
+//					} else {
+//						attack3BackAnim.Update(System.nanoTime());
+//						attack3BackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
+//					}
+//				}
+//
+//			} else if (getState() == NOBEHURT) {
+//				if (getDirection() == RIGHT_DIR) {
+//					beHurtForwardAnim.Update(System.nanoTime());
+//					beHurtForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
+//				} else {
+//					beHurtBackAnim.Update(System.nanoTime());
+//					beHurtBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
+//				}
+//			} else if (isOnGround()) {
+//
+//				if (getSpeedX() > 0) {
+//					runForwardAnim.Update(System.nanoTime());
+//					runForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
+//				} else if (getSpeedX() < 0) {
+//					runBackAnim.Update(System.nanoTime());
+//					runBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
+//				} else {
+//					if (getDirection() == RIGHT_DIR) {
+//						idleForwardAnim.Update(System.nanoTime());
+//						idleForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
+//					} else {
+//						idleBackAnim.Update(System.nanoTime());
+//						idleBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
+//					}
+//				}
+//			} else {
+//				System.out.println("Ảo thật đấy");
+//			}
+//
+//			break;
+//
+//		case DEATH:
+//			if (getDirection() == RIGHT_DIR) {
+//				deathForwardAnim.Update(System.nanoTime());
+//				deathForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
+//			} else {
+//				deathBackAnim.Update(System.nanoTime());
+//				deathBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
+//			}
+//			break;
+//		}
+//	}
 
 	@Override
 	public Rectangle attackHitbox() {
