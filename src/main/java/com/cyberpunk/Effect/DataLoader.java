@@ -44,7 +44,7 @@ public class DataLoader {
 	private final String animationObject = "data/map/animatedObject/animationObject.txt";
 	
 	// charater
-	private final String bikerFramefile = "data/character/biker/frame_3.txt";
+	private final String bikerFramefile = "data/character/biker/frame.txt";
  	private final String bikerObject = "data/character/biker/animation.txt";
 	
 	private Hashtable<String, FrameImage> frameImages = null;

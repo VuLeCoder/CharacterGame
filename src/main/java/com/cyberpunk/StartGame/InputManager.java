@@ -50,6 +50,7 @@ public class InputManager {
     }
 
     private void keyPressed(int key) {
+    	
         switch(key) {
         	case KeyConfig.UP:
         		player.jump();
@@ -117,6 +118,7 @@ public class InputManager {
 	    		break;
 	    		
 	    	case KeyConfig.ATTACK:
+	    		player.stopAttack();
 	    		break;
 	    }
     }
