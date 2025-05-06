@@ -63,6 +63,10 @@ public class GameWorld{
 		return mapGame;
 	}
 	
+	public ObjectManager getObjectManager() {
+		return objectManager;
+	}
+	
 	public BaseCharacter getP1() {
 		return P1;
 	}
@@ -79,7 +83,7 @@ public class GameWorld{
 				}
 				
 //				animatedObjectManager.addObject(new AnimatedObject(j * GameWorld.TILESIZE, i * GameWorld.TILESIZE, this, animatedMap[i][j]));
-				objectManager.addObject(new AnimatedObject(j * GameWorld.TILESIZE, i * GameWorld.TILESIZE, this, animatedMap[i][j]));
+				objectManager.addObject(new MapObject(j * GameWorld.TILESIZE, i * GameWorld.TILESIZE, this, animatedMap[i][j]));
 			}
 		}
 	}
@@ -112,7 +116,7 @@ public class GameWorld{
 //		g2.scale(2f, 2f);
 		if(isFirstDrawMap) {
 			mapGame.draw(g2);
-//			isFirstDrawMap = false;
+			isFirstDrawMap = false;
 		}
 		
 //		animatedObjectManager.draw(g2);
