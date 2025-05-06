@@ -3,6 +3,7 @@ package com.cyberpunk.Object;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 import com.cyberpunk.Effect.DataLoader;
 
@@ -31,6 +32,7 @@ public class MapGame {
 
 	private int[][] collisionMap;
 
+	private BufferedImage cachedMapImage;
 	public MapGame() {
 		outsideMap = DataLoader.getInstance().getOutsideMap();
 		insideMap = DataLoader.getInstance().getInsideMap();
@@ -39,6 +41,8 @@ public class MapGame {
 		wallMap = DataLoader.getInstance().getWallMap();
 
 		collisionMap = DataLoader.getInstance().getCollisionMap();
+		
+		buildCachedMapImage();
 	}
 
 	private void drawMap(Graphics2D g2, String name, int[][] Map) {
@@ -215,14 +219,19 @@ public class MapGame {
 	}
 
 	public CollisionResult haveCollisionWithTop(Rectangle rect) {
+		int posY = rect.y / GameWorld.TILESIZE;
+		if(posY >= getCollisionMap().length) {
+			return new CollisionResult();
+		}
+		
 		int posX1 = (rect.x + 2) / GameWorld.TILESIZE;
 		int posX2 = (rect.x + rect.width - 2) / GameWorld.TILESIZE;
-		int posY = rect.y / GameWorld.TILESIZE;
 
 		posX1 = Math.max(0, posX1);
 		posX2 = Math.min(getCollisionMap()[0].length - 1, posX2);
 		
 		CollisionResult collisionRect = new CollisionResult();
+		
 		Rectangle tileRect;
 		int tile;
 
@@ -302,5 +311,33 @@ public class MapGame {
 	public int[][] getCollisionMap() {
 		return collisionMap;
 	}
+// ------------------------------------------------------------------------ Mới -----------------------------------
+// test thử tránh giật
+
+    public void buildCachedMapImage() {
+    	int mapHeight = getWallMap().length;
+    	int mapWidth = getWallMap()[0].length;
+    	
+        int width = mapWidth * GameWorld.TILESIZE;
+        int height = mapHeight * GameWorld.TILESIZE;
+
+        cachedMapImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = cachedMapImage.createGraphics();
+
+        for (int y = 0; y < mapHeight; y++) {
+            for (int x = 0; x < mapWidth; x++) {
+                drawTileset(g2, OUTSIDE, outsideMap, y, x);
+                drawTileset(g2, INSIDE, insideMap, y, x);
+                drawTileset(g2, WALL, wallMap, y, x);
+                drawTileset(g2, OBJECT, ladderMap, y, x);
+                drawTileset(g2, OBJECT, objectMap, y, x);
+            }
+        }
+        g2.dispose();
+    }
+
+    public BufferedImage getCachedMapImage() {
+        return cachedMapImage;
+    }
 
 }

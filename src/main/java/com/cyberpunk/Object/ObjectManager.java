@@ -40,6 +40,16 @@ public class ObjectManager {
 		return gameWorld;
 	}
 	
+//	public boolean checkCharacter() {
+//		int count = 2;
+//		for(Object object : entity) {
+//			if(object instanceof HumanObject) {
+//				count--;
+//			}
+//		}
+//		
+//		return count == 0;
+//	}
 	
 	// chia làm 4 hàm va chạm left, top, right, bottom
 	public CollisionResult LeftRightCollisionWithObject(Object object) {
@@ -129,8 +139,17 @@ public class ObjectManager {
 		while (iter.hasNext()) {
 			Object obj = iter.next();
 
-			if (obj instanceof MapObject && obj.getHealth() < -10) {
-				numberOfBox--;
+//			if (obj instanceof MapObject && obj.getHealth() < -10) {
+//				numberOfBox--;
+//
+//				iter.remove();
+//				continue;
+//			}
+			if (obj.getHealth() < -10) {
+				
+				if(obj instanceof MapObject) {
+					numberOfBox--;
+				}
 
 				iter.remove();
 				continue;
@@ -164,12 +183,12 @@ public class ObjectManager {
 	}
 
 	public void draw(Graphics2D g2) {
-		for (int i = 0; i < mapObjects.size(); ++i) {
-			reDraw(mapObjects.get(i), g2);
-		}
-		for (int i = entity.size() - 1; i >= 0; --i) {
-			reDraw(entity.get(i), g2);
-		}
+//		for (int i = 0; i < mapObjects.size(); ++i) {
+//			reDraw(mapObjects.get(i), g2);
+//		}
+//		for (int i = entity.size() - 1; i >= 0; --i) {
+//			reDraw(entity.get(i), g2);
+//		}
 		
 		for (int i = 0; i < mapObjects.size(); ++i) {
 			mapObjects.get(i).draw(g2);
