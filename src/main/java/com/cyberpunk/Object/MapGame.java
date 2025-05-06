@@ -7,6 +7,10 @@ import java.awt.Rectangle;
 import com.cyberpunk.Effect.DataLoader;
 
 public class MapGame {
+	// Lực ma sát
+	public static final float GROUND_FRICTION = 0.1f;
+	
+	// ID tileset
 	public static final int WALL_TILE = 1;
 	public static final int PLATFORM_TILE = 2;
 	public static final int LADDER_TILE = 3;

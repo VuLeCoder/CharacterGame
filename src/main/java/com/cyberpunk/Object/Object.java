@@ -36,6 +36,7 @@ public abstract class Object {
 	
 	private int direction;
 	private boolean isOnTransportLeft;
+	private boolean isPush;
 	
 	public GameWorld getGameWorld() {
 		return gameWorld;
@@ -144,6 +145,21 @@ public abstract class Object {
 	public void setOnTransportLeft(boolean isOnTransportLeft) {
 		this.isOnTransportLeft = isOnTransportLeft;
 	}
+	
+	public boolean getIsPush() {
+		return isPush;
+	}
+	
+	private float pushSpeed = 0;
+	public void setIsPush(boolean isPush, float pushSpeed) {
+		this.isPush = isPush;
+		if(isPush) {
+			setSpeedX(getSpeedX() + pushSpeed);
+		} else {
+			setSpeedX(getSpeedX() - this.pushSpeed);
+		}
+		this.pushSpeed = pushSpeed;
+	}
 
 	public Object(float posX, float posY, int health, int damage, int width, int height, GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
@@ -155,6 +171,7 @@ public abstract class Object {
 		this.damage = damage;
 		
 		isOnTransportLeft = false;
+		isPush = false;
 	}
 
 	public Rectangle movingHitbox() {
