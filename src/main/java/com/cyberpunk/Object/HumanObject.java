@@ -18,7 +18,9 @@ public abstract class HumanObject extends Object{
 	public static final float HUMAN_WALK_SPEED = 2f;
 //	public static final float HUMAN_FORCE = 2f;
 	
-	public static final long TIME_TO_CHANGE_DROP_STATE = 320000000L;
+	public static final long TIME_TO_CHANGE_DROP_STATE = 150000000L;
+//	public static final long TIME_TO_CHANGE_DROP_STATE = 200000000L;
+//	public static final long TIME_TO_CHANGE_DROP_STATE = 320000000L;
 	private boolean isDrop = false;
 	private long startDropTime = 0;
 	
@@ -267,13 +269,13 @@ public abstract class HumanObject extends Object{
 		CollisionResult hitBox;
 		
 		boundForCollisionWithMapFuture = movingHitbox();
-		boundForCollisionWithMapFuture.x -= 1;
+		boundForCollisionWithMapFuture.x -= 2;
 		hitBox = getGameWorld().getMapGame().haveCollisionWithWallLeft(boundForCollisionWithMapFuture);
 		switch(hitBox.getCollisionWithTile()) {
 			case MapGame.WALL_TILE:
 			case MapGame.TRANSPORT_LEFT_TILE:
 				if(getSpeedX() * Object.LEFT_DIR > 0) {
-					setPosX(hitBox.getCollisionRect().x + hitBox.getCollisionRect().width + getWidth() / 2);
+					setPosX(hitBox.getCollisionRect().x + hitBox.getCollisionRect().width + getWidth() / 2 + 2);
 				}
 				break;
 				
@@ -344,6 +346,7 @@ public abstract class HumanObject extends Object{
 				setSpeedX(getSpeedX() + MapObject.TRANSPORT_SPEED * Object.LEFT_DIR);
 
 			case MapGame.PLATFORM_TILE:
+				
 				if(getIsDrop()) {
 					setSpeedY(getSpeedY() + getMass());
 					break;
@@ -358,20 +361,18 @@ public abstract class HumanObject extends Object{
 				break;
 
 			case MapGame.DEATH_TILE:
-				setPosY(hitBox.getCollisionRect().y - getHeight() / 2);
-				setSpeedY(0);
 				setHealth(-1000);
 				break;
 
 			default:
-//				if(collisionObject.getCollisionWithTile() == KeyConfig.DOWN) {
-//					setOnGround(true);
-//					if(getSpeedY() > 0) {
-//						setSpeedY(0);
-//						setPosY(collisionObject.getObjectCollisionWith().getPosY() - (collisionObject.getObjectCollisionWith().getHeight() + getHeight()) / 2 + 1);
-//					}
-//					break;
-//				}
+				if(collisionObject != null && collisionObject.getCollisionWithTile() == KeyConfig.DOWN) {
+					setOnGround(true);
+					if(getSpeedY() > 0) {
+						setSpeedY(0);
+						setPosY(collisionObject.getObjectCollisionWith().getPosY() - (collisionObject.getObjectCollisionWith().getHeight() + getHeight()) / 2 + 1);
+					}
+					break;
+				}
 				
 				if(isClimbing()) {
 					break;
