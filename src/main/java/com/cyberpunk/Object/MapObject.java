@@ -234,13 +234,11 @@ public class MapObject extends Object {
 				break;
 
 			case MapGame.DEATH_TILE:
-				setPosY(hitBox.getCollisionRect().y - getHeight() / 2);
-				setSpeedY(0);
 				setHealth(-1000);
 				break;
 
 			default:
-				if(collisionObject.getCollisionWithTile() == KeyConfig.DOWN) {
+				if(collisionObject != null && collisionObject.getCollisionWithTile() == KeyConfig.DOWN) {
 					if(getSpeedY() > 0) {
 						setSpeedY(0);
 						setPosY(collisionObject.getObjectCollisionWith().getPosY() - (collisionObject.getObjectCollisionWith().getHeight() + getHeight()) / 2 + 1);
