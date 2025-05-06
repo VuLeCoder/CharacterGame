@@ -81,8 +81,7 @@ public class GameWorld{
 				if(animatedMap[i][j] == -1) {
 					continue;
 				}
-				
-//				animatedObjectManager.addObject(new AnimatedObject(j * GameWorld.TILESIZE, i * GameWorld.TILESIZE, this, animatedMap[i][j]));
+
 				objectManager.addObject(new MapObject(j * GameWorld.TILESIZE, i * GameWorld.TILESIZE, this, animatedMap[i][j]));
 			}
 		}
@@ -93,13 +92,12 @@ public class GameWorld{
 			startScreen.Update();
 			return;
 		}
-//		animatedObjectManager.dropBox(pointX, pointY, System.nanoTime());
-//		animatedObjectManager.UpdateObjects();
-//		P1.Update();
-//		P2.Update();
 		
 		objectManager.dropBox(pointX, pointY, System.nanoTime());
 		objectManager.UpdateObjects();
+//		while (!objectManager.checkCharacter()) {
+//			objectManager.addObject(new BaseCharacter(100, 500, "biker", this));
+//		}
 	}
 	
 	public void Render(float zoom) {
@@ -114,14 +112,11 @@ public class GameWorld{
 		}
 		
 //		g2.scale(2f, 2f);
-		if(isFirstDrawMap) {
-			mapGame.draw(g2);
-			isFirstDrawMap = false;
-		}
-		
-//		animatedObjectManager.draw(g2);
-//		P1.draw(g2);
-//		P2.draw(g2);
+//		if(isFirstDrawMap) {
+//			mapGame.draw(g2);
+//			isFirstDrawMap = false;
+//		}
+		g2.drawImage(mapGame.getCachedMapImage(), 0, 0, null);
 		
 		objectManager.draw(g2);
 	}
