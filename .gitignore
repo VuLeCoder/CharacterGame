@@ -7,3 +7,4 @@ data/**
 !data/map/**
 !data/character/
 !data/character/**
+test/
