@@ -1,0 +1,7 @@
+-2	- búa đập
+-1  - chạm là hẹo
+0   - không có vật chắn
+1   - vật chắn cứng
+2   - vật chắn mềm, có thể đi qua bằng cách thao tác
+3   - là thang (để trèo lên xuống)
+4	- thang máy

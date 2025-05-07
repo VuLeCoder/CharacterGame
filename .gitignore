@@ -1,0 +1,11 @@
+.mvn/
+.settings/
+target/
+data/**
+!data/
+!data/map/
+!data/map/**
+!data/character/
+!data/character/**
+!data/gui
+test/
