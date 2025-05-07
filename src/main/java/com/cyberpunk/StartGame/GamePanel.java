@@ -32,10 +32,8 @@ public class GamePanel extends JPanel implements Runnable {
 		setDoubleBuffered(true);
 		
 		isRunning = true;
-		gameWorld = new GameWorld();
+		gameWorld = new GameWorld(this);
 		keyConfig = new KeyConfig();
-		
-		gameWorld.getScreenManager().startScreenAddEvent(this);
 		
 //		addMouseMotionListener(new MouseMotionAdapter() {
 //			@Override

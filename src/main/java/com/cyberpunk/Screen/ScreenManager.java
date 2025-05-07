@@ -6,33 +6,41 @@ import javax.swing.JComponent;
 
 public class ScreenManager {
 	private boolean isGameInitiated;
-//	private boolean isInCharacterScreen;
+	private boolean isInCharacterScreen;
 	
+	private final JComponent jComponent;
 	private final StartScreen startScreen;
 	private final CharacterSelectionScreen characterSelectionScreen;
+
 	
-	public ScreenManager() {
-//		isInCharacterScreen = false;
+	public ScreenManager(JComponent jComponent) {
+		this.jComponent = jComponent;
+
 		isGameInitiated = false;
+		isInCharacterScreen = false;
 		
+		startScreen = new StartScreen();
 		characterSelectionScreen = new CharacterSelectionScreen();
-		startScreen = new StartScreen(characterSelectionScreen);
+		
+		startScreen.addEventTo(jComponent);
 	}
 	
 	public boolean isNotInitializedGameYet() {
 		return !isGameInitiated;
 	}
 	
-	public final void startScreenAddEvent(JComponent jComponent) {
-		startScreen.addEventTo(jComponent);
-	}
-	
 	public void Update() {
-		isGameInitiated = !startScreen.getIsStartingScreen() && !characterSelectionScreen.getIsChoosingCharacter();
+		isGameInitiated = (!startScreen.getIsStartingScreen() && !characterSelectionScreen.getIsChoosingCharacter());
+		
 		
 		if(startScreen.getIsStartingScreen()) {
 			startScreen.Update();
 			return;
+		}
+		
+		if(!isInCharacterScreen) {
+			isInCharacterScreen = true;
+			characterSelectionScreen.AddEventTo(jComponent);
 		}
 		
 		characterSelectionScreen.Update();

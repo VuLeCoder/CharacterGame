@@ -18,7 +18,6 @@ import com.cyberpunk.StartGame.GamePanel;
 
 public class StartScreen {
 	private boolean isStartingScreen;
-	private final CharacterSelectionScreen characterSelectionScreen;
 	
 	// button
 	public static final int BUTTON_WIDTH = 70;
@@ -42,9 +41,8 @@ public class StartScreen {
 	private final BufferedImage buttonImage;
 	private final String logoName = "logo";
 	
-	public StartScreen(CharacterSelectionScreen characterSelectionScreen) {
+	public StartScreen() {
 		isStartingScreen = true;
-		this.characterSelectionScreen = characterSelectionScreen;
 		
 		screenAnimation = new Animation[numberFrame]; 
 		for(int i=0; i<numberFrame; ++i) {
@@ -85,7 +83,7 @@ public class StartScreen {
 		g2.drawImage(buttonImage, BUTTON_X, BUTTON_Y, null);
 	}
 
-	public void addEventTo(JComponent jComponent) {
+	public final void addEventTo(JComponent jComponent) {
 		jComponent.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
@@ -110,8 +108,6 @@ public class StartScreen {
 				
 				if (buttonBounds.contains(e.getPoint())) {
 					isStartingScreen = false;
-					characterSelectionScreen.AddEventTo(jComponent);
-					
 					jComponent.setCursor(Cursor.getDefaultCursor());
 				}
 			}

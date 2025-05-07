@@ -17,7 +17,6 @@ public class CharacterSelectionScreen {
 		isChoosingCharacter = true;
 	}
 	
-	
 	public boolean getIsChoosingCharacter() {
 		return isChoosingCharacter;
 	}
@@ -49,6 +48,4 @@ public class CharacterSelectionScreen {
         g2.setFont(bigFont);
 		g2.drawString("Nhấn Enter", StartScreen.LOGO_X + 200, StartScreen.LOGO_Y + 120);
 	}
-	
-	
 }

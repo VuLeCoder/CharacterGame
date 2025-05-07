@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JComponent;
+
 import com.cyberpunk.Effect.DataLoader;
 import com.cyberpunk.Screen.ScreenManager;
 import com.cyberpunk.StartGame.GamePanel;
@@ -27,12 +29,12 @@ public class GameWorld{
 	private final BaseCharacter P1;
 	private final BaseCharacter P2;
 
-	public GameWorld() {
+	public GameWorld(JComponent jComponent) {
 		bufferedImage = new BufferedImage(GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		// bufferedImage = new BufferedImage(GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		
 //		startScreen = new StartScreen();
-		screenManager = new ScreenManager();
+		screenManager = new ScreenManager(jComponent);
 		
 		mapGame = new MapGame();
 		animatedMap = DataLoader.getInstance().getAnimatedMap();
