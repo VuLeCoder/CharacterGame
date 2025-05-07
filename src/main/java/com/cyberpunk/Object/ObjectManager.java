@@ -19,7 +19,6 @@ public class ObjectManager {
 	private static final int MAX_NUMBER_BOX = 5;
 	private static final long TIME_TO_NEXT_DROP = Duration.ofSeconds(3).toNanos();
 
-//	protected List<AnimatedObject> animatedObjects;
 	protected List<MapObject> mapObjects;
 	protected List<Object> entity;
 

@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import com.cyberpunk.Effect.DataLoader;
+import com.cyberpunk.Screen.ScreenManager;
 import com.cyberpunk.StartGame.GamePanel;
 
 public class GameWorld{
@@ -12,7 +13,8 @@ public class GameWorld{
 	private final static int pointX = 22, pointY = 14; // Điểm rơi hộp
 	
 	private final BufferedImage bufferedImage;
-	private final StartScreen startScreen;
+//	private final StartScreen startScreen;
+	private final ScreenManager screenManager;
 	private final MapGame mapGame;
 	private final int[][] animatedMap;
 	
@@ -29,7 +31,9 @@ public class GameWorld{
 		bufferedImage = new BufferedImage(GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		// bufferedImage = new BufferedImage(GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		
-		startScreen = new StartScreen();
+//		startScreen = new StartScreen();
+		screenManager = new ScreenManager();
+		
 		mapGame = new MapGame();
 		animatedMap = DataLoader.getInstance().getAnimatedMap();
 
@@ -68,6 +72,10 @@ public class GameWorld{
 		return mapGame;
 	}
 	
+	public ScreenManager getScreenManager() {
+		return screenManager;
+	}
+	
 	public ObjectManager getObjectManager() {
 		return objectManager;
 	}
@@ -97,8 +105,12 @@ public class GameWorld{
 	}
 
 	public void Update() {
-		if(!isStartGame) {
-			startScreen.Update();
+//		if(!isStartGame) {
+//			startScreen.Update();
+//			return;
+//		}
+		if(screenManager.isNotInitializedGameYet()) {
+			screenManager.Update();
 			return;
 		}
 		
@@ -118,11 +130,15 @@ public class GameWorld{
 			return;
 		}
 
-		if(!isStartGame) {
-			startScreen.draw(g2);
+//		if(!isStartGame) {
+//			startScreen.draw(g2);
+//			return;
+//		}
+		
+		if(screenManager.isNotInitializedGameYet()) {
+			screenManager.draw(g2);
 			return;
 		}
-
 
 		
 		g2.setColor(Color.BLACK);
@@ -132,18 +148,15 @@ public class GameWorld{
 		float targetZoomX = GamePanel.MAP_WIDTH / camera.getWidthView();
 		float targetZoomY = GamePanel.MAP_HEIGHT / camera.getHeightView();
 
-		// Hệ số làm mượt (càng gần 0 thì càng chậm, càng mượt)
-		float smoothFactor = 0.05f;
-
-		currentZoomX += (targetZoomX - currentZoomX) * smoothFactor;
-		currentZoomY += (targetZoomY - currentZoomY) * smoothFactor;
+		currentZoomX += (targetZoomX - currentZoomX) * Camera.SMOOTH_FACTOR;
+		currentZoomY += (targetZoomY - currentZoomY) * Camera.SMOOTH_FACTOR;
 		g2.scale(currentZoomX, currentZoomY);
 		
 //		if(isFirstDrawMap) {
 //			mapGame.draw(g2);
 //			isFirstDrawMap = false;
 //		}
-		
+
 		g2.translate(-camera.getPosX(),- camera.getPosY());
 		
 		// Vẽ map
