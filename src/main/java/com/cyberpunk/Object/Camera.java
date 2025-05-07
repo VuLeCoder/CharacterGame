@@ -52,10 +52,24 @@ public class Camera {
 	}
 	
 	public void Update() {
-		float minX = Math.min(P1.getPosX(), P2.getPosX());
-		float minY = Math.min(P1.getPosY(), P2.getPosY());
-		float maxX = Math.max(P1.getPosX(), P2.getPosX());
-		float maxY = Math.max(P1.getPosY(), P2.getPosY());
+		if(P1.getState() == Object.DEATH && P2.getState() == Object.DEATH) {
+			return;
+		}
+		
+		float minX, maxX, minY, maxY;
+
+		if (P1.getState() == Object.DEATH) {
+		    minX = maxX = P2.getPosX();
+		    minY = maxY = P2.getPosY();
+		} else if (P2.getState() == Object.DEATH) {
+		    minX = maxX = P1.getPosX();
+		    minY = maxY = P1.getPosY();
+		} else {
+		    minX = Math.min(P1.getPosX(), P2.getPosX());
+		    maxX = Math.max(P1.getPosX(), P2.getPosX());
+		    minY = Math.min(P1.getPosY(), P2.getPosY());
+		    maxY = Math.max(P1.getPosY(), P2.getPosY());
+		}
 		
 		float offsetLeftX = Math.min(minX, OFFSET_X);
 		float offsetRightX = Math.min(((GamePanel.MAP_WIDTH) - maxX), OFFSET_X);
@@ -74,30 +88,35 @@ public class Camera {
 		float currentRatio = widthView / heightView;
 
 		if (currentRatio > SCREEN_RATIO) {
-		    // quá rộng → tăng heightView lên để đạt tỉ lệ
 		    float newHeight = widthView / SCREEN_RATIO;
-//		    float diff = newHeight - heightView;
-//		    setPosY(getPosY() - diff / 2); // camera cần dãn đều 2 bên
+		    float diff = newHeight - heightView;
+		    setPosY(getPosY() - diff / 2); // camera cần dãn đều 2 bên
 		    heightView = newHeight;
+		    
 		} else if (currentRatio < SCREEN_RATIO) {
-		    // quá cao → tăng widthView lên để đạt tỉ lệ
 		    float newWidth = heightView * SCREEN_RATIO;
-//		    float diff = newWidth - widthView;
-//		    setPosX(getPosX() - diff / 2); // camera cần dãn đều 2 bên
+		    float diff = newWidth - widthView;
+		    setPosX(getPosX() - diff / 2); // camera cần dãn đều 2 bên
 		    widthView = newWidth;
 		}
 		
-		if(getPosX() + widthView > GamePanel.MAP_WIDTH) {
-			setPosX(GamePanel.MAP_WIDTH - widthView);
-		}
-		
-		if(getPosY() + heightView > GamePanel.MAP_HEIGHT) {
-			setPosY(GamePanel.MAP_HEIGHT- heightView);
-		}
+//		if(getPosX() + widthView > GamePanel.MAP_WIDTH) {
+//			setPosX(GamePanel.MAP_WIDTH - widthView);
+//		}
+//		
+//		if(getPosY() + heightView > GamePanel.MAP_HEIGHT) {
+//			setPosY(GamePanel.MAP_HEIGHT- heightView);
+//		}
 	}
 	
 	public void draw(Graphics2D g2) {
 		g2.setColor(Color.cyan);
 		g2.drawRect((int) posX, (int)posY, (int)widthView, (int)heightView);
 	}
+	
+	public boolean isOutOfCameraView(float x, float y) {
+	    return x < getPosX() || x > getPosX() + getWidthView()
+	        || y < getPosY() || y > getPosY() + getHeightView();
+	}
+
 }
