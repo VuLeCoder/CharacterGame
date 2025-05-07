@@ -475,7 +475,7 @@ public class BaseCharacter extends HumanObject {
 			}
 			
 			if (isSingleJumping()) {
-				System.out.println("Nhảy 1 nè");
+//				System.out.println("Nhảy 1 nè");
 				drawCharacterAnimation(jumpForwardAnim, jumpBackAnim, g2, 12, -8);
 				break;
 			} 
