@@ -7,13 +7,13 @@ import java.awt.image.BufferedImage;
 
 import com.cyberpunk.Effect.Animation;
 import com.cyberpunk.Effect.DataLoader;
-import com.cyberpunk.StartGame.GameFrame;
+import com.cyberpunk.StartGame.GamePanel;
 
 public class StartScreen {
 	// button
 	public static final int BUTTON_WIDTH = 70;
 	public static final int BUTTON_HEIGHT = 70;
-	public static final int BUTTON_X = (GameFrame.SCREEN_WIDTH - BUTTON_WIDTH) / 2;
+	public static final int BUTTON_X = (GamePanel.MAP_WIDTH - BUTTON_WIDTH) / 2;
 	public static final int BUTTON_Y = 310;
 	
 	//logo
@@ -40,7 +40,7 @@ public class StartScreen {
 		buttonImage = DataLoader.getInstance().getFrameImage(buttonName).getImage();
 		
 		logoImage = DataLoader.getInstance().getFrameImage(logoName).getImage();
-		LOGO_X = (GameFrame.SCREEN_WIDTH - logoImage.getWidth()) / 2;
+		LOGO_X = (GamePanel.MAP_WIDTH - logoImage.getWidth()) / 2;
 		LOGO_Y = 10;
 	}
 	

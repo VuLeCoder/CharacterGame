@@ -11,8 +11,12 @@ import com.cyberpunk.Effect.DataLoader;
 public class GameFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
 
-    public static final int SCREEN_WIDTH = 32 * 40 + 18;
-    public static final int SCREEN_HEIGHT = 32 * 20 + 45 + GamePanel.posY;
+	private static final int PADDING_WIDTH = 18;
+	private static final int PADDING_HEIGHT = 45;
+	
+    public static final int SCREEN_WIDTH = GamePanel.MAP_WIDTH + PADDING_WIDTH;
+    public static final int SCREEN_HEIGHT = GamePanel.MAP_HEIGHT + PADDING_HEIGHT;
+    
 
     public GameFrame() {
         Toolkit toolkit = this.getToolkit();

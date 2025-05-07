@@ -16,7 +16,9 @@ public class GamePanel extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
 
 	// Vị trí vẽ map game
-	public static int posX = 0, posY = 0;
+//	public static int MAP_DRAW_X = 0, MAP_DRAW_Y = 0;
+	public static final int MAP_WIDTH = GameWorld.TILESIZE * 40;
+    public static final int MAP_HEIGHT = GameWorld.TILESIZE * 20;
 
 	private Thread gameThread;
 	private boolean isRunning;
@@ -24,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public KeyConfig keyConfig;
 	public InputManager inputManager1, inputManager2;
 
+//	private long FPS = 50;
 	private long FPS = 60;
 	private long miliSecond = 1000;
 	private long nanoMiliSecond = 1000000;
@@ -53,7 +56,6 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		});
 		
-
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -67,7 +69,6 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 		});
-		
 		
 		this.setFocusable(true);
 		inputManager1 = new InputManager(gameWorld.getP1(), keyConfig.getP1_KeyMap());
@@ -85,7 +86,8 @@ public class GamePanel extends JPanel implements Runnable {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(gameWorld.getBufferedImage(), posX, posY, this);
+		g.drawImage(gameWorld.getBufferedImage(), 0, 0, this);
+//		g.drawImage(gameWorld.getBufferedImage(), MAP_DRAW_X, MAP_DRAW_Y, this);
 	}
 	
 	@Override
@@ -93,18 +95,11 @@ public class GamePanel extends JPanel implements Runnable {
 		long period = miliSecond * nanoMiliSecond / FPS;
 		long beginTime = System.nanoTime();
 		long sleepTime;
-		float zoom = 1.0f;
 
 		while (isRunning) {
 
-			if ((this.getWidth() * this.getHeight() != 0)) {
-				zoom = GameFrame.SCREEN_WIDTH * GameFrame.SCREEN_HEIGHT / (this.getWidth() * this.getHeight());
-			} else {
-				zoom = 1.0f;
-			}
-
 			gameWorld.Update();
-			gameWorld.Render(zoom);
+			gameWorld.Render();
 			repaint();
 
 			long deltaTime = System.nanoTime() - beginTime;

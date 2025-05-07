@@ -3,7 +3,7 @@ package com.cyberpunk.Object;
 import java.awt.Rectangle;
 
 import com.cyberpunk.Effect.Animation;
-import com.cyberpunk.StartGame.GameFrame;
+import com.cyberpunk.StartGame.GamePanel;
 import com.cyberpunk.StartGame.KeyConfig;
 
 public abstract class HumanObject extends Object{
@@ -18,7 +18,9 @@ public abstract class HumanObject extends Object{
 	public static final float HUMAN_WALK_SPEED = 2f;
 //	public static final float HUMAN_FORCE = 2f;
 	
-	public static final long TIME_TO_CHANGE_DROP_STATE = 150000000L;
+	public static final long TIME_TO_CHANGE_DROP_STATE = 80000000L;
+//	public static final long TIME_TO_CHANGE_DROP_STATE = 100000000L;
+//	public static final long TIME_TO_CHANGE_DROP_STATE = 150000000L;
 //	public static final long TIME_TO_CHANGE_DROP_STATE = 200000000L;
 //	public static final long TIME_TO_CHANGE_DROP_STATE = 320000000L;
 	private boolean isDrop = false;
@@ -52,7 +54,7 @@ public abstract class HumanObject extends Object{
 		isSingleJumping = false;
 		
 		//set temp direction, team type
-		if(x > GameFrame.SCREEN_WIDTH / 2) {
+		if(x > GamePanel.MAP_WIDTH / 2) {
 			 setDirection(LEFT_DIR);
 			 setTeamType(P2_TEAM);
 		} else {
@@ -233,6 +235,8 @@ public abstract class HumanObject extends Object{
 	@Override
 	public void Update() {
 		updateDropState(System.nanoTime());
+		if(isDrop)
+		System.out.println(isDrop);
 		
 //		UpdateCollisionWithObject();
 		
@@ -269,13 +273,13 @@ public abstract class HumanObject extends Object{
 		CollisionResult hitBox;
 		
 		boundForCollisionWithMapFuture = movingHitbox();
-		boundForCollisionWithMapFuture.x -= 2;
+		boundForCollisionWithMapFuture.x -= 1;
 		hitBox = getGameWorld().getMapGame().haveCollisionWithWallLeft(boundForCollisionWithMapFuture);
 		switch(hitBox.getCollisionWithTile()) {
 			case MapGame.WALL_TILE:
 			case MapGame.TRANSPORT_LEFT_TILE:
 				if(getSpeedX() * Object.LEFT_DIR > 0) {
-					setPosX(hitBox.getCollisionRect().x + hitBox.getCollisionRect().width + getWidth() / 2 + 2);
+					setPosX(hitBox.getCollisionRect().x + hitBox.getCollisionRect().width + getWidth() / 2 + 1);
 				}
 				break;
 				
@@ -346,7 +350,6 @@ public abstract class HumanObject extends Object{
 				setSpeedX(getSpeedX() + MapObject.TRANSPORT_SPEED * Object.LEFT_DIR);
 
 			case MapGame.PLATFORM_TILE:
-				
 				if(getIsDrop()) {
 					setSpeedY(getSpeedY() + getMass());
 					break;
