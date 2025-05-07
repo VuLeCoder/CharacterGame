@@ -30,7 +30,7 @@ public class MapGame {
 	private final int[][] objectMap;
 	private final int[][] ladderMap;
 
-	private int[][] collisionMap;
+	private final int[][] collisionMap;
 
 	private BufferedImage cachedMapImage;
 	public MapGame() {
@@ -46,7 +46,7 @@ public class MapGame {
 	}
 
 	private void drawMap(Graphics2D g2, String name, int[][] Map) {
-		if (name == "") {
+		if ("".equals(name)) {
 			for (int i = 0; i < Map.length; ++i) {
 				for (int j = 0; j < Map[0].length; ++j) {
 					drawCollision(g2, i, j);
@@ -314,7 +314,7 @@ public class MapGame {
 // ------------------------------------------------------------------------ Mới -----------------------------------
 // test thử tránh giật
 
-    public void buildCachedMapImage() {
+    public final void buildCachedMapImage() {
     	int mapHeight = getWallMap().length;
     	int mapWidth = getWallMap()[0].length;
     	

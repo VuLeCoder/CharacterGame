@@ -14,7 +14,7 @@ public class Camera {
 	
 	private float posX, posY;
 	private float widthView, heightView;
-	private BaseCharacter P1, P2;
+	private final BaseCharacter P1, P2;
 	
 	public Camera(float x, float y, float width, float height, GameWorld gameWorld) {
 		this.posX = x;

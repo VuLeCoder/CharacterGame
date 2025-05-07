@@ -8,8 +8,8 @@ import com.cyberpunk.Effect.DataLoader;
 import com.cyberpunk.StartGame.GamePanel;
 
 public class GameWorld{
-	public static int TILESIZE = 32;
-	private static int pointX = 22, pointY = 14; // Điểm rơi hộp
+	public static final int TILESIZE = 32;
+	private final static int pointX = 22, pointY = 14; // Điểm rơi hộp
 	
 	private final BufferedImage bufferedImage;
 	private final StartScreen startScreen;
@@ -19,11 +19,11 @@ public class GameWorld{
 	private boolean isStartGame = false;
 	private boolean isFirstDrawMap = true;
 
-	private Camera camera;
-	private ObjectManager objectManager;
+	private final Camera camera;
+	private final ObjectManager objectManager;
 	
-	private BaseCharacter P1;
-	public BaseCharacter P2;
+	private final BaseCharacter P1;
+	private final BaseCharacter P2;
 
 	public GameWorld() {
 		bufferedImage = new BufferedImage(GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT, BufferedImage.TYPE_INT_ARGB);

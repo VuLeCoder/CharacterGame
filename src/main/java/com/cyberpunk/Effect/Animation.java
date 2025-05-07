@@ -5,7 +5,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Animation {
 	
@@ -13,9 +12,9 @@ public class Animation {
 	private boolean isRepeated;
 	
 	private int currentFrame;
-	private ArrayList<FrameImage> frameImages;
-	private ArrayList<Boolean> ignoreFrames;
-	private ArrayList<Double> delayFrames;
+	private final ArrayList<FrameImage> frameImages;
+	private final ArrayList<Boolean> ignoreFrames;
+	private final ArrayList<Double> delayFrames;
 	
 	private long beginTime;
 

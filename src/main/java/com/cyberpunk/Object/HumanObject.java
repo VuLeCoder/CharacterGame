@@ -7,7 +7,6 @@ import com.cyberpunk.StartGame.GamePanel;
 import com.cyberpunk.StartGame.KeyConfig;
 
 public abstract class HumanObject extends Object{
-	boolean x = true;
 	// Cấu hình nhân vật
 	public static final float HEATLH_POINT = 100f;
 	public static final float JUMP_STRENGTH = -3.8f;
