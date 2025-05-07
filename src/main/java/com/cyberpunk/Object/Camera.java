@@ -12,6 +12,9 @@ public class Camera {
 //	private static final float MIN_HEIGTH = 224;
 //	private static final float MIN_WIDTH = MIN_HEIGTH * SCREEN_RATIO;
 	
+	// Hệ số làm mượt (càng gần 0 thì càng chậm, càng mượt)
+	public static final float SMOOTH_FACTOR = 0.07f;
+	
 	private float posX, posY;
 	private float widthView, heightView;
 	private final BaseCharacter P1, P2;
@@ -104,9 +107,9 @@ public class Camera {
 //			setPosX(GamePanel.MAP_WIDTH - widthView);
 //		}
 //		
-//		if(getPosY() + heightView > GamePanel.MAP_HEIGHT) {
-//			setPosY(GamePanel.MAP_HEIGHT- heightView);
-//		}
+		if(getPosY() + heightView > GamePanel.MAP_HEIGHT) {
+			setPosY(GamePanel.MAP_HEIGHT- heightView);
+		}
 	}
 	
 	public void draw(Graphics2D g2) {
