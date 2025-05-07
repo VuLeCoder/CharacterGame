@@ -80,6 +80,10 @@ public class GameWorld{
 		return P2;
 	}
 	
+	public Camera getCamera() {
+		return camera;
+	}
+	
 	private void addAllAnimatedObject() {
 		for(int i=0; i<animatedMap.length; ++i) {
 			for(int j=0; j<animatedMap[0].length; ++j) {
