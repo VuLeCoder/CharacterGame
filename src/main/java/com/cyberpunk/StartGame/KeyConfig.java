@@ -22,7 +22,7 @@ public class KeyConfig {
     	P1_KeyMap.put(DOWN, 	"S");
     	P1_KeyMap.put(LEFT, 	"A");
     	P1_KeyMap.put(RIGHT, 	"D");
-    	P1_KeyMap.put(ATTACK,	"1");
+    	P1_KeyMap.put(ATTACK,	"R");
 
         P2_KeyMap = new HashMap<>();
         P2_KeyMap.put(UP,		"UP");

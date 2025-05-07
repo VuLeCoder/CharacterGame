@@ -363,6 +363,7 @@ public abstract class HumanObject extends Object{
 				break;
 
 			case MapGame.DEATH_TILE:
+				setState(DEATH);
 				setHealth(-1000);
 				break;
 

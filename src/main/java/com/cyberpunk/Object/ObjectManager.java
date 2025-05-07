@@ -16,7 +16,7 @@ public class ObjectManager {
 	public static int SERIAL_NUMBER = 0;
 
 	// Cho hộp rơi
-	private static final int MAX_NUMBER_BOX = 2;
+	private static final int MAX_NUMBER_BOX = 5;
 	private static final long TIME_TO_NEXT_DROP = Duration.ofSeconds(3).toNanos();
 
 //	protected List<AnimatedObject> animatedObjects;
@@ -138,15 +138,7 @@ public class ObjectManager {
 		Iterator<Object> iter = entity.iterator();
 		while (iter.hasNext()) {
 			Object obj = iter.next();
-
-//			if (obj instanceof MapObject && obj.getHealth() < -10) {
-//				numberOfBox--;
-//
-//				iter.remove();
-//				continue;
-//			}
-			if (obj.getHealth() < -10) {
-				
+			if (obj.getHealth() < -10) {	
 				if(obj instanceof MapObject) {
 					numberOfBox--;
 				}
@@ -154,6 +146,10 @@ public class ObjectManager {
 				iter.remove();
 				continue;
 			}
+//			
+//			if(gameWorld.getCamera().isOutOfCameraView(obj.getPosX(), obj.getPosY())) {
+//				continue;
+//			}
 
 			obj.Update();
 		}
@@ -191,15 +187,25 @@ public class ObjectManager {
 //		}
 		
 		for (int i = 0; i < mapObjects.size(); ++i) {
+//			if(gameWorld.getCamera().isOutOfCameraView(mapObjects.get(i).getPosX(), mapObjects.get(i).getPosY())) {
+//				continue;
+//			}
 			mapObjects.get(i).draw(g2);
 		}
 
 		for (int i = entity.size() - 1; i >= 0; --i) {
+//			if(gameWorld.getCamera().isOutOfCameraView(entity.get(i).getPosX(), entity.get(i).getPosY())) {
+//				continue;
+//			}
 			entity.get(i).draw(g2);
 		}
 	}
 
 	public void dropBox(float x, float y, long time) {
+//		if(gameWorld.getCamera().isOutOfCameraView(x * GameWorld.TILESIZE, y * GameWorld.TILESIZE)) {
+//			return;
+//		}
+		
 		if (numberOfBox >= MAX_NUMBER_BOX) {
 			return;
 		}
