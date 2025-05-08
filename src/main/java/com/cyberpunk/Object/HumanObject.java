@@ -27,7 +27,7 @@ public abstract class HumanObject extends Object{
 	
 	public static final long DOUBLE_CLICK_THRESHOLD = 250000000L;
 	private boolean isSitting = false;
-	private long startSittingTime = 0;
+	private long lastSittingTime = 0;
 	
 	private boolean isRunning;
 	private boolean isOnLadder, isClimbing;
@@ -37,8 +37,12 @@ public abstract class HumanObject extends Object{
 	private boolean isOnGround;
 	private boolean isPhasing;
 	
-	private long noBeHurtDuration = 500000000L;
+//	private long noBeHurtDuration = 500000000L; //500ms
+	private long noBeHurtDuration = 1000000000L; //1s
+//	private long noBeHurtDuration = 2000000000L; //2s
 	private long noBeHurtStart;
+	
+	private int preDirection = 0;
 	
 	private Animation hurtForwardAnim, hurtBackAnim;
 	
@@ -53,13 +57,13 @@ public abstract class HumanObject extends Object{
 		isSingleJumping = false;
 		
 		//set temp direction, team type
-		if(x > GamePanel.MAP_WIDTH / 2) {
-			 setDirection(LEFT_DIR);
-			 setTeamType(P2_TEAM);
-		} else {
-			 setDirection(RIGHT_DIR);
-			 setTeamType(P1_TEAM);
-		}
+//		if(x > GamePanel.MAP_WIDTH / 2) {
+//			 setDirection(LEFT_DIR);
+//			 setTeamType(P2_TEAM);
+//		} else {
+//			 setDirection(RIGHT_DIR);
+//			 setTeamType(P1_TEAM);
+//		}
 		
 		startDropTime = System.nanoTime();
 		setMass(HUMAN_WEIGHT);
@@ -81,12 +85,12 @@ public abstract class HumanObject extends Object{
 		this.isSitting = isSitting;
 	}
 	
-	public long getStartSittingTime() {
-		return startSittingTime;
+	public long getLastSittingTime() {
+		return lastSittingTime;
 	}
 
-	public void setStartSittingTime(long startSittingTime) {
-		this.startSittingTime = startSittingTime;
+	public void setLastSittingTime(long lastSittingTime) {
+		this.lastSittingTime = lastSittingTime;
 	}
 
 	public boolean getIsOnLadder() {
@@ -188,6 +192,14 @@ public abstract class HumanObject extends Object{
 	public void setIsDrop(boolean isDrop) {
 		this.isDrop = isDrop;
 	}
+	
+	public void setPreDrection(int dir) {
+		preDirection = dir;
+	}
+	
+	public int getPreDirection() {
+		return preDirection;
+	}
 
 	public abstract void jump();
 	public abstract void run();
@@ -199,9 +211,12 @@ public abstract class HumanObject extends Object{
 	public abstract void beHeal(float healedGet);
 
 	public void startDrop(long time) {
-		if(!getIsDrop()) {
-			setSpeedY(getSpeedY() + 1);
+		if(getIsDrop()) {
+			return;
 		}
+//		if(!getIsDrop()) {
+//			setSpeedY(getSpeedY());
+//		}
 		
 	    this.isDrop = true;
 	    this.startDropTime = time;
@@ -227,17 +242,26 @@ public abstract class HumanObject extends Object{
 
 	@Override
 	public void beHurt(int damageGet) {
-		setHealth(getHealth() - damageGet);
-		setState(BEHURT);
+		if(getState() == NOBEHURT) {
+			return;
+		}
+		
+		float currHealth = Math.max(0, getHealth() - damageGet);
+		setHealth(currHealth);
+		System.out.println(getHealth());
+		
+		if(getHealth() > 0) {			
+			setState(BEHURT);
+			return;
+		}
+		setState(DEATH);
 	}
+	
+	private static final int MARGIN = 2;
 
 	@Override
-	public void Update() {
+ 	public void Update() {
 		updateDropState(System.nanoTime());
-		if(isDrop)
-		System.out.println(isDrop);
-		
-//		UpdateCollisionWithObject();
 		
 		Rectangle boundForCollisionWithLadder = getGameWorld().getMapGame().haveCollisionWithLadder(movingHitbox());
 		if(boundForCollisionWithLadder != null) {
@@ -252,53 +276,163 @@ public abstract class HumanObject extends Object{
 		} else {
 		    setPosX(getPosX() + getSpeedX());
 		}
-		
 		setPosY(getPosY() + getSpeedY());
-		
+
+// Va chạm với object
 //		CollisionResult bottomCollisionWithObject = getGameWorld().getObjectManager().BottomCollisionWithObject(this);
 //		CollisionResult leftRightCollisionWithObject = getGameWorld().getObjectManager().LeftRightCollisionWithObject(this);
 		CollisionResult bottomCollisionWithObject = null;
-		CollisionResult leftRightCollisionWithObject = null;
-//		System.out.println(collisionWithObject.getCollisionWithTile() == KeyConfig.DOWN);
+		CollisionResult topCollisionWithObject = null;
+		CollisionResult leftCollisionWithObject = null;
+		CollisionResult rightCollisionWithObject = null;
 		
-		UpdateColiisionWithMapLeftRight(leftRightCollisionWithObject);
-		UpdateColiisionWithMapTop();
-		UpdateColiisionWithMapLand(bottomCollisionWithObject);
-		
-	}
-	
-	private void UpdateColiisionWithMapLeftRight(CollisionResult collisionObject) {
-		Rectangle boundForCollisionWithMapFuture;
-		CollisionResult hitBox;
+// Code update va chạm lại :>
+		Rectangle boundForCollisionWithMapFuture;;
 		
 		boundForCollisionWithMapFuture = movingHitbox();
-		boundForCollisionWithMapFuture.x -= 1;
-		hitBox = getGameWorld().getMapGame().haveCollisionWithWallLeft(boundForCollisionWithMapFuture);
-		switch(hitBox.getCollisionWithTile()) {
-			case MapGame.WALL_TILE:
-			case MapGame.TRANSPORT_LEFT_TILE:
-				if(getSpeedX() * Object.LEFT_DIR > 0) {
-					setPosX(hitBox.getCollisionRect().x + hitBox.getCollisionRect().width + getWidth() / 2 + 1);
+		boundForCollisionWithMapFuture.x += MARGIN * LEFT_DIR; // Math.max(getSpeedX() * LEFT_DIR, 1) * LEFT_DIR;
+		CollisionResult hitBoxLeft = getGameWorld().getMapGame().haveCollisionWithWallLeft(boundForCollisionWithMapFuture);
+		
+		boundForCollisionWithMapFuture = movingHitbox();
+		boundForCollisionWithMapFuture.x += MARGIN * RIGHT_DIR; // Math.max(getSpeedX() * RIGHT_DIR, 1) * RIGHT_DIR;
+		CollisionResult hitBoxRight = getGameWorld().getMapGame().haveCollisionWithWallRight(boundForCollisionWithMapFuture);
+		
+		boundForCollisionWithMapFuture = movingHitbox();
+		boundForCollisionWithMapFuture.y += Math.min(getSpeedY(), -1);
+		CollisionResult hitBoxTop = getGameWorld().getMapGame().haveCollisionWithTop(boundForCollisionWithMapFuture);
+		
+		boundForCollisionWithMapFuture = movingHitbox();
+		boundForCollisionWithMapFuture.y += Math.max(getSpeedY(), 1);
+		CollisionResult hitBoxLand = getGameWorld().getMapGame().haveCollisionWithLand(boundForCollisionWithMapFuture);
+		
+		UpdateColiisionWithMapLeft(hitBoxLeft, leftCollisionWithObject);
+		UpdateColiisionWithMapRight(hitBoxRight, rightCollisionWithObject);
+		UpdateColiisionWithMapTop(hitBoxTop, topCollisionWithObject);
+		UpdateColiisionWithMapLand(hitBoxLand, bottomCollisionWithObject);
+		
+		switch (getState()) {
+		
+			case NOBEHURT:
+				//code for running
+				if(System.nanoTime() - noBeHurtStart > noBeHurtDuration) {
+					setState(ALIVE);
+					isPhasing = false;
 				}
 				break;
 				
-			case MapGame.PLATFORM_TILE:
-				startDrop(System.nanoTime());
+			case ALIVE:
+				UpdateColiisionWithMapForALIVE(hitBoxLeft, hitBoxRight, hitBoxTop, hitBoxLand);
+				break;
+			
+			case BEHURT:
+				setState(NOBEHURT);
+				isPhasing = true;
+				noBeHurtStart = System.nanoTime();
+				
+				if(getHealth() <= 0) {
+					setState(DEATH);
+				}
+				break;
+			
+			case DEATH:
+				//build death animation here
 				break;
 				
+			default:
+				break;
+		}
+			
+	}
+
+	private void UpdateColiisionWithMapForALIVE(CollisionResult left, CollisionResult right, CollisionResult top, CollisionResult land) {
+		// Left ------------------------------------ Left ----------------------------------------------
+		switch(left.getCollisionWithTile()) {
+//			case MapGame.WALL_TILE:
+//			case MapGame.TRANSPORT_LEFT_TILE:
+//				if(getSpeedX() * Object.LEFT_DIR > 0) {
+//					setPosX(left.getCollisionRect().x + left.getCollisionRect().width + getWidth() / 2 + 1);
+//				}
+//				break;
+//				
+//			case MapGame.PLATFORM_TILE:
+//				startDrop(System.nanoTime());
+//				break;
+//			 bỏ do ảnh hưởng đến state NOBEHURT	
 			case MapGame.HAMMER_TILE:
-				setPosX(getPosX() - getSpeedX());
+				if(getSpeedX() * Object.LEFT_DIR > 0) {
+					setPosX(left.getCollisionRect().x + left.getCollisionRect().width + getWidth() / 2 + 2);
+				}
+				break;
+//				setPosX(getPosX() - getSpeedX());
+//				break;
+		}
+		
+		
+		
+		// Right -------------------------------------- Right ---------------------------------------
+		switch(right.getCollisionWithTile()) {
+//			case MapGame.WALL_TILE:
+//			case MapGame.TRANSPORT_LEFT_TILE:
+//				if(getSpeedX() * Object.RIGHT_DIR > 0) {
+//					setPosX(right.getCollisionRect().x - getWidth() / 2 - 1);
+//				}
+//				break;
+//				
+//			case MapGame.PLATFORM_TILE:
+//				startDrop(System.nanoTime());
+//				break;
+				
+			case MapGame.HAMMER_TILE:
+				if(getSpeedX() * Object.RIGHT_DIR > 0) {
+					setPosX(right.getCollisionRect().x - getWidth() / 2 - 2);
+				}
+				break;
+//				setPosX(getPosX() - getSpeedX());
+//				break;
+		}
+		
+		
+		// Top -------------------------------------- Top ----------------------------------------------
+		switch (top.getCollisionWithTile()) {
+//			case MapGame.WALL_TILE:
+//				setPosY(top.getCollisionRect().y + 3 * getHeight() / 2);
+//				setSpeedY(0);				
+//				break;
+				
+			case MapGame.HAMMER_TILE:
+				beHurt((int)MapObject.HAMMER_DAMAGE);
 				break;
 		}
 		
-		boundForCollisionWithMapFuture = movingHitbox();
-		boundForCollisionWithMapFuture.x += 1;
-		hitBox = getGameWorld().getMapGame().haveCollisionWithWallRight(boundForCollisionWithMapFuture);
+		// Land -------------------------------------- Land ----------------------------------------------
+		
+	}
+	
+	private void UpdateColiisionWithMapLeft(CollisionResult hitBox, CollisionResult collisionObject) {
+		switch(hitBox.getCollisionWithTile()) {
+		case MapGame.WALL_TILE:
+		case MapGame.TRANSPORT_LEFT_TILE:
+			if(getSpeedX() * Object.LEFT_DIR > 0) {
+				setPosX(hitBox.getCollisionRect().x + hitBox.getCollisionRect().width + getWidth() / 2 + MARGIN);
+			}
+			break;
+			
+		case MapGame.PLATFORM_TILE:
+			startDrop(System.nanoTime());
+			break;
+			
+//		case MapGame.HAMMER_TILE:
+//			setPosX(getPosX() - getSpeedX());
+//			break;
+	}
+	}
+	
+	private void UpdateColiisionWithMapRight(CollisionResult hitBox, CollisionResult collisionObject) {
 		switch(hitBox.getCollisionWithTile()) {
 			case MapGame.WALL_TILE:
 			case MapGame.TRANSPORT_LEFT_TILE:
 				if(getSpeedX() * Object.RIGHT_DIR > 0) {
-					setPosX(hitBox.getCollisionRect().x - getWidth() / 2 - 1);
+					setPosX(hitBox.getCollisionRect().x - getWidth() / 2 - MARGIN);
 				}
 				break;
 				
@@ -306,39 +440,32 @@ public abstract class HumanObject extends Object{
 				startDrop(System.nanoTime());
 				break;
 				
-			case MapGame.HAMMER_TILE:
-				setPosX(getPosX() - getSpeedX());
-				break;
+//			case MapGame.HAMMER_TILE:
+//				setPosX(getPosX() - getSpeedX());
+//				break;
 		}
 	}
 	
-	private void UpdateColiisionWithMapTop() {
-		Rectangle boundForCollisionWithMapFuture = movingHitbox();
-		boundForCollisionWithMapFuture.y += (getSpeedY() != 0 ? getSpeedY() : -1);
-		CollisionResult hitBox = getGameWorld().getMapGame().haveCollisionWithTop(boundForCollisionWithMapFuture);
-		
+	private void UpdateColiisionWithMapTop(CollisionResult hitBox, CollisionResult collisionObject) {
 		switch (hitBox.getCollisionWithTile()) {
 			case MapGame.WALL_TILE:
 				setPosY(hitBox.getCollisionRect().y + 3 * getHeight() / 2);
 				setSpeedY(0);				
 				break;
 				
-			case MapGame.HAMMER_TILE:
-				break;
+//			case MapGame.HAMMER_TILE:
+//				beHurt((int)MapObject.HAMMER_DAMAGE);
+//				break;
 		}
 	}
 	
-	private void UpdateColiisionWithMapLand(CollisionResult collisionObject) {
+	private void UpdateColiisionWithMapLand(CollisionResult hitBox, CollisionResult collisionObject) {
 		setOnGround(false);
 		
 		if (isOnTransportLeft()) {
 			setSpeedX(getSpeedX() - MapObject.TRANSPORT_SPEED * Object.LEFT_DIR);
 			setOnTransportLeft(false);
 		}
-
-		Rectangle boundForCollisionWithMapFuture = movingHitbox();
-		boundForCollisionWithMapFuture.y += (getSpeedY() != 0 ? getSpeedY() : 2);
-		CollisionResult hitBox = getGameWorld().getMapGame().haveCollisionWithLand(boundForCollisionWithMapFuture, this);
 
 		switch (hitBox.getCollisionWithTile()) {
 			case MapGame.TRANSPORT_LEFT_TILE:

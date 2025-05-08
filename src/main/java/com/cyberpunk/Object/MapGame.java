@@ -110,9 +110,9 @@ public class MapGame {
 
 	}
 
-	public CollisionResult haveCollisionWithLand(Rectangle rect, Object object) {
-		int posX1 = (rect.x) / GameWorld.TILESIZE;
-		int posX2 = (rect.x + rect.width) / GameWorld.TILESIZE;
+	public CollisionResult haveCollisionWithLand(Rectangle rect) {
+		int posX1 = (rect.x + 2) / GameWorld.TILESIZE;
+		int posX2 = (rect.x + rect.width - 2) / GameWorld.TILESIZE;
 		int posY = (rect.y + rect.height) / GameWorld.TILESIZE;
 		
 		posX1 = Math.max(0, posX1);
@@ -224,8 +224,8 @@ public class MapGame {
 			return new CollisionResult();
 		}
 		
-		int posX1 = (rect.x + 2) / GameWorld.TILESIZE;
-		int posX2 = (rect.x + rect.width - 2) / GameWorld.TILESIZE;
+		int posX1 = (rect.x + 3) / GameWorld.TILESIZE;
+		int posX2 = (rect.x + rect.width - 3) / GameWorld.TILESIZE;
 
 		posX1 = Math.max(0, posX1);
 		posX2 = Math.min(getCollisionMap()[0].length - 1, posX2);
