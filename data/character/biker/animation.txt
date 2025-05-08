@@ -21,7 +21,7 @@ bikerattack3
 bikerattack3_0 120000000 bikerattack3_1 120000000 bikerattack3_2 120000000 bikerattack3_3 120000000 bikerattack3_4 120000000 bikerattack3_5 120000000 bikerattack3_6 120000000 bikerattack3_7 120000000 
 
 bikerattack1
-bikerattack2_0 120000000 bikerattack2_1 120000000 bikerattack2_2 120000000 bikerattack2_3 120000000 bikerattack2_4 120000000 bikerattack2_5 120000000 
+bikerattack2_0 50000000 bikerattack2_1 50000000 bikerattack2_2 50000000 bikerattack2_3 50000000 bikerattack2_4 50000000 bikerattack2_5 100000000 
 
 bikerpunch
 bikerpunch0 100000000 bikerpunch1 100000000 bikerpunch2 100000000 bikerpunch3 100000000 bikerpunch4 100000000 bikerpunch5 100000000
