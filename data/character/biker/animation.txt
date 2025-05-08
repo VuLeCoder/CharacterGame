@@ -15,13 +15,13 @@ bikersitdownskill
 bikersitdownskill0 100000000 bikersitdownskill1 100000000 bikersitdownskill2 100000000 bikersitdownskill3 100000000
 
 bikerattack2
-bikerattack2_0 100000000 bikerattack2_1 100000000 bikerattack2_2 100000000 bikerattack2_3 100000000 bikerattack2_4 100000000 bikerattack2_5 100000000 bikerattack2_6 100000000 bikerattack2_7 100000000 
+bikerattack2_6 120000000 bikerattack2_7 120000000
 
 bikerattack3
-bikerattack3_0 100000000 bikerattack3_1 100000000 bikerattack3_2 100000000 bikerattack3_3 100000000 bikerattack3_4 100000000 bikerattack3_5 100000000 bikerattack3_6 100000000 bikerattack3_7 100000000 
+bikerattack3_0 120000000 bikerattack3_1 120000000 bikerattack3_2 120000000 bikerattack3_3 120000000 bikerattack3_4 120000000 bikerattack3_5 120000000 bikerattack3_6 120000000 bikerattack3_7 120000000 
 
 bikerattack1
-bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 bikerattack1_3 100000000 bikerattack1_4 100000000 bikerattack1_5 100000000 
+bikerattack2_0 120000000 bikerattack2_1 120000000 bikerattack2_2 120000000 bikerattack2_3 120000000 bikerattack2_4 120000000 bikerattack2_5 120000000 
 
 bikerpunch
 bikerpunch0 100000000 bikerpunch1 100000000 bikerpunch2 100000000 bikerpunch3 100000000 bikerpunch4 100000000 bikerpunch5 100000000
