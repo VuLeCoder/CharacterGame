@@ -10,118 +10,149 @@ import java.awt.event.ActionEvent;
 import java.util.Map;
 
 public class InputManager {
-    private final BaseCharacter player;
-    private Stack<Integer> movingDir;
-    private final Map<Integer, String> keyBindings;
+	private final BaseCharacter player;
+	private Stack<Integer> movingDir;
+	private final Map<Integer, String> keyBindings;
 
-    public InputManager(BaseCharacter player, Map<Integer, String> keyController) {
-        this.player = player;
-        
-        movingDir = new Stack<>();
-        keyBindings = keyController;
-    }
+	public InputManager(BaseCharacter player, Map<Integer, String> keyController) {
+		this.player = player;
 
-    public void register(JComponent component) {
-        for (Map.Entry<Integer, String> entry : keyBindings.entrySet()) {
-            int action = entry.getKey();
-            String keyName = entry.getValue();
+		movingDir = new Stack<>();
+		keyBindings = keyController;
+	}
 
-            // pressed
-            bindKey(component, "pressed " + keyName, () -> keyPressed(action));
-            
-            // released
-            bindKey(component, "released " + keyName, () -> keyReleased(action));
-        }
-    }
-    
-    private void bindKey(JComponent comp, String keyStrokeStr, Runnable action) {
-        KeyStroke ks = KeyStroke.getKeyStroke(keyStrokeStr);
-        String actionKey = keyStrokeStr;
+	public void register(JComponent component) {
+		for (Map.Entry<Integer, String> entry : keyBindings.entrySet()) {
+			int action = entry.getKey();
+			String keyName = entry.getValue();
 
-        comp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ks, actionKey);
-        comp.getActionMap().put(actionKey, new AbstractAction() {
+			// pressed
+			bindKey(component, "pressed " + keyName, () -> keyPressed(action));
+
+			// released
+			bindKey(component, "released " + keyName, () -> keyReleased(action));
+		}
+	}
+
+	private void bindKey(JComponent comp, String keyStrokeStr, Runnable action) {
+		KeyStroke ks = KeyStroke.getKeyStroke(keyStrokeStr);
+		String actionKey = keyStrokeStr;
+
+		comp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ks, actionKey);
+		comp.getActionMap().put(actionKey, new AbstractAction() {
 			private static final long serialVersionUID = 1L;
-			
+
 			@Override
-            public void actionPerformed(ActionEvent e) {
-                action.run();
-            }
-        });
-    }
+			public void actionPerformed(ActionEvent e) {
+				action.run();
+			}
+		});
+	}
 
-    private void keyPressed(int key) {
-    	
-        switch(key) {
-        	case KeyConfig.UP:
-        		player.jump();
-        		
-				if(player.isClimbing()) {
-					player.climbUp();
-				}
-        		break;
-        		
-        	case KeyConfig.LEFT:
-        		if(!movingDir.contains(KeyConfig.LEFT)) {
-        			movingDir.push(KeyConfig.LEFT);
-//        			player.isRunning = false;
-        		}
-				UpdateMoving();
-        		break;
-        		
-        	case KeyConfig.RIGHT:
-        		if(!movingDir.contains(KeyConfig.RIGHT)) {
-        			movingDir.push(KeyConfig.RIGHT);
-//        			player.isRunning = false;
-        		}
-				UpdateMoving();
-        		break;
-        		
-        	case KeyConfig.DOWN:
-        		player.sitDown(System.nanoTime());
-        		
-        		if(player.isClimbing()) {
-        			player.climbDown();
-				}
-        		break;
-        		
-        	case KeyConfig.ATTACK:
-        		player.attack();
-        		break;
-        }
-    }
+	private void keyPressed(int key) {
+		if(player.getState() == HumanObject.DEATH) {
+			return;
+		}
 
-    private void keyReleased(int key) {
-    	switch(key) {
-	    	case KeyConfig.UP:
-	    		if(player.isClimbing()) {
-	    			player.stopClimb();
-	    		}
-	    		break;
-	    		
-	    	case KeyConfig.LEFT:
-	    		movingDir.remove((Integer)KeyConfig.LEFT);
+		switch (key) {
+		case KeyConfig.UP:
+			player.jump();
+
+			if (player.isClimbing()) {
+				player.climbUp();
+			}
+			break;
+
+		case KeyConfig.LEFT:
+			if (player.getIsAttacking()) {
+				break;
+			}
+
+			if (!movingDir.contains(KeyConfig.LEFT)) {
+				movingDir.push(KeyConfig.LEFT);
+//        			player.isRunning = false;
+			}
+			UpdateMoving();
+			break;
+
+		case KeyConfig.RIGHT:
+			if (player.getIsAttacking()) {
+				break;
+			}
+
+			if (!movingDir.contains(KeyConfig.RIGHT)) {
+				movingDir.push(KeyConfig.RIGHT);
+//        			player.isRunning = false;
+			}
+			UpdateMoving();
+			break;
+
+		case KeyConfig.DOWN:
+			if (player.getIsAttacking()) {
+				break;
+			}
+
+			player.sitDown(System.nanoTime());
+
+			if (player.isClimbing()) {
+				player.climbDown();
+			}
+			break;
+
+		case KeyConfig.ATTACK:
+			player.setClickButtonAttack(true);
+			if (!player.getIsAttacking()) {
+				player.attack();
+			}
+			break;
+		}
+	}
+
+	private void keyReleased(int key) {
+		switch (key) {
+		case KeyConfig.UP:
+			if (player.isClimbing()) {
+				player.stopClimb();
+			}
+			break;
+
+		case KeyConfig.LEFT:
+			movingDir.remove((Integer) KeyConfig.LEFT);
+			UpdateMoving();
+			break;
+
+		case KeyConfig.RIGHT:
+			movingDir.remove((Integer) KeyConfig.RIGHT);
+			UpdateMoving();
+			break;
+
+		case KeyConfig.DOWN:
+			if (player.isClimbing()) {
+				player.stopClimb();
+				break;
+			}
+
+			if (player.getSitDownWhenRunning() && player.getDirection() == player.getPreDirection()) {
+				player.standUp();
+				
+				if (!movingDir.contains(player.getDirection())) {
+					movingDir.push(player.getDirection());
+				}
 				UpdateMoving();
-	    		break;
-	    		
-	    	case KeyConfig.RIGHT:
-	    		movingDir.remove((Integer)KeyConfig.RIGHT);
-				UpdateMoving();
-	    		break;
-	    		
-	    	case KeyConfig.DOWN:
-	    		if(player.isClimbing()) {
-	    			player.stopClimb();
-	    			break;
-	    		}
-	    		
-	    		player.standUp();
-	    		break;
-	    		
-	    	case KeyConfig.ATTACK:
-	    		player.stopAttack();
-	    		break;
-	    }
-    }
+				
+				
+				break;
+			}
+			player.standUp();
+
+			break;
+
+		case KeyConfig.ATTACK:
+//			player.stopAttack(); // ẩn tính năng :))
+			player.setClickButtonAttack(false);
+			break;
+		}
+	}
 
 //    public void UpdateMoving() {
 //		if(movingDir.isEmpty()) {
@@ -138,21 +169,23 @@ public class InputManager {
 ////		if(atttack) gameWorld.baseCharacter.attack();
 //	}
 
-    public void UpdateMoving() {
-        boolean hasLeft = movingDir.contains(HumanObject.LEFT_DIR);
-        boolean hasRight = movingDir.contains(HumanObject.RIGHT_DIR);
-        
-        if(movingDir.isEmpty() || (hasLeft && hasRight)) {
-        	player.stopRun();
-        } else {
-        	player.setDirection(movingDir.peek());
-            player.run();
-        }
-    }
+	public void UpdateMoving() {
+		
+		boolean hasLeft = movingDir.contains(HumanObject.LEFT_DIR);
+		boolean hasRight = movingDir.contains(HumanObject.RIGHT_DIR);
 
-    
-    // Cho phép đổi phím nếu muốn (ví dụ từ menu cài đặt)
-    public void setKey(String action, String newKeyName) {
+		if (movingDir.isEmpty() || (hasLeft && hasRight)) {
+//			player.setRunning(false);
+			player.stopRun();
+		} else {
+//			System.out.println(player.getDirection());
+			player.setDirection(movingDir.peek());
+			player.run();
+		}
+	}
+
+	// Cho phép đổi phím nếu muốn (ví dụ từ menu cài đặt)
+	public void setKey(String action, String newKeyName) {
 //        keyBindings.put(action, newKeyName.toUpperCase());
-    }
+	}
 }
