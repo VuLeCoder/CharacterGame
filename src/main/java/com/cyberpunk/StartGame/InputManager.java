@@ -117,11 +117,17 @@ public class InputManager {
 			break;
 
 		case KeyConfig.LEFT:
+			if(player.getAtkWhenRunning()) {
+				player.setAtkWhenRunning(false);
+			}
 			movingDir.remove((Integer) KeyConfig.LEFT);
 			UpdateMoving();
 			break;
 
 		case KeyConfig.RIGHT:
+			if(player.getAtkWhenRunning()) {
+				player.setAtkWhenRunning(false);
+			}
 			movingDir.remove((Integer) KeyConfig.RIGHT);
 			UpdateMoving();
 			break;
@@ -150,6 +156,7 @@ public class InputManager {
 		case KeyConfig.ATTACK:
 //			player.stopAttack(); // ẩn tính năng :))
 			player.setClickButtonAttack(false);
+//			UpdateMoving();
 			break;
 		}
 	}
