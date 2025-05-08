@@ -30,7 +30,7 @@ public class MapObject extends Object {
 
 	public static final float TRANSPORT_SPEED = 0.75f; // 0.75f;
 	public static final int HAMMER_HEALTH = 1;
-	public static final int HAMMER_DAMAGE = 1000000;
+	public static final float HAMMER_DAMAGE = 50;
 	public static final int ENTRY_HEALTH = 1;
 	public static final int BOX_HEALTH = 20;
 	public static final int BARREL_HEALTH = 1;
@@ -220,7 +220,7 @@ public class MapObject extends Object {
 
 		boundForCollisionWithMapFuture = movingHitbox();
 		boundForCollisionWithMapFuture.y += (getSpeedY() != 0 ? getSpeedY() : 2);
-		hitBox = getGameWorld().getMapGame().haveCollisionWithLand(boundForCollisionWithMapFuture, this);
+		hitBox = getGameWorld().getMapGame().haveCollisionWithLand(boundForCollisionWithMapFuture);
 
 		switch (hitBox.getCollisionWithTile()) {
 			case MapGame.TRANSPORT_LEFT_TILE:
