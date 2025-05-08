@@ -3,7 +3,6 @@ package com.cyberpunk.Object;
 import java.awt.Rectangle;
 
 import com.cyberpunk.Effect.Animation;
-import com.cyberpunk.StartGame.GamePanel;
 import com.cyberpunk.StartGame.KeyConfig;
 
 public abstract class HumanObject extends Object{

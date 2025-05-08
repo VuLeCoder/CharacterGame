@@ -1,5 +1,6 @@
 package com.cyberpunk.Object;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -20,7 +21,7 @@ public class GameWorld{
 	private final int[][] animatedMap;
 	
 	private boolean isStartGame = false;
-	private boolean isFirstDrawMap = true;
+//	private boolean isFirstDrawMap = true;
 
 	private final Camera camera;
 	private final ObjectManager objectManager;
@@ -33,7 +34,6 @@ public class GameWorld{
 		bufferedImage = new BufferedImage(GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		// bufferedImage = new BufferedImage(GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		
-//		startScreen = new StartScreen();
 		screenManager = new ScreenManager(jComponent);
 		
 		mapGame = new MapGame();
@@ -114,9 +114,6 @@ public class GameWorld{
 
 	public void Update() {
 		
-		System.out.println("P1 :" + (P1.getState() == HumanObject.DEATH));
-		System.out.println("P2 :" + (P2.getState() == HumanObject.DEATH));
-		
 		if(screenManager.isNotInitializedGameYet()) {
 			screenManager.Update();
 			return;
@@ -140,21 +137,14 @@ public class GameWorld{
 		if(g2 == null) {
 			return;
 		}
-
-//		if(!isStartGame) {
-//			startScreen.draw(g2);
-//			return;
-//		}
 		
 		if(screenManager.isNotInitializedGameYet()) {
 			screenManager.draw(g2);
 			return;
 		}
-
 		
-//		g2.setColor(Color.BLACK);
-		// g2.fillRect(0, 0, GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT);
-//		g2.fillRect(0, 0, GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT);
+		g2.setColor(Color.BLACK);
+		g2.fillRect(0, 0, GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT);
 		
 		float targetZoomX = GamePanel.MAP_WIDTH / camera.getWidthView();
 		float targetZoomY = GamePanel.MAP_HEIGHT / camera.getHeightView();
