@@ -1,6 +1,5 @@
 package com.cyberpunk.Object;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -25,6 +24,7 @@ public class GameWorld{
 
 	private final Camera camera;
 	private final ObjectManager objectManager;
+	private final SkillManager skillManager;
 	
 	private final BaseCharacter P1;
 	private final BaseCharacter P2;
@@ -40,12 +40,14 @@ public class GameWorld{
 		animatedMap = DataLoader.getInstance().getAnimatedMap();
 
 		objectManager = new ObjectManager(this);
+		skillManager = new SkillManager(this);
 		
 		P1 = new BaseCharacter(100, 500, "biker", this);
+		P1.setTeamType(HumanObject.P1_TEAM);
 		objectManager.addObject(P1);
 		
-		
-		P2 = new BaseCharacter(100, 500, "biker", this);
+		P2 = new BaseCharacter(150, 500, "biker", this);
+		P2.setTeamType(HumanObject.P2_TEAM);
 		objectManager.addObject(P2);
 		
 		camera = new Camera(0, 0, GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT, this);
@@ -82,6 +84,10 @@ public class GameWorld{
 		return objectManager;
 	}
 	
+	public SkillManager getSkillManager() {
+		return skillManager;
+	}
+	
 	public BaseCharacter getP1() {
 		return P1;
 	}
@@ -107,10 +113,10 @@ public class GameWorld{
 	}
 
 	public void Update() {
-//		if(!isStartGame) {
-//			startScreen.Update();
-//			return;
-//		}
+		
+		System.out.println("P1 :" + (P1.getState() == HumanObject.DEATH));
+		System.out.println("P2 :" + (P2.getState() == HumanObject.DEATH));
+		
 		if(screenManager.isNotInitializedGameYet()) {
 			screenManager.Update();
 			return;
@@ -119,9 +125,12 @@ public class GameWorld{
 		camera.Update();
 		objectManager.dropBox(pointX, pointY, System.nanoTime());
 		objectManager.UpdateObjects();
+		
 //		while (!objectManager.checkCharacter()) {
 //			objectManager.addObject(new BaseCharacter(100, 500, "biker", this));
 //		}
+		
+		skillManager.UpdateObjects();
 	}
 	
 	float currentZoomX = 1.0f, currentZoomY = 1.0f;
@@ -143,9 +152,9 @@ public class GameWorld{
 		}
 
 		
-		g2.setColor(Color.BLACK);
+//		g2.setColor(Color.BLACK);
 		// g2.fillRect(0, 0, GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT);
-		g2.fillRect(0, 0, GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT);
+//		g2.fillRect(0, 0, GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT);
 		
 		float targetZoomX = GamePanel.MAP_WIDTH / camera.getWidthView();
 		float targetZoomY = GamePanel.MAP_HEIGHT / camera.getHeightView();
@@ -167,5 +176,6 @@ public class GameWorld{
 		
 		camera.draw(g2);
 		objectManager.draw(g2);
+		skillManager.draw(g2);
 	}
 }
