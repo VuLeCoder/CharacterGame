@@ -224,11 +224,7 @@ public abstract class HumanObject extends Object {
 		if (getIsDrop()) {
 			return;
 		}
-//		if(!getIsDrop()) {
-//			setSpeedY(getSpeedY());
-//		}
-
-		this.isDrop = true;
+		setIsDrop(true);
 		this.startDropTime = time;
 	}
 
@@ -259,7 +255,6 @@ public abstract class HumanObject extends Object {
 		// sửa dame nhận
 		float currHealth = Math.max(0, getHealth() - damageGet);
 		setHealth(currHealth);
-		System.out.println(getHealth());
 
 		if (getHealth() <= 0) {
 			setState(DEATH);
@@ -331,6 +326,11 @@ public abstract class HumanObject extends Object {
 		UpdateColiisionWithMapRight(hitBoxRight, rightCollisionWithObject);
 		UpdateColiisionWithMapTop(hitBoxTop, topCollisionWithObject);
 		UpdateColiisionWithMapLand(hitBoxLand, bottomCollisionWithObject);
+		
+//		boundForCollisionWithMapFuture = movingHitbox();
+//		hitBoxLeft = getGameWorld().getMapGame().haveCollisionWithWallLeft(boundForCollisionWithMapFuture);
+//		hitBoxRight = getGameWorld().getMapGame().haveCollisionWithWallRight(boundForCollisionWithMapFuture);
+//		UpdateColiisionWithPlatformTile(hitBoxLeft, hitBoxRight);
 
 		switch (getState()) {
 		case FALL:
@@ -379,7 +379,8 @@ public abstract class HumanObject extends Object {
 		case DEATH:
 			// build death animation here
 			stopRun();
-//			stopClimb();
+			setClimbing(false);
+			setIsDrop(true);
 			break;
 
 		default:
@@ -387,8 +388,6 @@ public abstract class HumanObject extends Object {
 		}
 
 	}
-
-	
 	
 	private void UpdateColiisionWithMapForALIVE(CollisionResult left, CollisionResult right, CollisionResult top,
 			CollisionResult land) {
@@ -440,7 +439,7 @@ public abstract class HumanObject extends Object {
 				break;
 	
 	//		case MapGame.HAMMER_TILE:
-	//			setPosX(getPosX() - getSpeedX());
+//				setPosX(getPosX() - getSpeedX());
 	//			break;
 		}
 	}
