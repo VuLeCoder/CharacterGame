@@ -590,6 +590,8 @@ public class BaseCharacter extends HumanObject {
 
 	@Override
 	public void Update() {
+		System.out.println(getHealth());
+		
 		super.Update();
 		
 		switch (getState()) {

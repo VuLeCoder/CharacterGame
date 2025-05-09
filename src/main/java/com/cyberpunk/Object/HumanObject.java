@@ -253,14 +253,14 @@ public abstract class HumanObject extends Object {
 		}
 
 		// sửa dame nhận
-		float currHealth = Math.max(0, getHealth() - damageGet);
+		float currHealth = Math.max(-1, getHealth() - damageGet);
 		setHealth(currHealth);
 
 		if (getHealth() <= 0) {
 			setState(DEATH);
 			return;
 		}
-
+		
 		if (damageGet >= BIG_DAMAGE) {
 			setState(KNOCKDOWN);
 			startKnockdownTimer();
@@ -275,6 +275,10 @@ public abstract class HumanObject extends Object {
 
 	@Override
 	public void Update() {
+//		if (getHealth() <= 0) {
+//			setState(DEATH);
+//		}
+		
 		updateDropState(System.nanoTime());
 
 		Rectangle boundForCollisionWithLadder = getGameWorld().getMapGame().haveCollisionWithLadder(movingHitbox());
@@ -343,8 +347,10 @@ public abstract class HumanObject extends Object {
 			
 		case KNOCKDOWN:
 			if (System.nanoTime() - getTimeStartKnockDown() >= KNOCKDOWN_DURATION) {
-				setState(NOBEHURT);
-		        setNoBeHurtStart(System.nanoTime());
+				if(getHealth() > 0) {
+					setState(NOBEHURT);
+			        setNoBeHurtStart(System.nanoTime());
+				}
 		    }
 			stopRun();
 			break;
@@ -370,10 +376,11 @@ public abstract class HumanObject extends Object {
 			setState(NOBEHURT);
 			isPhasing = true;
 			setNoBeHurtStart(System.nanoTime());
-
+			
 			if (getHealth() <= 0) {
 				setState(DEATH);
 			}
+
 			break;
 
 		case DEATH:
