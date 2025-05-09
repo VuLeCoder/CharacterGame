@@ -97,14 +97,14 @@ public class InputManager {
         		break;
         		
         	case KeyConfig.DOWN:
+        		if (player.getIsAttacking()) {
+        			break;
+        		}
+        		
         		if(player.isShooting()) {
         			player.setHandDirection(-1);
         			break;
         		}
-        		
-        		if (player.getIsAttacking()) {
-    				break;
-    			}
         		
         		player.sitDown(System.nanoTime());
         		
@@ -122,6 +122,10 @@ public class InputManager {
         		break;
         		
         	case KeyConfig.SHOOTING:
+        		if(!player.isOnGround()) {
+        			break;
+        		}
+        		
         		player.setShooting(true);
         		break;
         }
@@ -180,8 +184,11 @@ public class InputManager {
 	    		break;
 	    		
 	    	case KeyConfig.SHOOTING:
-	    		player.shoot();
-	    		player.setShooting(false);
+	    		if(player.isShooting()) {
+	    		
+		    		player.shoot();
+		    		player.setShooting(false);
+	    		}
 	    		break;
 	    }
     }
