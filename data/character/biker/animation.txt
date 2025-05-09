@@ -1,4 +1,4 @@
-18
+20
 bikeridle
 bikeridle0 100000000 bikeridle1 100000000 bikeridle2 100000000 bikeridle3 100000000
 
@@ -52,3 +52,9 @@ bikerhand0 100000000 bikerhand1 100000000 bikerhand2 100000000 bikerhand3 100000
 
 bikerwalkskill
 bikerwalkskill0 100000000 bikerwalkskill1 100000000 bikerwalkskill2 100000000 bikerwalkskill3 100000000 bikerwalkskill4 100000000
+
+bikerfall
+bikerdeath3 200000000 bikerdeath5 100000000
+
+bikerknockdown
+bikerdeath3 100000000 bikerdeath5 100000000

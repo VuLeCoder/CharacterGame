@@ -3,6 +3,8 @@ package com.cyberpunk.Object;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.nio.file.WatchService;
+import java.time.Duration;
 
 import com.cyberpunk.Effect.Animation;
 import com.cyberpunk.Effect.DataLoader;
@@ -37,8 +39,11 @@ public class BaseCharacter extends HumanObject {
 	private Animation runAttackForwardAnim, runAttackBackAnim, runSkillForwardAnim, runSkillBackAnim;
 	private Animation sitdownSkillForwardAnim, sitdownSkillBackAnim, walkSkillForwardAnim, walkSkillBackAnim;
 	private Animation handForwardAnim, handBackAnim;
-	private Animation fallForwardAnim, fallBackAnim;
 
+	private Animation fallForwardAnim, fallBackAnim;
+	private Animation knockForwardAnim, knockBackAnim;
+	
+	
 	public BaseCharacter(float x, float y, String name, GameWorld gameWorld) {
 		super(x, y, gameWorld);
 		this.name = name;
@@ -102,15 +107,6 @@ public class BaseCharacter extends HumanObject {
 		jumpBackAnim.setRepeated(false); // same above
 		jumpBackAnim.setIgnoreFrame(3); // same above
 		jumpBackAnim.flipAllImage();
-		
-//		fallForwardAnim = DataLoader.getInstance().getAnimation(name + "jump");
-//		fallForwardAnim.setIgnoreFrame(0);
-//		fallForwardAnim.setIgnoreFrame(1);
-//		fallForwardAnim.setIgnoreFrame(2);
-//		fallForwardAnim.setIgnoreFrame(3);
-//		
-//		fallBackAnim = fallForwardAnim;
-//		fallBackAnim.flipAllImage();
 
 		jumpSkillForwardAnim = DataLoader.getInstance().getAnimation(name + "jumpskill");
 		jumpSkillForwardAnim.setRepeated(false); // jump once, wait until landing
@@ -157,6 +153,18 @@ public class BaseCharacter extends HumanObject {
 
 		climdAnim = DataLoader.getInstance().getAnimation(name + "climb");
 		
+		// fall vaf knock truf\f\ng animation
+		fallForwardAnim = DataLoader.getInstance().getAnimation(name + "fall");
+		fallForwardAnim.setRepeated(false);
+		fallBackAnim = DataLoader.getInstance().getAnimation(name + "fall");
+		fallBackAnim.setRepeated(false);
+		fallBackAnim.flipAllImage();
+		
+		knockForwardAnim = DataLoader.getInstance().getAnimation(name + "knockdown");
+		knockForwardAnim.setRepeated(false);
+		knockBackAnim = DataLoader.getInstance().getAnimation(name + "knockdown");
+		knockBackAnim.setRepeated(false);
+		knockBackAnim.flipAllImage();
 		
 		
 		if(name.equals("biker")) {
@@ -203,7 +211,7 @@ public class BaseCharacter extends HumanObject {
 	}
 	
 	
-	public void drawJumpStage(Graphics2D g2) {
+	public void drawJumpStage(Graphics2D g2) {		
 		if(isDoubleJumping()) {
 			drawCharacterAnimation(djumpForwardAnim, djumpBackAnim, g2, 12, -8);
 			return;
@@ -338,12 +346,12 @@ public class BaseCharacter extends HumanObject {
 //	}
 
 	// -----------------------------------------------------------------------------------------------------------------------------------
-	// -------------------------------------------------------- Xử lý tấn công ------------------------------------------------------------
+	// -------------------------------------------------------- Xử lý tấn công -----------------------------------------------------------
 	private boolean isClickButtonAttack = false;
 	private boolean isAttacking = false;
 	private int attackStage = 0; // 0: idle, 1: t1, 2: t2, 3: t3
 	private long lastAttackTime = 0;
-	private final long[] attackDurations = {0, 6 * 120000000, 2 * 120000000, 8 * 120000000 };
+	private final long[] attackDurations = {0, 5 * 50000000 + 100000000, 2 * 120000000, 8 * 120000000 };
 	
 	// Các frame gây dame riêng của nhân vật 
 	public final static int[][] BIKER_FRAME_DAMAGE = {{}, {4}, {1}, {4, 5, 6}};
@@ -352,6 +360,10 @@ public class BaseCharacter extends HumanObject {
 	
 	public boolean getAtkWhenRunning() {
 		return AtkWhenRunning;
+	}
+	
+	public void setAtkWhenRunning(boolean b) {
+		AtkWhenRunning = b;
 	}
 /*
  * 
@@ -380,6 +392,7 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 		}
 		
 		if(getIsRunning()) {
+			AtkWhenRunning = true;
 			stopRun();
 		}
 
@@ -402,14 +415,22 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 		attack3ForwardAnim.reset();
 		attack3BackAnim.reset();
 		
-//		if(getDirection() == getPreDirection()) {
-//			run();
-//		}
+		if(getAtkWhenRunning()) {
+			run();
+		}
 	}
 
 	private void UpdateAttackStage() {
 		long currentTime = System.nanoTime();
 		long elapsed = currentTime - lastAttackTime;
+		
+		if(attackStage == 3 && elapsed <= attackDurations[attackStage]/8) {
+			setPosX(getPosX() + 2 * getDirection());
+		}
+		
+		if(attackStage == 2 && elapsed <= attackDurations[attackStage]/2) {
+			setPosX(getPosX() + 1 * getDirection());
+		}
 
 		if (elapsed < attackDurations[attackStage]) {
 			return;
@@ -428,7 +449,6 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 //			attack3ForwardAnim.reset();
 //			attack3BackAnim.reset();
 		}
-		
 	}
 	
 	public void drawAttackAnimation(Graphics2D g2) {
@@ -439,12 +459,12 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 	        case 1:
 	            forwardAnim = attack1ForwardAnim;
 	            backAnim = attack1BackAnim;
-	            damage = 10;
+	            damage = 5;
 	            break;
 	        case 2:
 	            forwardAnim = attack2ForwardAnim;
 	            backAnim = attack2BackAnim;
-	            damage = 12;
+	            damage = 5;
 	            break;
 	        case 3:
 	            forwardAnim = attack3ForwardAnim;
@@ -462,7 +482,9 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 
 	private void checkAndStopAttack(Animation forward, Animation back) {
 	    if (forward.isLastFrame() || back.isLastFrame()) {
-	        if (!isClickButtonAttack) stopAttack();
+	        if (!isClickButtonAttack) {
+	        	stopAttack();
+	        }
 	    }
 	}
 	
@@ -480,13 +502,65 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 	}
 
 	
+	// -----------------------------------------------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------- Xử lý ngã --------------------------------------------------------------	
+	
+	private boolean hadResetFallAnim = true;
+//	private boolean wasOnGround = true;
+//	private long timeJustFellToGround = 0;
+	
+	public void onFallLand() {
+//		beHurt(FALL_DAMAGE);
+//		if(getState() == DEATH) {
+//			return;
+//		}
+		
+//		long now = System.nanoTime();
+//		if(now - timeJustFellToGround >= TIME_TO_STUN_AFTER_FALL) {
+//			if(!hadResetFallAnim) {
+//				hadResetFallAnim = true;
+//				setIsFalling(false);
+//				
+//				fallForwardAnim.reset();
+//				fallBackAnim.reset();
+//			}
+//		}
+		
+		if(!hadResetFallAnim) {
+			hadResetFallAnim = true;
+			
+			fallForwardAnim.reset();
+			fallBackAnim.reset();
+		}
+	}
+	
+	private void drawFallStage(Graphics2D g2) {
+		hadResetFallAnim = false;
+		drawCharacterAnimation(fallForwardAnim, fallBackAnim, g2, 12, -8);
+	}
 	
 	
+	// -----------------------------------------------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------- Xử lý Knockdown --------------------------------------------------------------		
+	private boolean hadResetKnockAnim = true;
 	
+	private void gettingUp() {
+		if(!hadResetKnockAnim) {
+			hadResetKnockAnim = true;
+			
+			knockForwardAnim.reset();
+			knockBackAnim.reset();
+		}
+	}
 	
+	private void drawKnockStage(Graphics2D g2) {
+		hadResetKnockAnim = false;
+		drawCharacterAnimation(knockForwardAnim, knockBackAnim, g2, 12, -8);
+	}
+	// -----------------------------------------------------------------------------------------------------------------------------------
 	
 	@Override
-	public void beHurt(int damageGet) {
+	public void beHurt(float damageGet) {
 		super.beHurt(damageGet);
 //		isGetDamage = true;
 	}
@@ -532,14 +606,27 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 		super.Update();
 		
 		switch (getState()) {
+			case FALL:
+				break;
+				
+			case KNOCKDOWN:
+				onFallLand();
+				break;
+				
 			case BEHURT:
 				break;
 		
 			case NOBEHURT:
+				gettingUp();
+				
 			case ALIVE:
-				if(isAttacking) {
+				if(getIsAttacking()) {
 					UpdateAttackStage();
 					return;
+				}
+				
+				if(getSpeedY() >= FALL_SPEED) {
+					setState(FALL);
 				}
 				
 				break;
@@ -576,27 +663,34 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 		g2.drawRect((int) getPosX(), (int) getPosY(), 1, 1);
 
 //		drawHealthBar(g2);
-
-		if (getState() == NOBEHURT) {
-			if (getState() != DEATH) {
-
-				if (hurtDisplay < 5)
-					hurtDisplay++;
-				else {
-					hurtDisplay++;
-					if (hurtDisplay > 9)
-						hurtDisplay = 0;
-					return;
-				}
-			} else
-				hurtDisplay = 0;
-		}
+		
+//		if (getState() == NOBEHURT && !getIsFalling()) {
+//			if (getState() != DEATH) {
+//
+//				if (hurtDisplay < 5)
+//					hurtDisplay++;
+//				else {
+//					hurtDisplay++;
+//					if (hurtDisplay > 9)
+//						hurtDisplay = 0;
+//					return;
+//				}
+//			} else
+//				hurtDisplay = 0;
+//		}
 
 		switch (getState()) {
+		case FALL:
+			drawFallStage(g2);
+			break;
+			
+		case KNOCKDOWN:
+			drawKnockStage(g2);
+			break;
+		
 		case ALIVE:
 		case NOBEHURT:
-			
-			if (isAttacking) {				
+			if (getIsAttacking()) {				
 				drawAttackAnimation(g2);
 				break;
 			}
@@ -613,6 +707,11 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 				climdAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
 				break;
 			}
+			
+			if (getState() == NOBEHURT) {
+				drawCharacterAnimation(beHurtForwardAnim, beHurtBackAnim, g2, 12, -8);
+				break;
+			}
 
 			if (isSingleJumping() || isDoubleJumping()) {
 				drawJumpStage(g2);
@@ -625,11 +724,6 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 //				drawCharacterAnimation(jumpForwardAnim, jumpBackAnim, g2, 12, -8);
 //				break;
 //			}
-
-			if (getState() == NOBEHURT) {
-				drawCharacterAnimation(beHurtForwardAnim, beHurtBackAnim, g2, 12, -8);
-				break;
-			}
 
 			if (isOnGround()) {
 				if(getIsRunning()) {
@@ -646,8 +740,7 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 				break;
 			}
 			
-			drawCharacterAnimation(jumpForwardAnim, jumpBackAnim, g2, 12, -8);
-//			drawCharacterAnimation(fallBackAnim, fallForwardAnim, g2, 12, -8);
+			drawCharacterAnimation(jumpForwardAnim, jumpBackAnim, g2, 12, -8);	
 			break;
 
 		case DEATH:

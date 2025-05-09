@@ -50,8 +50,11 @@ public class InputManager {
 	}
 
 	private void keyPressed(int key) {
-		if(player.getState() == HumanObject.DEATH) {
-			return;
+		switch(player.getState()) {
+			case HumanObject.DEATH:
+			case HumanObject.FALL:
+			case HumanObject.KNOCKDOWN:
+				return;
 		}
 
 		switch (key) {
