@@ -1,0 +1,54 @@
+18
+punkidle
+punkidle0 100000000 punkidle1 100000000 punkidle2 100000000 punkidle3 100000000
+
+punkidleskill
+punkidleskill0 100000000 punkidleskill1 100000000 punkidleskill2 100000000 punkidleskill3 100000000
+
+punkjump
+punkjump0 100000000 punkjump1 100000000 punkjump2 100000000 punkjump3 100000000
+
+punkjumpskill
+punkjumpskill0 100000000 punkjumpskill1 100000000 punkjumpskill2 100000000 punkjumpskill3 100000000
+
+punksitdownskill
+punksitdownskill0 100000000 punksitdownskill1 100000000 punksitdownskill2 100000000 punksitdownskill3 100000000
+
+punkattack2
+punkattack2_6 120000000 punkattack2_7 120000000
+
+punkattack3
+punkattack3_0 120000000 punkattack3_1 120000000 punkattack3_2 120000000 punkattack3_3 120000000 punkattack3_4 120000000 punkattack3_5 120000000 punkattack3_6 120000000 punkattack3_7 120000000 
+
+punkattack1
+punkattack2_0 120000000 punkattack2_1 120000000 punkattack2_2 120000000 punkattack2_3 120000000 punkattack2_4 120000000 punkattack2_5 120000000 
+
+punkpunch
+punkpunch0 100000000 punkpunch1 100000000 punkpunch2 100000000 punkpunch3 100000000 punkpunch4 100000000 punkpunch5 100000000
+
+punkdeath
+punkdeath0 100000000 punkdeath1 100000000 punkdeath2 100000000 punkdeath3 100000000 punkdeath4 100000000 punkdeath5 100000000
+
+punkclimb
+punkclimb0 100000000 punkclimb1 100000000 punkclimb2 100000000 punkclimb3 100000000 punkclimb4 100000000 punkclimb5 100000000
+
+punkrun
+punkrun0 100000000 punkrun1 100000000 punkrun2 100000000 punkrun3 100000000 punkrun4 100000000 punkrun5 100000000
+
+punkrunskill
+punkrunskill0 100000000 punkrunskill1 100000000 punkrunskill2 100000000 punkrunskill3 100000000 punkrunskill4 100000000 punkrunskill5 100000000
+
+punkrunattack
+punkrunattack0 100000000 punkrunattack1 100000000 punkrunattack2 100000000 punkrunattack3 100000000 punkrunattack4 100000000 punkrunattack5 100000000
+
+punkdoublejump
+punkdoublejump0 100000000 punkdoublejump1 100000000 punkdoublejump2 100000000 punkdoublejump3 100000000 punkdoublejump4 100000000 punkdoublejump5 100000000
+
+punkhurt
+punkhurt0 100000000 punkhurt1 100000000
+
+punkhand
+punkhand0 100000000 punkhand1 100000000 punkhand2 100000000 punkhand3 100000000 punkhand4 100000000
+
+punkwalkskill
+punkwalkskill0 100000000 punkwalkskill1 100000000 punkwalkskill2 100000000 punkwalkskill3 100000000 punkwalkskill4 100000000
