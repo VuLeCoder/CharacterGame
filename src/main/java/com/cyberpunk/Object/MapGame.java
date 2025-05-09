@@ -161,7 +161,7 @@ public class MapGame {
 	public CollisionResult haveCollisionWithWallLeft(Rectangle rect) {
 		int posX = rect.x / GameWorld.TILESIZE;
 		int posY1 = rect.y / GameWorld.TILESIZE;
-		int posY2 = (rect.y + rect.height) / GameWorld.TILESIZE;
+		int posY2 = (rect.y + rect.height - 2) / GameWorld.TILESIZE;
 		
 		posY1 = Math.max(0, posY1);
 		posY2 = Math.min(getCollisionMap().length - 1, posY2);
@@ -190,7 +190,7 @@ public class MapGame {
 	public CollisionResult haveCollisionWithWallRight(Rectangle rect) {
 		int posX = (rect.x + rect.width) / GameWorld.TILESIZE;
 		int posY1 = rect.y / GameWorld.TILESIZE;
-		int posY2 = (rect.y + rect.height) / GameWorld.TILESIZE;
+		int posY2 = (rect.y + rect.height - 2) / GameWorld.TILESIZE;
 		
 		posY1 = Math.max(0, posY1);
 		posY2 = Math.min(getCollisionMap().length - 1, posY2);
