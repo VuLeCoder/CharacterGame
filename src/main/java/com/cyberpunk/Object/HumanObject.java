@@ -7,7 +7,7 @@ import com.cyberpunk.StartGame.KeyConfig;
 
 public abstract class HumanObject extends Object {
 	// Cấu hình nhân vật
-	public static final float HEATLH_POINT = 100f;
+	public static final float HEALTH_POINT = 100f;
 	public static final float JUMP_STRENGTH = -3.8f;
 	public static final int HUMAN_HEIGHT = 34;
 	public static final int HUMAN_WIDTH = 21;
@@ -338,6 +338,7 @@ public abstract class HumanObject extends Object {
 				beHurt(FALL_DAMAGE);
 				setState(KNOCKDOWN);
 			}
+			stopRun();
 			break;
 			
 		case KNOCKDOWN:
@@ -345,6 +346,7 @@ public abstract class HumanObject extends Object {
 				setState(NOBEHURT);
 		        setNoBeHurtStart(System.nanoTime());
 		    }
+			stopRun();
 			break;
 
 		case NOBEHURT:
@@ -376,6 +378,8 @@ public abstract class HumanObject extends Object {
 
 		case DEATH:
 			// build death animation here
+			stopRun();
+//			stopClimb();
 			break;
 
 		default:

@@ -16,14 +16,14 @@ public class GameFrame extends JFrame{
 	
     public static final int SCREEN_WIDTH = GamePanel.MAP_WIDTH + PADDING_WIDTH;
     public static final int SCREEN_HEIGHT = GamePanel.MAP_HEIGHT + PADDING_HEIGHT;
-    
 
     public GameFrame() {
-        Toolkit toolkit = this.getToolkit();
-        Dimension dimension = toolkit.getScreenSize();
-        this.setBounds((dimension.width - SCREEN_WIDTH)/2,
-                        (dimension.height - SCREEN_HEIGHT)/2,
-                        SCREEN_WIDTH, SCREEN_HEIGHT);
+//        Toolkit toolkit = this.getToolkit();
+//        Dimension dimension = toolkit.getScreenSize();
+//        this.setBounds((dimension.width - SCREEN_WIDTH)/2,
+//                        (dimension.height - SCREEN_HEIGHT)/2,
+//                        SCREEN_WIDTH, SCREEN_HEIGHT);
+    	setScreenSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         
         
         setResizable(false);
@@ -35,8 +35,23 @@ public class GameFrame extends JFrame{
 			e.printStackTrace();
 		}
 
-        GamePanel gamePanel = new GamePanel();
+        GamePanel gamePanel = new GamePanel(this);
         add(gamePanel);
-        gamePanel.startGame();
+        gamePanel.startRunning();
+    }
+    
+//    public void setScreenSize(int delatWidth, int deltaHeight) {
+//    	Toolkit toolkit = this.getToolkit();
+//        Dimension dimension = toolkit.getScreenSize();
+//        this.setBounds((dimension.width - SCREEN_WIDTH + delatWidth)/2,
+//                        (dimension.height - SCREEN_HEIGHT + deltaHeight)/2,
+//                        SCREEN_WIDTH + delatWidth, SCREEN_HEIGHT + deltaHeight);
+//    }
+    public void setScreenSize(int newWidth, int newHeight) {
+    	Toolkit toolkit = this.getToolkit();
+    	Dimension dimension = toolkit.getScreenSize();
+    	this.setBounds((dimension.width - newWidth)/2,
+    			(dimension.height - newHeight)/2,
+    			newWidth, newHeight);
     }
 }

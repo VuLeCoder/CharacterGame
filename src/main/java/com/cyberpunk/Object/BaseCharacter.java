@@ -10,12 +10,6 @@ import com.cyberpunk.Effect.DataLoader;
 public class BaseCharacter extends HumanObject {
 	public String name;
 
-
-//	private float previousHealth = getHealth();
-
-//	private BufferedImage healthBarFull, healthBarDrain, healthBarBlank, healthBarHeal;
-//	private BufferedImage healthBarFull_sub, healthBarDrain_sub, healthBarHeal_sub;
-
 //	private boolean isRunning = false;
 
 	// private int hurtDisplay = 0;
@@ -45,17 +39,12 @@ public class BaseCharacter extends HumanObject {
 	public BaseCharacter(float x, float y, String name, GameWorld gameWorld) {
 		super(x, y, gameWorld);
 		this.name = name;
+		
+		if(name.equals("biker")) {
+			damageFrames = BIKER_FRAME_DAMAGE;
+		}
 
-//		try {
-//			healthBarFull = ImageIO.read(new File("data/gui/health_bar_full.png"));
-//			healthBarDrain = ImageIO.read(new File("data/gui/health_bar_drain1.png"));
-//			healthBarBlank = ImageIO.read(new File("data/gui/health_bar_blank.png"));
-//			healthBarHeal = ImageIO.read(new File("data/gui/health_bar_heal.png"));
-//
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//		}
-
+		// Animation for character action
 		attack1ForwardAnim = DataLoader.getInstance().getAnimation(name + "attack1");
 		attack1BackAnim = DataLoader.getInstance().getAnimation(name + "attack1");
 		attack1BackAnim.flipAllImage();
@@ -67,13 +56,6 @@ public class BaseCharacter extends HumanObject {
 		attack3ForwardAnim = DataLoader.getInstance().getAnimation(name + "attack3");
 		attack3BackAnim = DataLoader.getInstance().getAnimation(name + "attack3");
 		attack3BackAnim.flipAllImage();
-		
-//		attack1ForwardAnim.setRepeated(false);
-//		attack1BackAnim.setRepeated(false);
-//		attack2ForwardAnim.setRepeated(false);
-//		attack2BackAnim.setRepeated(false);
-//		attack3ForwardAnim.setRepeated(false);
-//		attack3BackAnim.setRepeated(false);
 		
 
 		deathForwardAnim = DataLoader.getInstance().getAnimation(name + "death");
@@ -163,11 +145,6 @@ public class BaseCharacter extends HumanObject {
 		knockBackAnim = DataLoader.getInstance().getAnimation(name + "knockdown");
 		knockBackAnim.setRepeated(false);
 		knockBackAnim.flipAllImage();
-		
-		
-		if(name.equals("biker")) {
-			damageFrames = BIKER_FRAME_DAMAGE;
-		}
 	}
 
 	
@@ -440,12 +417,6 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 			attackStage++;
 		} else {
 			attackStage = 1;
-//			attack1ForwardAnim.reset();
-//			attack1BackAnim.reset();
-//			attack2ForwardAnim.reset();
-//			attack2BackAnim.reset();
-//			attack3ForwardAnim.reset();
-//			attack3BackAnim.reset();
 		}
 	}
 	
@@ -508,21 +479,6 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 //	private long timeJustFellToGround = 0;
 	
 	public void onFallLand() {
-//		beHurt(FALL_DAMAGE);
-//		if(getState() == DEATH) {
-//			return;
-//		}
-		
-//		long now = System.nanoTime();
-//		if(now - timeJustFellToGround >= TIME_TO_STUN_AFTER_FALL) {
-//			if(!hadResetFallAnim) {
-//				hadResetFallAnim = true;
-//				setIsFalling(false);
-//				
-//				fallForwardAnim.reset();
-//				fallBackAnim.reset();
-//			}
-//		}
 		
 		if(!hadResetFallAnim) {
 			hadResetFallAnim = true;
@@ -539,7 +495,7 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 	
 	
 	// -----------------------------------------------------------------------------------------------------------------------------------
-	// ---------------------------------------------------------- Xử lý Knockdown --------------------------------------------------------------		
+	// -------------------------------------------------------- Xử lý Knockdown ----------------------------------------------------------
 	private boolean hadResetKnockAnim = true;
 	
 	private void gettingUp() {
@@ -555,25 +511,27 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 		hadResetKnockAnim = false;
 		drawCharacterAnimation(knockForwardAnim, knockBackAnim, g2, 12, -8);
 	}
-	// -----------------------------------------------------------------------------------------------------------------------------------
 	
-	@Override
-	public void beHurt(float damageGet) {
-		super.beHurt(damageGet);
-//		isGetDamage = true;
+	// -----------------------------------------------------------------------------------------------------------------------------------
+	// ---------------------------------------------------- Xử lý Thanh máu --------------------------------------------------------------
+	private float previousHPratio = 1;
+	private long timeStartDrain = 0;
+	
+	public float getPreviousHPratio() {
+		return this.previousHPratio;
+	}
+	
+	public void setPreviousHPratio(float ratio) {
+		this.previousHPratio = ratio;
 	}
 
-	@Override
-	public void beHeal(float healedGet) {
-		float health = Math.min(100, getHealth() + healedGet);
-		setHealth(health);
-
+	public void setTimeStartDrain(long time) {
+		this.timeStartDrain = time;
 	}
 
-//	public void drawHealthBar(Graphics2D g2) {
-//
-//		g2.drawImage(healthBarBlank, 0, 0, 262, 14 * 2, null);
-//
+	public long getTimeStartDrain() {
+		return this.timeStartDrain;
+	}
 //		if (previousHealth >= getHealth()) { // draw health drained
 //
 //			if (previousHealth > getHealth())
@@ -597,7 +555,23 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 //			healthBarFull_sub = healthBarFull.getSubimage(0, 0, (int) (1.31 * previousHealth), 14);
 //			g2.drawImage(healthBarFull_sub, 0, 0, (int) (1.31 * previousHealth) * 2, 14 * 2, null);
 //		}
-//	}
+	
+	
+	
+	@Override
+	public void beHurt(float damageGet) {
+		super.beHurt(damageGet);
+//		isGetDamage = true;
+	}
+
+	@Override
+	public void beHeal(float healedGet) {
+		float health = Math.min(100, getHealth() + healedGet);
+		setHealth(health);
+
+	}
+
+
 
 	@Override
 	public void Update() {
@@ -660,7 +634,7 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 		g2.setColor(Color.black);
 		g2.drawRect((int) getPosX(), (int) getPosY(), 1, 1);
 
-//		drawHealthBar(g2);
+//		drawHealthBar(g2, 0, 0);
 		
 //		if (getState() == NOBEHURT && !getIsFalling()) {
 //			if (getState() != DEATH) {

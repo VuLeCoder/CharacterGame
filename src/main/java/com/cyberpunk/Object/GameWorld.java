@@ -1,6 +1,7 @@
 package com.cyberpunk.Object;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -15,7 +16,7 @@ public class GameWorld{
 	private final static int pointX = 22, pointY = 14; // Điểm rơi hộp
 	
 	private final BufferedImage bufferedImage;
-//	private final StartScreen startScreen;
+
 	private final ScreenManager screenManager;
 	private final MapGame mapGame;
 	private final int[][] animatedMap;
@@ -26,13 +27,13 @@ public class GameWorld{
 	private final Camera camera;
 	private final ObjectManager objectManager;
 	private final SkillManager skillManager;
+	private final GameUI gUi;
 	
 	private final BaseCharacter P1;
 	private final BaseCharacter P2;
 
 	public GameWorld(JComponent jComponent) {
-		bufferedImage = new BufferedImage(GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT, BufferedImage.TYPE_INT_ARGB);
-		// bufferedImage = new BufferedImage(GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		bufferedImage = new BufferedImage(GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT + GamePanel.HUD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		
 		screenManager = new ScreenManager(jComponent);
 		
@@ -41,6 +42,7 @@ public class GameWorld{
 
 		objectManager = new ObjectManager(this);
 		skillManager = new SkillManager(this);
+		gUi = new GameUI();
 		
 		P1 = new BaseCharacter(100, 500, "biker", this);
 		P1.setTeamType(HumanObject.P1_TEAM);
@@ -51,7 +53,6 @@ public class GameWorld{
 		objectManager.addObject(P2);
 		
 		camera = new Camera(0, 0, GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT, this);
-//		camera = new Camera(GamePanel.MAP_DRAW_X, GamePanel.MAP_DRAW_Y, GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT, this);
 
 		addAllAnimatedObject();
 	}
@@ -119,14 +120,12 @@ public class GameWorld{
 			return;
 		}
 		
+		gUi.Update(getP1());
+		gUi.Update(getP2());		
+		
 		camera.Update();
 		objectManager.dropBox(pointX, pointY, System.nanoTime());
 		objectManager.UpdateObjects();
-		
-//		while (!objectManager.checkCharacter()) {
-//			objectManager.addObject(new BaseCharacter(100, 500, "biker", this));
-//		}
-		
 		skillManager.UpdateObjects();
 	}
 	
@@ -143,8 +142,17 @@ public class GameWorld{
 			return;
 		}
 		
+		drawGameObject(g2);
+		
+		drawHUD();
+		
+	}
+	
+	private void drawGameObject(Graphics2D g2) {
+		g2.setClip(0, 0, GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT);
+		
 		g2.setColor(Color.BLACK);
-		g2.fillRect(0, 0, GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT);
+//		g2.fillRect(0, 0, GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT);
 		
 		float targetZoomX = GamePanel.MAP_WIDTH / camera.getWidthView();
 		float targetZoomY = GamePanel.MAP_HEIGHT / camera.getHeightView();
@@ -166,6 +174,31 @@ public class GameWorld{
 		
 		camera.draw(g2);
 		objectManager.draw(g2);
-		skillManager.draw(g2);
+		skillManager.draw(g2);	
 	}
+
+	private void drawHUD() {
+		System.out.println(getP1().getHealth());
+		
+		Graphics2D g2 = (Graphics2D) bufferedImage.getGraphics();
+		if(g2 == null) {
+			return;
+		}
+		
+		g2.setClip(0, GamePanel.MAP_HEIGHT, getBufferedImage().getWidth(), GamePanel.HUD_HEIGHT);
+		g2.translate(0, 0);
+		g2.scale(1, 1);
+		g2.setColor(Color.black);
+		g2.setFont(new Font("Arial", Font.PLAIN, 25));
+		
+		int posX1 = 0, posX2 = GamePanel.MAP_WIDTH - GameUI.HEALTH_BAR_WIDTH;
+		int posY = GamePanel.MAP_HEIGHT + (GamePanel.HUD_HEIGHT - GameUI.HEALTH_BAR_HEIGHT) / 2; 
+		
+		g2.drawString("P1", posX1, posY - 10);
+		gUi.drawHealthBar(getP1(), posX1, posY, g2);
+		
+		g2.drawString("P2", posX2, posY - 10);
+		gUi.drawHealthBar(getP2(), posX2, posY, g2);
+	}
+
 }

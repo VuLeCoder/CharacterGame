@@ -7,4 +7,6 @@ data/**
 !data/map/**
 !data/character/
 !data/character/**
+!data/gui/
+!data/gui/**
 test/

@@ -8,11 +8,16 @@ import com.cyberpunk.Object.GameWorld;
 
 public class GamePanel extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
+	
+	private final GameFrame window;
 
 	// Vị trí vẽ map game
 //	public static int MAP_DRAW_X = 0, MAP_DRAW_Y = 0;
 	public static final int MAP_WIDTH = GameWorld.TILESIZE * 40;
     public static final int MAP_HEIGHT = GameWorld.TILESIZE * 20;
+    public static final int HUD_HEIGHT = 100; //Heads-Up Display
+    
+    private boolean isChangeScreenSize;
 
 	private Thread gameThread;
 	private boolean isRunning;
@@ -28,42 +33,16 @@ public class GamePanel extends JPanel implements Runnable {
 //	private final Rectangle buttonBounds = new Rectangle(StartScreen.BUTTON_X, StartScreen.BUTTON_Y, StartScreen.BUTTON_WIDTH, StartScreen.BUTTON_HEIGHT);
 //    private boolean isHovering = false;
 
-	public GamePanel() {
+	public GamePanel(GameFrame gameFrame) {
+		this.window = gameFrame;
 		setDoubleBuffered(true);
 		
+		isChangeScreenSize = false;
 		isRunning = true;
 		gameWorld = new GameWorld(this);
 		keyConfig = new KeyConfig();
 		
-//		addMouseMotionListener(new MouseMotionAdapter() {
-//			@Override
-//			public void mouseMoved(MouseEvent e) {
-//				if (gameWorld.getScreenManager().) {
-//					return;
-//				}
-//
-//				boolean hovering = buttonBounds.contains(e.getPoint());
-//				if (hovering != isHovering) {
-//					isHovering = hovering;
-//					setCursor(hovering ? Cursor.getPredefinedCursor(Cursor.HAND_CURSOR) : Cursor.getDefaultCursor());
-//				}
-//			}
-//		});
-//		
-//		addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mousePressed(MouseEvent e) {
-//				if (gameWorld.isStartGame()) {
-//					return;
-//				}
-//				
-//				if (buttonBounds.contains(e.getPoint())) {
-//					
-//					setCursor(Cursor.getDefaultCursor());
-//				}
-//			}
-//		});
-		
+		// Sự kiện bàn phím
 		this.setFocusable(true);
 		inputManager1 = new InputManager(gameWorld.getP1(), keyConfig.getP1_KeyMap());
 		inputManager1.register(this);
@@ -72,7 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
 		inputManager2.register(this);
 	}
 
-	public void startGame() {
+	public void startRunning() {
 		gameThread = new Thread(this);
 		gameThread.start();
 	}
@@ -80,6 +59,7 @@ public class GamePanel extends JPanel implements Runnable {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
 		g.drawImage(gameWorld.getBufferedImage(), 0, 0, this);
 //		g.drawImage(gameWorld.getBufferedImage(), MAP_DRAW_X, MAP_DRAW_Y, this);
 	}
@@ -93,6 +73,10 @@ public class GamePanel extends JPanel implements Runnable {
 		while (isRunning) {
 
 			gameWorld.Update();
+			if(!gameWorld.getScreenManager().isNotInitializedGameYet()) {
+				UpdateScreen(GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT + HUD_HEIGHT);
+			}
+			
 			gameWorld.Render();
 			repaint();
 
@@ -111,5 +95,14 @@ public class GamePanel extends JPanel implements Runnable {
 
 			beginTime = System.nanoTime();
 		}
+	}
+	
+	private void UpdateScreen(int width, int height) {
+		if(isChangeScreenSize) {
+			return;
+		}
+		
+		isChangeScreenSize = true;
+		window.setScreenSize(width, height);
 	}
 }

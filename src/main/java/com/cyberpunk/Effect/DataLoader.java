@@ -16,8 +16,6 @@ public class DataLoader {
 	private final String idleScreenFrameFile = "data/map/idleMap/idleScreenTileset.txt";
 	private final String idleLogoFrameFile = "data/map/idleMap/idleLogoTileset.txt";
 	private final String idleScreenAnimationFile = "data/map/idleMap/idleScreenAnimation.txt";
-
-//	private final String idleScreenAnimationFile = "data/map/idleMap/idleScreenAnimation.txt";
 	
 	//data/map/wall/wallTileset.png
 	private final String wallFramefile = "data/map/wall/wallTileset.txt";
@@ -46,9 +44,16 @@ public class DataLoader {
 	// charater
 	private final String bikerFramefile = "data/character/biker/frame.txt";
  	private final String bikerObject = "data/character/biker/animation.txt";
+ 	
+ 	//HealthBar
+ 	private final String healbarFull = "data/gui/health_bar_full.png";
+	private final String healthBarDrain = "data/gui/health_bar_drain1.png";
+	private final String healthBarBlank = "data/gui/health_bar_blank.png";
+	private final String healthBarHeal = "data/gui/health_bar_heal.png";
 	
 	private Hashtable<String, FrameImage> frameImages = null;
 	private Hashtable<String, Animation> animations = null;
+	private Hashtable<String, BufferedImage> images = null;
 	
 	private int[][] collisionMap;
 	private int[][] wallMap;
@@ -65,6 +70,15 @@ public class DataLoader {
 			instance = new DataLoader();
 		}
 		return instance;
+	}
+	
+	private void LoadImage(String imageName) throws IOException {
+		if(images == null) {
+			images = new Hashtable<String, BufferedImage>();
+		}
+		
+		BufferedImage image = ImageIO.read(new File(imageName));
+		instance.images.put(imageName, image);
 	}
 	
 	private void LoadFrame(String fileName) throws IOException {
@@ -212,10 +226,11 @@ public class DataLoader {
 	}
 	
 	public Animation getAnimation(String name) {
-//		for (String key : instance.animations.keySet()) {
-//            System.out.println("Key: " + key);
-//        }
 		return new Animation(instance.animations.get(name));
+	}
+	
+	public BufferedImage getDataBufferedImage(String name) {
+		return instance.images.get(name);
 	}
 	
 	public int[][] getCollisionMap() {
@@ -275,5 +290,10 @@ public class DataLoader {
 		// Character
 		LoadFrame(bikerFramefile);
 		LoadAnimation(bikerObject);
+		
+		LoadImage(healbarFull);
+		LoadImage(healthBarBlank);
+		LoadImage(healthBarDrain);
+		LoadImage(healthBarHeal);
 	}
 }
