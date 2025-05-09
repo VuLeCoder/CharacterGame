@@ -32,19 +32,38 @@ public class Bullet extends Object{
 		
 		hitbox = getGameWorld().getMapGame().haveCollisionWithLand(movingHitbox());
 //		System.out.println(hitbox.getCollisionWithTile());
-		if(hitbox.getCollisionWithTile() != 0) return true;
+		switch (hitbox.getCollisionWithTile()) {
+			case MapGame.WALL_TILE:
+			case MapGame.TRANSPORT_LEFT_TILE:
+				return true;
+				
+		}
+		
+		
 		
 		hitbox = getGameWorld().getMapGame().haveCollisionWithTop(movingHitbox());
-//		System.out.println(hitbox.getCollisionWithTile());
-		if(hitbox.getCollisionWithTile() != 0) return true;
+		switch (hitbox.getCollisionWithTile()) {
+			case MapGame.WALL_TILE:
+			case MapGame.TRANSPORT_LEFT_TILE:
+				return true;
+				
+		}
 		
 		hitbox = getGameWorld().getMapGame().haveCollisionWithWallLeft(movingHitbox());
-//		System.out.println(hitbox.getCollisionWithTile());
-		if(hitbox.getCollisionWithTile() != 0) return true;
+		switch (hitbox.getCollisionWithTile()) {
+			case MapGame.WALL_TILE:
+			case MapGame.TRANSPORT_LEFT_TILE:
+				return true;
+				
+		}
 		
 		hitbox = getGameWorld().getMapGame().haveCollisionWithWallRight(movingHitbox());
-//		System.out.println(hitbox.getCollisionWithTile());	
-		if(hitbox.getCollisionWithTile() != 0) return true;
+		switch (hitbox.getCollisionWithTile()) {
+			case MapGame.WALL_TILE:
+			case MapGame.TRANSPORT_LEFT_TILE:
+				return true;
+				
+		}
 		
 		return false;
 	}
