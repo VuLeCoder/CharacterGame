@@ -39,7 +39,7 @@ public class GameWorld{
 		P1 = new BaseCharacter(100, 500, "biker", this);
 		objectManager.addObject(P1);
 		
-		P2 = new BaseCharacter(900, 500, "biker", this);
+		P2 = new BaseCharacter(900, 500, "cyborg", this);
 		objectManager.addObject(P2);
 		
 		addAllAnimatedObject();

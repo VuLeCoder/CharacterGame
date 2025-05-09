@@ -1,13 +1,15 @@
 package com.cyberpunk.StartGame;
 
+import java.awt.event.ActionEvent;
+import java.util.Map;
 import java.util.Stack;
+
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 import com.cyberpunk.Object.BaseCharacter;
 import com.cyberpunk.Object.HumanObject;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.util.Map;
 
 public class InputManager {
     private final BaseCharacter player;
@@ -53,6 +55,10 @@ public class InputManager {
     	
         switch(key) {
         	case KeyConfig.UP:
+        		if(player.isShooting()) {
+        			player.setHandDirection(1);
+        			break;
+        		}
         		player.jump();
         		
 				if(player.isClimbing()) {
@@ -77,6 +83,10 @@ public class InputManager {
         		break;
         		
         	case KeyConfig.DOWN:
+        		if(player.isShooting()) {
+        			player.setHandDirection(-1);
+        			break;
+        		}
         		player.sitDown(System.nanoTime());
         		
         		if(player.isClimbing()) {
@@ -86,6 +96,10 @@ public class InputManager {
         		
         	case KeyConfig.ATTACK:
         		player.attack();
+        		break;
+        		
+        	case KeyConfig.SHOOTING:
+        		player.setShooting(true);
         		break;
         }
     }
@@ -119,6 +133,11 @@ public class InputManager {
 	    		
 	    	case KeyConfig.ATTACK:
 	    		player.stopAttack();
+	    		break;
+	    		
+	    	case KeyConfig.SHOOTING:
+	    		player.shoot();
+	    		player.setShooting(false);
 	    		break;
 	    }
     }

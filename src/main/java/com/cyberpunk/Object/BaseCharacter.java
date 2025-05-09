@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import com.cyberpunk.Effect.Animation;
 import com.cyberpunk.Effect.DataLoader;
+import com.cyberpunk.StartGame.GameFrame;
 
 public class BaseCharacter extends HumanObject {
 	public String name;
@@ -20,6 +21,8 @@ public class BaseCharacter extends HumanObject {
 	private float previousHealth = getHealth();
 	
 	public Object attack;
+	
+	private boolean isShooting;
 
 	private BufferedImage healthBarFull, healthBarDrain, healthBarBlank, healthBarHeal;
 	private BufferedImage healthBarFull_sub, healthBarDrain_sub, healthBarHeal_sub;
@@ -44,6 +47,9 @@ public class BaseCharacter extends HumanObject {
 	private Animation runAttackForwardAnim, runAttackBackAnim, runSkillForwardAnim, runSkillBackAnim;
 	private Animation sitdownSkillForwardAnim, sitdownSkillBackAnim, walkSkillForwardAnim, walkSkillBackAnim;
 	private Animation handForwardAnim, handBackAnim;
+	
+	//gun
+	private Animation gunForwardAnim, gunBackAnim;
 
 	public BaseCharacter(float x, float y, String name, GameWorld gameWorld) {
 		super(x, y, gameWorld);
@@ -145,6 +151,11 @@ public class BaseCharacter extends HumanObject {
 		beHurtBackAnim.flipAllImage();
 
 		climdAnim = DataLoader.getInstance().getAnimation(name + "climb");
+		
+		//gun
+		gunForwardAnim = DataLoader.getInstance().getAnimation("gun10");
+		gunBackAnim = DataLoader.getInstance().getAnimation("gun10");
+		gunBackAnim.flipAllImage();
 	}
 
 	@Override
@@ -285,7 +296,7 @@ public class BaseCharacter extends HumanObject {
 		isAttacking = true;
 		if (!isFirstAttack && !isSecondAttack && !isThirdAttack && !isSitting() && !isDoubleJumping()) {
 			getGameWorld().skillManager.entity.remove(attack);
-			attack = new BaseAttack(5, this, getGameWorld());
+			attack = new BaseAttack(1, this, getGameWorld());
 			
 			isFirstAttack = true;
 
@@ -296,7 +307,7 @@ public class BaseCharacter extends HumanObject {
 		} else if (!isSecondAttack
 				&& (attack1ForwardAnim.getCurrentFrame() >= 3 || attack1BackAnim.getCurrentFrame() >= 3)) {
 			getGameWorld().skillManager.entity.remove(attack);
-			attack = new BaseAttack(10, this, getGameWorld());
+			attack = new BaseAttack(1, this, getGameWorld());
 			
 			isSecondAttack = true;
 			isFirstAttack = false;
@@ -307,7 +318,7 @@ public class BaseCharacter extends HumanObject {
 
 		} else if (!isThirdAttack && (attack2ForwardAnim.isLastFrame() || attack2BackAnim.isLastFrame())) {
 			getGameWorld().skillManager.entity.remove(attack);
-			attack = new BaseAttack(15, this, getGameWorld());
+			attack = new BaseAttack(1, this, getGameWorld());
 			
 			isSecondAttack = false;
 			isThirdAttack = true;
@@ -344,12 +355,43 @@ public class BaseCharacter extends HumanObject {
 		attack3BackAnim.reset();
 
 	}
+	
+	public void setShooting(boolean isShooting) {
+		this.isShooting = isShooting;
+		handForwardAnim.setCurrentFrame(2);
+		handBackAnim.setCurrentFrame(2);
+		
+		gunForwardAnim.setCurrentFrame(2);
+		gunBackAnim.setCurrentFrame(2);
+	}
+	
+	public boolean isShooting() {
+		return isShooting;
+	}
+	
+	public void shoot() {
+//		float offSetX = getDirection() == RIGHT_DIR ? getPosX() + 
+		Bullet bullet = new Bullet(getPosX(), getPosY(), handForwardAnim.getCurrentFrame(), 10, this, getGameWorld());
+		getGameWorld().skillManager.addObject(bullet);
+	}
+	
+	public void setHandDirection(int dir) {
+		int dirClamp = Math.max(0, Math.min(4, handForwardAnim.getCurrentFrame() + dir));
+		
+		handForwardAnim.setCurrentFrame(dirClamp);
+		handBackAnim.setCurrentFrame(dirClamp);
+		
+		gunForwardAnim.setCurrentFrame(dirClamp);
+		gunBackAnim.setCurrentFrame(dirClamp);
+	}
 
 	@Override
 	public void beHurt(int damageGet) {
 		super.beHurt(damageGet);
 
 		isGetDamage = true;
+		
+		System.out.println(hurtDisplay + " " + getHealth() + " " + damageGet);
 	}
 
 	@Override
@@ -361,30 +403,59 @@ public class BaseCharacter extends HumanObject {
 
 	public void drawHealthBar(Graphics2D g2) {
 
-		g2.drawImage(healthBarBlank, 0, 0, 262, 14 * 2, null);
+		if(getTeamType() == P1_TEAM) {
+			g2.drawImage(healthBarBlank, 0, 0, 262, 14 * 2, null);
 
-		if (previousHealth >= getHealth()) { // draw health drained
+			if (previousHealth >= getHealth()) { // draw health drained
 
-			if (previousHealth > getHealth())
-				previousHealth -= 1;
+				if (previousHealth > getHealth())
+					previousHealth -= 1;
 
-			if (previousHealth > 0) {
-				healthBarDrain_sub = healthBarDrain.getSubimage(0, 0, (int) (1.31 * previousHealth), 14);
-				g2.drawImage(healthBarDrain_sub, 0, 0, (int) (previousHealth * 1.31) * 2, 14 * 2, null);
+				if (previousHealth > 0) {
+					healthBarDrain_sub = healthBarDrain.getSubimage(0, 0, (int) (1.31 * previousHealth), 14);
+					g2.drawImage(healthBarDrain_sub, 0, 0, (int) (previousHealth * 1.31) * 2, 14 * 2, null);
+				}
+
+				if (getHealth() > 0) {
+					healthBarFull_sub = healthBarFull.getSubimage(0, 0, (int) (1.31 * getHealth()), 14);
+					g2.drawImage(healthBarFull_sub, 0, 0, (int) (getHealth() * 2.62), 14 * 2, null);
+				}
+			} else if (previousHealth < getHealth()) { // draw health healed
+				previousHealth += 1;
+
+				healthBarHeal_sub = healthBarHeal.getSubimage(0, 0, (int) (1.31 * getHealth()), 14);
+				g2.drawImage(healthBarHeal_sub, 0, 0, (int) (1.31 * getHealth()) * 2, 14 * 2, null);
+
+				healthBarFull_sub = healthBarFull.getSubimage(0, 0, (int) (1.31 * previousHealth), 14);
+				g2.drawImage(healthBarFull_sub, 0, 0, (int) (1.31 * previousHealth) * 2, 14 * 2, null);
 			}
+		}
+		else {
+			g2.drawImage(healthBarBlank, GameFrame.SCREEN_WIDTH - 131 * 2, 0, 262, 14 * 2, null);
 
-			if (getHealth() > 0) {
-				healthBarFull_sub = healthBarFull.getSubimage(0, 0, (int) (1.31 * getHealth()), 14);
-				g2.drawImage(healthBarFull_sub, 0, 0, (int) (getHealth() * 2.62), 14 * 2, null);
+			if (previousHealth >= getHealth()) { // draw health drained
+
+				if (previousHealth > getHealth())
+					previousHealth -= 1;
+
+				if (previousHealth > 0) {
+					healthBarDrain_sub = healthBarDrain.getSubimage(131 - (int) (1.31 * previousHealth), 0, (int) (1.31 * previousHealth), 14);
+					g2.drawImage(healthBarDrain_sub, GameFrame.SCREEN_WIDTH - (int) (previousHealth * 1.31) * 2, 0, (int) (previousHealth * 1.31) * 2, 14 * 2, null);
+				}
+
+				if (getHealth() > 0) {
+					healthBarFull_sub = healthBarFull.getSubimage(131 - (int) (1.31 * getHealth()), 0, (int) (1.31 * getHealth()), 14);
+					g2.drawImage(healthBarFull_sub, GameFrame.SCREEN_WIDTH - (int) (getHealth() * 2.62), 0, (int) (getHealth() * 2.62), 14 * 2, null);
+				}
+			} else if (previousHealth < getHealth()) { // draw health healed
+				previousHealth += 1;
+
+				healthBarHeal_sub = healthBarHeal.getSubimage(0, 0, (int) (1.31 * getHealth()), 14);
+				g2.drawImage(healthBarHeal_sub, GameFrame.SCREEN_WIDTH - (int) (1.31 * getHealth()) * 2, 0, (int) (1.31 * getHealth()) * 2, 14 * 2, null);
+
+				healthBarFull_sub = healthBarFull.getSubimage(0, 0, (int) (1.31 * previousHealth), 14);
+				g2.drawImage(healthBarFull_sub, GameFrame.SCREEN_WIDTH - (int) (1.31 * previousHealth) * 2, 0, (int) (1.31 * previousHealth) * 2, 14 * 2, null);
 			}
-		} else if (previousHealth < getHealth()) { // draw health healed
-			previousHealth += 1;
-
-			healthBarHeal_sub = healthBarHeal.getSubimage(0, 0, (int) (1.31 * getHealth()), 14);
-			g2.drawImage(healthBarHeal_sub, 0, 0, (int) (1.31 * getHealth()) * 2, 14 * 2, null);
-
-			healthBarFull_sub = healthBarFull.getSubimage(0, 0, (int) (1.31 * previousHealth), 14);
-			g2.drawImage(healthBarFull_sub, 0, 0, (int) (1.31 * previousHealth) * 2, 14 * 2, null);
 		}
 	}
 
@@ -413,16 +484,6 @@ public class BaseCharacter extends HumanObject {
 			setSitting(false);
 		}
 
-		if (jumpForwardAnim.getCurrentFrame() > jumpBackAnim.getCurrentFrame())
-			jumpBackAnim.setCurrentFrame(jumpForwardAnim.getCurrentFrame());
-		else
-			jumpForwardAnim.setCurrentFrame(jumpBackAnim.getCurrentFrame());
-
-		if (sitdownSkillForwardAnim.getCurrentFrame() > sitdownSkillBackAnim.getCurrentFrame())
-			sitdownSkillBackAnim.setCurrentFrame(sitdownSkillForwardAnim.getCurrentFrame());
-		else
-			sitdownSkillForwardAnim.setCurrentFrame(sitdownSkillBackAnim.getCurrentFrame());
-
 //		System.out.println(attack1ForwardAnim.getCurrentFrame() + " " + attack2ForwardAnim.getCurrentFrame() + " "
 //				+ attack3ForwardAnim.getCurrentFrame() + " " + isFirstAttack + " " + isSecondAttack + " "
 //				+ isThirdAttack + " " + isAttacking);
@@ -439,12 +500,51 @@ public class BaseCharacter extends HumanObject {
 	
 	private void drawCharacterAnimation(Animation animForward, Animation animBack, Graphics2D g2, int offsetXForward, int offsetXBack) {
 		long currentTime = System.nanoTime();
+		animForward.Update(currentTime);
+		animBack.Update(currentTime);
 		if (getDirection() == RIGHT_DIR) {
-			animForward.Update(currentTime);
 			animForward.draw((int) getPosX() + offsetXForward, (int) getPosY() - 7, g2);
 		} else {
-			animBack.Update(currentTime);
 			animBack.draw((int) getPosX() + offsetXBack, (int) getPosY() - 7, g2);
+		}
+	}
+	
+	private void drawCharacterAnimation(Animation animForward, Animation animBack, Animation animSkillForward, Animation animSkillBack, Graphics2D g2, int offsetXForward, int offsetXBack) {
+		long currentTime = System.nanoTime();
+		Animation fallbackAnimForward = animForward != null ? animForward : animSkillForward;
+		Animation fallbackAnimBack = animBack != null ? animBack : animSkillBack;
+		
+		if(animForward != null && animBack != null) {
+			animForward.Update(currentTime);
+			animBack.Update(currentTime);
+		}
+		if(animSkillForward != null && animSkillBack != null) {
+			animSkillForward.Update(currentTime);
+			animSkillBack.Update(currentTime);
+		}
+		
+		int[] arr = DataLoader.getInstance().getAlign(animSkillForward.getCurrentFrameImages().getName());
+		int handXoffset = arr[0], handYoffset = arr[1];
+		
+		if(isShooting()) {
+//			System.out.println(arr[0] + " " + arr[1]);
+			
+			if (getDirection() == RIGHT_DIR) {
+				gunForwardAnim.draw((int) getPosX() + offsetXForward + handXoffset, (int) getPosY() - 7 + handYoffset, g2);
+				handForwardAnim.draw((int) getPosX() + offsetXForward + handXoffset, (int) getPosY() - 7 + handYoffset, g2);
+				animSkillForward.draw((int) getPosX() + offsetXForward, (int) getPosY() - 7, g2);
+			} else {
+				gunBackAnim.draw((int) getPosX() + offsetXBack - handXoffset, (int) getPosY() - 7 + handYoffset, g2);
+				handBackAnim.draw((int) getPosX() + offsetXBack - handXoffset, (int) getPosY() - 7 + handYoffset, g2);
+				animSkillBack.draw((int) getPosX() + offsetXBack, (int) getPosY() - 7, g2);
+			}
+		}
+		else {
+			if (getDirection() == RIGHT_DIR) {
+				fallbackAnimForward.draw((int) getPosX() + offsetXForward, (int) getPosY() - 7, g2);
+			} else {
+				fallbackAnimBack.draw((int) getPosX() + offsetXBack, (int) getPosY() - 7, g2);
+			}
 		}
 	}
 
@@ -477,7 +577,7 @@ public class BaseCharacter extends HumanObject {
 			case ALIVE:
 			case NOBEHURT:
 				if (isSitting()) {
-					drawCharacterAnimation(sitdownSkillForwardAnim, sitdownSkillBackAnim, g2, 12, -8);
+					drawCharacterAnimation(null, null, sitdownSkillForwardAnim, sitdownSkillBackAnim, g2, 12, -8);
 					break;
 				}
 	
@@ -491,7 +591,6 @@ public class BaseCharacter extends HumanObject {
 				
 				if (isSingleJumping()) {
 					System.out.println("Nhảy 1 nè");
-					
 					drawCharacterAnimation(jumpForwardAnim, jumpBackAnim, g2, 12, -8);
 					break;
 				} 
@@ -525,14 +624,12 @@ public class BaseCharacter extends HumanObject {
 				}
 	
 				if (isOnGround()) {
-					if (getSpeedX() > 0) {
-						runForwardAnim.Update(System.nanoTime());
-						runForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
-					} else if (getSpeedX() < 0) {
-						runBackAnim.Update(System.nanoTime());
-						runBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
+					runForwardAnim.Update(System.nanoTime());
+					runBackAnim.Update(System.nanoTime());
+					if (getSpeedX() != 0) {
+						drawCharacterAnimation(runForwardAnim, runBackAnim, runSkillForwardAnim, runSkillBackAnim, g2, 12, -8);
 					} else {
-						drawCharacterAnimation(idleForwardAnim, idleBackAnim, g2, 12, -8);
+						drawCharacterAnimation(idleForwardAnim, idleBackAnim, idleSkillForwardAnim, idleSkillBackAnim, g2, 12, -8);
 					}
 					break;
 				}

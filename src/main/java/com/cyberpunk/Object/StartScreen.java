@@ -59,13 +59,13 @@ public class StartScreen {
 		// Phần bảng game
 		g2.drawImage(logoImage, LOGO_X, LOGO_Y, null);
 		g2.setColor(Color.WHITE);
-		Font bigFont = new Font("Arial", Font.PLAIN, 30);
-        g2.setFont(bigFont);
-		g2.drawString("GAME Superfighter lỏ :)))", StartScreen.LOGO_X + 200, StartScreen.LOGO_Y + 120);
+//		Font bigFont = new Font("Arial", Font.PLAIN, 30);
+        g2.setFont(FontManager.getFont(30f));
+		g2.drawString("CYBERPUNK SUPER GAME", StartScreen.LOGO_X + 200, StartScreen.LOGO_Y + 120);
 		
 		Font smallFont = new Font("Arial", Font.PLAIN, 24);
-        g2.setFont(smallFont);
-		g2.drawString("Never update :>", StartScreen.LOGO_X + 250, StartScreen.LOGO_Y + 260);
+        g2.setFont(FontManager.getFont(24f));
+		g2.drawString("Thanks For Playing", StartScreen.LOGO_X + 250, StartScreen.LOGO_Y + 260);
 		
 		// Nút bấm
 		g2.drawImage(buttonImage, BUTTON_X, BUTTON_Y, null);

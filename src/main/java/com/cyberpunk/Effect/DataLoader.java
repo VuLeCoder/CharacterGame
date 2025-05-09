@@ -46,9 +46,25 @@ public class DataLoader {
 	// charater
 	private final String bikerFramefile = "data/character/biker/frame.txt";
  	private final String bikerObject = "data/character/biker/animation.txt";
-	
+ 	
+ 	private final String cyborgFramefile = "data/character/cyborg/frame.txt";
+ 	private final String cyborgObject = "data/character/cyborg/animation.txt";
+ 	
+ 	private final String punkFramefile = "data/character/punk/frame.txt";
+ 	private final String punkObject = "data/character/punk/animation.txt";
+ 	
+ 	//read position align between character's body and arm
+ 	private final String bikerPosition = "data/character/biker/position_note.txt";
+ 	private final String cyborgPosition = "data/character/cyborg/position_note.txt";
+ 	private final String punkPosition = "data/character/punk/position_note.txt";
+ 	
+ 	//gun
+ 	private final String gunFrame = "data/character/gun/frame.txt";
+ 	private final String gunAnimation = "data/character/gun/animation.txt";
+ 	
 	private Hashtable<String, FrameImage> frameImages = null;
 	private Hashtable<String, Animation> animations = null;
+	private Hashtable<String, int[]> positionNotes = null;
 	
 	private int[][] collisionMap;
 	private int[][] wallMap;
@@ -207,6 +223,34 @@ public class DataLoader {
 		return map;
 	}
 	
+	private void LoadAlignFrame(String position) throws IOException {
+		if(instance.positionNotes == null) instance.positionNotes = new Hashtable<>();
+		
+		FileReader fr = new FileReader(position);
+		BufferedReader br = new BufferedReader(fr);
+		
+		String line = br.readLine();
+		int n = Integer.parseInt(line);
+		
+		for(int i = 0; i < n; i++) {
+			while((line = br.readLine()).equals("")) {}
+			String name = line;
+			String[] str = null;
+			System.out.println(name);
+			while((line = br.readLine()).equals("")) {}
+			str = line.split(" ");
+			int x = Integer.parseInt(str[1]);
+			
+			while((line = br.readLine()).equals("")) {}
+			str = line.split(" ");
+			int y = Integer.parseInt(str[1]);
+			
+			instance.positionNotes.put(name, new int[] {x, y});
+		}
+		
+		br.close();
+	}
+	
 	public FrameImage getFrameImage(String name) {
 		return new FrameImage(instance.frameImages.get(name)); 
 	}
@@ -216,6 +260,10 @@ public class DataLoader {
 //            System.out.println("Key: " + key);
 //        }
 		return new Animation(instance.animations.get(name));
+	}
+	
+	public int[] getAlign(String name) {
+		return instance.positionNotes.get(name);
 	}
 	
 	public int[][] getCollisionMap() {
@@ -275,5 +323,19 @@ public class DataLoader {
 		// Character
 		LoadFrame(bikerFramefile);
 		LoadAnimation(bikerObject);
+		
+		LoadFrame(cyborgFramefile);
+		LoadAnimation(cyborgObject);
+		
+		LoadFrame(punkFramefile);
+		LoadAnimation(punkObject);
+		
+		LoadAlignFrame(bikerPosition);
+		LoadAlignFrame(cyborgPosition);
+		LoadAlignFrame(punkPosition);
+		
+		//Gun
+		LoadFrame(gunFrame);
+		LoadAnimation(gunAnimation);
 	}
 }

@@ -33,10 +33,9 @@ public class SkillManager extends ObjectManager{
 			}
 			Object objectInList = entity.get(id);
 //			System.out.println(objectInList.getClass().getSimpleName());
-			if(objectInList instanceof BaseAttack) {
-				if(objectInList.getState() == Object.DEATH) {
-					entity.remove(id);
-				}
+
+			if(objectInList.getState() == Object.DEATH) {
+				entity.remove(id);
 			}
 		}
 	}
