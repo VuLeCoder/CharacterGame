@@ -18,14 +18,7 @@ public class GameFrame extends JFrame{
     public static final int SCREEN_HEIGHT = GamePanel.MAP_HEIGHT + PADDING_HEIGHT;
 
     public GameFrame() {
-//        Toolkit toolkit = this.getToolkit();
-//        Dimension dimension = toolkit.getScreenSize();
-//        this.setBounds((dimension.width - SCREEN_WIDTH)/2,
-//                        (dimension.height - SCREEN_HEIGHT)/2,
-//                        SCREEN_WIDTH, SCREEN_HEIGHT);
     	setScreenSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-        
-        
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
@@ -39,14 +32,7 @@ public class GameFrame extends JFrame{
         add(gamePanel);
         gamePanel.startRunning();
     }
-    
-//    public void setScreenSize(int delatWidth, int deltaHeight) {
-//    	Toolkit toolkit = this.getToolkit();
-//        Dimension dimension = toolkit.getScreenSize();
-//        this.setBounds((dimension.width - SCREEN_WIDTH + delatWidth)/2,
-//                        (dimension.height - SCREEN_HEIGHT + deltaHeight)/2,
-//                        SCREEN_WIDTH + delatWidth, SCREEN_HEIGHT + deltaHeight);
-//    }
+
     public void setScreenSize(int newWidth, int newHeight) {
     	Toolkit toolkit = this.getToolkit();
     	Dimension dimension = toolkit.getScreenSize();

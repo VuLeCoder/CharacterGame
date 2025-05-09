@@ -293,28 +293,6 @@ public class MapObject extends Object {
 	}
 	
 	public void draw(Graphics2D g2) {
-
-//		Rectangle rect = movingHitbox();
-//		int posX1 = rect.x / GameWorld.TILESIZE;
-//	    int posX2 = (rect.x + rect.width - 1) / GameWorld.TILESIZE;
-//	    int posY1 = rect.y / GameWorld.TILESIZE;
-//	    int posY2 = (rect.y + rect.height - 1) / GameWorld.TILESIZE;
-//
-//	    posX1 = Math.max(0, posX1);
-//	    posY1 = Math.max(0, posY1);
-//	    posX2 = Math.min(getGameWorld().getMapGame().getWallMap()[0].length - 1, posX2);
-//	    posY2 = Math.min(getGameWorld().getMapGame().getWallMap().length - 1, posY2);
-//	    
-//	    for(int x=posX1; x<=posX2; ++x) {
-//	    	for(int y=posY1; y<=posY2; ++y) {
-//	    		getGameWorld().getMapGame().drawTileset(g2, MapGame.OUTSIDE, 	getGameWorld().getMapGame().getOutsideMap(),	y, x);
-//	    		getGameWorld().getMapGame().drawTileset(g2, MapGame.INSIDE,		getGameWorld().getMapGame().getInsideMap(),		y, x);
-//	    		getGameWorld().getMapGame().drawTileset(g2, MapGame.WALL, 		getGameWorld().getMapGame().getWallMap(),		y, x);
-//	    		getGameWorld().getMapGame().drawTileset(g2, MapGame.OBJECT, 	getGameWorld().getMapGame().getLadderMap(), 	y, x);
-//	    		getGameWorld().getMapGame().drawTileset(g2, MapGame.OBJECT, 	getGameWorld().getMapGame().getObjectMap(), 	y, x);
-//	    	}
-//	    }
-
 		if (id >= 0) {
 			drawMovingHitbox(g2);
 		}

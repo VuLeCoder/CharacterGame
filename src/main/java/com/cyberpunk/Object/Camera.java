@@ -10,9 +10,7 @@ public class Camera {
 	private static final float OFFSET_Y = 150;
 	public static final float SCREEN_RATIO = (GamePanel.MAP_WIDTH) / (GamePanel.MAP_HEIGHT); // 2.0
 	
-//	public static final long DELAY_UPDATE = 0000000L;
 //	public static final long DELAY_UPDATE = 100000000L;
-//	public static final long DELAY_UPDATE = 250000000L;
 	
 	// Hệ số làm mượt (càng gần 0 thì càng chậm, càng mượt)
 	public static final float SMOOTH_FACTOR = 0.07f;

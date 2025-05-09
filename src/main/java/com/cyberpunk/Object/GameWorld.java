@@ -153,13 +153,11 @@ public class GameWorld{
 		g2.setClip(0, 0, GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT);
 		
 		g2.setColor(Color.BLACK);
-//		g2.fillRect(0, 0, GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT);
+		g2.fillRect(0, 0, GamePanel.MAP_WIDTH, GamePanel.MAP_HEIGHT);
 		
 		float targetZoomX = GamePanel.MAP_WIDTH / camera.getWidthView();
 		float targetZoomY = GamePanel.MAP_HEIGHT / camera.getHeightView();
 
-//		currentZoomX = targetZoomX;
-//		currentZoomY = targetZoomY;
 		currentZoomX += (targetZoomX - currentZoomX) * Camera.SMOOTH_FACTOR;
 		currentZoomY += (targetZoomY - currentZoomY) * Camera.SMOOTH_FACTOR;
 		g2.scale(currentZoomX, currentZoomY);
@@ -173,7 +171,6 @@ public class GameWorld{
 		
 		// Vẽ map
 		g2.drawImage(mapGame.getCachedMapImage(), 0, 0, null);
-//		g2.drawImage(mapGame.getCachedMapImage(), GamePanel.MAP_DRAW_X, -GamePanel.MAP_DRAW_Y, null);
 		
 		camera.draw(g2);
 		objectManager.draw(g2);

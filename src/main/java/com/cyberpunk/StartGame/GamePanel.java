@@ -12,7 +12,6 @@ public class GamePanel extends JPanel implements Runnable {
 	private final GameFrame window;
 
 	// Vị trí vẽ map game
-//	public static int MAP_DRAW_X = 0, MAP_DRAW_Y = 0;
 	public static final int MAP_WIDTH = GameWorld.TILESIZE * 40;
     public static final int MAP_HEIGHT = GameWorld.TILESIZE * 20;
     public static final int HUD_HEIGHT = 100; //Heads-Up Display
@@ -25,13 +24,9 @@ public class GamePanel extends JPanel implements Runnable {
 	public KeyConfig keyConfig;
 	public InputManager inputManager1, inputManager2;
 
-//	private long FPS = 50;
 	private final long FPS = 60;
 	private final long miliSecond = 1000;
 	private final long nanoMiliSecond = 1000000;
-	
-//	private final Rectangle buttonBounds = new Rectangle(StartScreen.BUTTON_X, StartScreen.BUTTON_Y, StartScreen.BUTTON_WIDTH, StartScreen.BUTTON_HEIGHT);
-//    private boolean isHovering = false;
 
 	public GamePanel(GameFrame gameFrame) {
 		this.window = gameFrame;
@@ -59,9 +54,7 @@ public class GamePanel extends JPanel implements Runnable {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
 		g.drawImage(gameWorld.getBufferedImage(), 0, 0, this);
-//		g.drawImage(gameWorld.getBufferedImage(), MAP_DRAW_X, MAP_DRAW_Y, this);
 	}
 	
 	@Override

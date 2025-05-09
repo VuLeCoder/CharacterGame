@@ -254,7 +254,6 @@ public class MapGame {
 				}
 			}
 		}
-//		}
 
 		return collisionRect;
 	}
