@@ -10,7 +10,9 @@ public abstract class Object {
 	public static final int ALIVE = 0;
 	public static final int BEHURT = 1;
 	public static final int DEATH = 2;
+	public static final int FALL = 3;
 	public static final int NOBEHURT = 4;
+	public static final int KNOCKDOWN = 5;
 	
 	public static final int LEFT_DIR = -1;
 	public static final int RIGHT_DIR = 1;
@@ -199,5 +201,5 @@ public abstract class Object {
  	public abstract Rectangle attackHitbox();
 	public abstract void Update();
 	public abstract void draw(Graphics2D g2);
-	public abstract void beHurt(int damageGet);
+	public abstract void beHurt(float damageGet);
 }

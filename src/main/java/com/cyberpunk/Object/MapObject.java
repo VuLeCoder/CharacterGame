@@ -323,7 +323,7 @@ public class MapObject extends Object {
 	}
 
 	@Override
-	public void beHurt(int damageGet) {
+	public void beHurt(float damageGet) {
 		if (getState() == NOBEHURT) {
 			return;
 		}

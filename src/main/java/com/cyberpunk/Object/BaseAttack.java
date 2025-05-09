@@ -48,7 +48,7 @@ public class BaseAttack extends Object{
 	}
 
 	@Override
-	public void beHurt(int damageGet) {
+	public void beHurt(float damageGet) {
 		// TODO Auto-generated method stub
 		
 	}
