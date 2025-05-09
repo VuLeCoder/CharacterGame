@@ -3,8 +3,6 @@ package com.cyberpunk.Object;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.nio.file.WatchService;
-import java.time.Duration;
 
 import com.cyberpunk.Effect.Animation;
 import com.cyberpunk.Effect.DataLoader;
@@ -20,7 +18,7 @@ public class BaseCharacter extends HumanObject {
 
 //	private boolean isRunning = false;
 
-	private int hurtDisplay = 0;
+	// private int hurtDisplay = 0;
 	
 	private int[][] damageFrames;
 
@@ -153,7 +151,7 @@ public class BaseCharacter extends HumanObject {
 
 		climdAnim = DataLoader.getInstance().getAnimation(name + "climb");
 		
-		// fall vaf knock truf\f\ng animation
+		
 		fallForwardAnim = DataLoader.getInstance().getAnimation(name + "fall");
 		fallForwardAnim.setRepeated(false);
 		fallBackAnim = DataLoader.getInstance().getAnimation(name + "fall");

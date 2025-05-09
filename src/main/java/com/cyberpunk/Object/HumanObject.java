@@ -17,9 +17,7 @@ public abstract class HumanObject extends Object {
 //	public static final float HUMAN_FORCE = 2f;
 
 	public static final float FALL_SPEED = 6.3f;
-	public static final float TIME_TO_STUN_AFTER_FALL = 750000000L;
 	public static final float FALL_DAMAGE = 15;
-	private boolean isFalling;
 
 	public static final long TIME_TO_CHANGE_DROP_STATE = 80000000L;
 	private boolean isDrop = false;
@@ -76,14 +74,6 @@ public abstract class HumanObject extends Object {
 
 	private long getTimeStartKnockDown() {
 		return timeStartKnockDown;
-	}
-	
-	public boolean getIsFalling() {
-		return this.isFalling;
-	}
-
-	public void setIsFalling(Boolean b) {
-		this.isFalling = b;
 	}
 
 	public boolean getIsRunning() {
