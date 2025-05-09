@@ -14,6 +14,7 @@ public class KeyConfig {
     public static final int LEFT 	= HumanObject.LEFT_DIR;
     public static final int RIGHT 	= HumanObject.RIGHT_DIR;
     public static final int ATTACK 	= 3;
+    public static final int SHOOTING = 4;
 
     public KeyConfig() {
     	// Check KeyEvent.VK_ để rõ :v
@@ -22,7 +23,8 @@ public class KeyConfig {
     	P1_KeyMap.put(DOWN, 	"S");
     	P1_KeyMap.put(LEFT, 	"A");
     	P1_KeyMap.put(RIGHT, 	"D");
-    	P1_KeyMap.put(ATTACK,	"R");
+    	P1_KeyMap.put(ATTACK,	"1");
+    	P1_KeyMap.put(SHOOTING, "2");
 
         P2_KeyMap = new HashMap<>();
         P2_KeyMap.put(UP,		"UP");
@@ -30,6 +32,7 @@ public class KeyConfig {
         P2_KeyMap.put(LEFT,		"LEFT");
         P2_KeyMap.put(RIGHT,	"RIGHT");
         P2_KeyMap.put(ATTACK,	"COMMA");
+        P2_KeyMap.put(SHOOTING, "PERIOD");
     }
 
     public void setKey(int player, int action, String keyName) {
