@@ -250,7 +250,7 @@ public class DataLoader {
 			while((line = br.readLine()).equals("")) {}
 			String name = line;
 			String[] str = null;
-			System.out.println(name);
+			// System.out.println(name);
 			while((line = br.readLine()).equals("")) {}
 			str = line.split(" ");
 			int x = Integer.parseInt(str[1]);

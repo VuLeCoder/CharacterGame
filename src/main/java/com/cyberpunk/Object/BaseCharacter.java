@@ -151,8 +151,6 @@ public class BaseCharacter extends HumanObject {
 		knockBackAnim.setRepeated(false);
 		knockBackAnim.flipAllImage();
 		
-		
-		
 		gunForwardAnim = DataLoader.getInstance().getAnimation("gun10");
 		gunBackAnim = DataLoader.getInstance().getAnimation("gun10");
 		gunBackAnim.flipAllImage();
@@ -195,7 +193,6 @@ public class BaseCharacter extends HumanObject {
 			djumpBackAnim.setIgnoreFrame(5);
 	    }
 	}
-	
 	
 	public void drawJumpStage(Graphics2D g2) {		
 		if(isDoubleJumping()) {
@@ -304,7 +301,7 @@ public class BaseCharacter extends HumanObject {
 	}
 
 	@Override
-	public void standUp() {		
+	public void standUp() {
 		setSitting(false);
 		sitDownWhenRunning = false;
 		
@@ -715,28 +712,10 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 
 	@Override
 	public void draw(Graphics2D g2) {
-
-//		drawAttackHitbox(g2);
+		
 		drawMovingHitbox(g2);
 		g2.setColor(Color.black);
 		g2.drawRect((int) getPosX(), (int) getPosY(), 1, 1);
-
-//		drawHealthBar(g2, 0, 0);
-		
-//		if (getState() == NOBEHURT && !getIsFalling()) {
-//			if (getState() != DEATH) {
-//
-//				if (hurtDisplay < 5)
-//					hurtDisplay++;
-//				else {
-//					hurtDisplay++;
-//					if (hurtDisplay > 9)
-//						hurtDisplay = 0;
-//					return;
-//				}
-//			} else
-//				hurtDisplay = 0;
-//		}
 
 		switch (getState()) {
 		case FALL:

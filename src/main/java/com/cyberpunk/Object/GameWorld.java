@@ -181,7 +181,6 @@ public class GameWorld{
 	}
 
 	private void drawHUD() {
-		System.out.println(getP1().getHealth());
 		
 		Graphics2D g2 = (Graphics2D) bufferedImage.getGraphics();
 		if(g2 == null) {
