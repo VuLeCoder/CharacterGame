@@ -33,6 +33,7 @@ public class BaseCharacter extends HumanObject {
 
 	private Animation fallForwardAnim, fallBackAnim;
 	private Animation knockForwardAnim, knockBackAnim;
+	private Animation gunForwardAnim, gunBackAnim;
 	
 	
 	public BaseCharacter(float x, float y, String name, GameWorld gameWorld) {
@@ -149,6 +150,12 @@ public class BaseCharacter extends HumanObject {
 		knockBackAnim = DataLoader.getInstance().getAnimation(name + "knockdown");
 		knockBackAnim.setRepeated(false);
 		knockBackAnim.flipAllImage();
+		
+		
+		
+		gunForwardAnim = DataLoader.getInstance().getAnimation("gun10");
+		gunBackAnim = DataLoader.getInstance().getAnimation("gun10");
+		gunBackAnim.flipAllImage();
 	}
 
 	
@@ -563,6 +570,40 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 //		}
 	
 	
+	// -----------------------------------------------------------------------------------------------------------------------------------
+	// ---------------------------------------------------- Xử lý Bắn --------------------------------------------------------------
+	private boolean isShooting;
+	
+	public void setShooting(boolean isShooting) {
+		this.isShooting = isShooting;
+		handForwardAnim.setCurrentFrame(2);
+		handBackAnim.setCurrentFrame(2);
+		
+		gunForwardAnim.setCurrentFrame(2);
+		gunBackAnim.setCurrentFrame(2);
+	}
+	
+	public boolean isShooting() {
+		return isShooting;
+	}
+	
+	public void shoot() {
+		Bullet bullet = new Bullet(getPosX(), getPosY(), handForwardAnim.getCurrentFrame(), 10, this, getGameWorld());
+		getGameWorld().getSkillManager().addObject(bullet);
+	}
+	
+	public void setHandDirection(int dir) {
+		int dirClamp = Math.max(0, Math.min(4, handForwardAnim.getCurrentFrame() + dir));
+		
+		handForwardAnim.setCurrentFrame(dirClamp);
+		handBackAnim.setCurrentFrame(dirClamp);
+		
+		gunForwardAnim.setCurrentFrame(dirClamp);
+		gunBackAnim.setCurrentFrame(dirClamp);
+	}
+	
+	
+	
 	
 	@Override
 	public void beHurt(float damageGet) {
@@ -631,6 +672,46 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 			animBack.draw((int) getPosX() + offsetXBack, (int) getPosY() - 7, g2);
 		}
 	}
+	
+	
+	private void drawCharacterAnimation(Animation animForward, Animation animBack, Animation animSkillForward, Animation animSkillBack, Graphics2D g2, int offsetXForward, int offsetXBack) {
+		long currentTime = System.nanoTime();
+		Animation fallbackAnimForward = animForward != null ? animForward : animSkillForward;
+		Animation fallbackAnimBack = animBack != null ? animBack : animSkillBack;
+		
+		if(animForward != null && animBack != null) {
+			animForward.Update(currentTime);
+			animBack.Update(currentTime);
+		}
+		if(animSkillForward != null && animSkillBack != null) {
+			animSkillForward.Update(currentTime);
+			animSkillBack.Update(currentTime);
+		}
+		
+		int[] arr = DataLoader.getInstance().getAlign(animSkillForward.getCurrentFrameImages().getName());
+		int handXoffset = arr[0], handYoffset = arr[1];
+		
+		if(isShooting()) {
+//			System.out.println(arr[0] + " " + arr[1]);
+			
+			if (getDirection() == RIGHT_DIR) {
+				gunForwardAnim.draw((int) getPosX() + offsetXForward + handXoffset, (int) getPosY() - 7 + handYoffset, g2);
+				handForwardAnim.draw((int) getPosX() + offsetXForward + handXoffset, (int) getPosY() - 7 + handYoffset, g2);
+				animSkillForward.draw((int) getPosX() + offsetXForward, (int) getPosY() - 7, g2);
+			} else {
+				gunBackAnim.draw((int) getPosX() + offsetXBack - handXoffset, (int) getPosY() - 7 + handYoffset, g2);
+				handBackAnim.draw((int) getPosX() + offsetXBack - handXoffset, (int) getPosY() - 7 + handYoffset, g2);
+				animSkillBack.draw((int) getPosX() + offsetXBack, (int) getPosY() - 7, g2);
+			}
+		}
+		else {
+			if (getDirection() == RIGHT_DIR) {
+				fallbackAnimForward.draw((int) getPosX() + offsetXForward, (int) getPosY() - 7, g2);
+			} else {
+				fallbackAnimBack.draw((int) getPosX() + offsetXBack, (int) getPosY() - 7, g2);
+			}
+		}
+	}
 
 	@Override
 	public void draw(Graphics2D g2) {
@@ -674,7 +755,8 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 			}
 			
 			if (isSitting()) {
-				drawCharacterAnimation(sitdownSkillForwardAnim, sitdownSkillBackAnim, g2, 12, -8);
+//				drawCharacterAnimation(sitdownSkillForwardAnim, sitdownSkillBackAnim, g2, 12, -8);
+				drawCharacterAnimation(null, null, sitdownSkillForwardAnim, sitdownSkillBackAnim, g2, 12, -8);
 				break;
 			}
 
@@ -704,16 +786,16 @@ bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 biker
 //			}
 
 			if (isOnGround()) {
+				
+				
+				runForwardAnim.Update(System.nanoTime());
+				runBackAnim.Update(System.nanoTime());
+				
 				if(getIsRunning()) {
-					if (getSpeedX() > 0) {
-						runForwardAnim.Update(System.nanoTime());
-						runForwardAnim.draw((int) getPosX() + 12, (int) getPosY() - 7, g2);
-					} else {
-						runBackAnim.Update(System.nanoTime());
-						runBackAnim.draw((int) getPosX() - 8, (int) getPosY() - 7, g2);
-					}
+					
+					drawCharacterAnimation(runForwardAnim, runBackAnim, runSkillForwardAnim, runSkillBackAnim, g2, 12, -8);
 				} else {
-					drawCharacterAnimation(idleForwardAnim, idleBackAnim, g2, 12, -8);
+					drawCharacterAnimation(idleForwardAnim, idleBackAnim, idleSkillForwardAnim, idleSkillBackAnim, g2, 12, -8);
 				}
 				break;
 			}

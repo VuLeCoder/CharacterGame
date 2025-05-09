@@ -69,6 +69,7 @@ public class DataLoader {
 	private Hashtable<String, FrameImage> frameImages = null;
 	private Hashtable<String, Animation> animations = null;
 	private Hashtable<String, BufferedImage> images = null;
+	private Hashtable<String, int[]> positionNotes = null;
 	
 	private int[][] collisionMap;
 	private int[][] wallMap;
@@ -236,6 +237,34 @@ public class DataLoader {
 		return map;
 	}
 	
+	private void LoadAlignFrame(String position) throws IOException {
+		if(instance.positionNotes == null) instance.positionNotes = new Hashtable<>();
+		
+		FileReader fr = new FileReader(position);
+		BufferedReader br = new BufferedReader(fr);
+		
+		String line = br.readLine();
+		int n = Integer.parseInt(line);
+		
+		for(int i = 0; i < n; i++) {
+			while((line = br.readLine()).equals("")) {}
+			String name = line;
+			String[] str = null;
+			System.out.println(name);
+			while((line = br.readLine()).equals("")) {}
+			str = line.split(" ");
+			int x = Integer.parseInt(str[1]);
+			
+			while((line = br.readLine()).equals("")) {}
+			str = line.split(" ");
+			int y = Integer.parseInt(str[1]);
+			
+			instance.positionNotes.put(name, new int[] {x, y});
+		}
+		
+		br.close();
+	}
+	
 	public FrameImage getFrameImage(String name) {
 		return new FrameImage(instance.frameImages.get(name)); 
 	}
@@ -276,6 +305,10 @@ public class DataLoader {
 		return animatedMap;
 	}
 	
+	public int[] getAlign(String name) {
+		return instance.positionNotes.get(name);
+	}
+	
 	
 
 	public void LoadData() throws IOException {
@@ -312,13 +345,13 @@ public class DataLoader {
 		LoadFrame(punkFramefile);
 		LoadAnimation(punkObject);
 		
-//		LoadAlignFrame(bikerPosition);
-//		LoadAlignFrame(cyborgPosition);
-//		LoadAlignFrame(punkPosition);
+		LoadAlignFrame(bikerPosition);
+		LoadAlignFrame(cyborgPosition);
+		LoadAlignFrame(punkPosition);
 		
 		//Gun
-//		LoadFrame(gunFrame);
-//		LoadAnimation(gunAnimation);
+		LoadFrame(gunFrame);
+		LoadAnimation(gunAnimation);
 		
 		LoadImage(healbarFull);
 		LoadImage(healthBarBlank);
