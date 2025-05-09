@@ -9,14 +9,18 @@ public class Camera {
 	private static final float OFFSET_X = 175;
 	private static final float OFFSET_Y = 150;
 	public static final float SCREEN_RATIO = (GamePanel.MAP_WIDTH) / (GamePanel.MAP_HEIGHT); // 2.0
-//	private static final float MIN_HEIGTH = 224;
-//	private static final float MIN_WIDTH = MIN_HEIGTH * SCREEN_RATIO;
+	
+//	public static final long DELAY_UPDATE = 0000000L;
+//	public static final long DELAY_UPDATE = 100000000L;
+//	public static final long DELAY_UPDATE = 250000000L;
 	
 	// Hệ số làm mượt (càng gần 0 thì càng chậm, càng mượt)
 	public static final float SMOOTH_FACTOR = 0.07f;
+
 	
 	private float posX, posY;
 	private float widthView, heightView;
+	private long lastUpdateTime;
 	private final BaseCharacter P1, P2;
 	
 	public Camera(float x, float y, float width, float height, GameWorld gameWorld) {
@@ -28,6 +32,8 @@ public class Camera {
 		
 		P1 = gameWorld.getP1();
 		P2 = gameWorld.getP2();
+		
+		lastUpdateTime = System.nanoTime();
 	}
 	
 	public void setPosX(float x) {
@@ -54,7 +60,22 @@ public class Camera {
 		return widthView;
 	}
 	
+	public long getLastUpdateTime() {
+		return lastUpdateTime;
+	}
+
+	public void setLastUpdateTime(long lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
+	}
+
 	public void Update() {
+//		long now = System.nanoTime();
+//		if(now - getLastUpdateTime() < DELAY_UPDATE) {
+//			return;
+//		}
+//		setLastUpdateTime(now);
+		
+		
 		if(P1.getState() == Object.DEATH && P2.getState() == Object.DEATH) {
 			return;
 		}

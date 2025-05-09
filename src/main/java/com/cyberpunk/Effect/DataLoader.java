@@ -45,6 +45,21 @@ public class DataLoader {
 	private final String bikerFramefile = "data/character/biker/frame.txt";
  	private final String bikerObject = "data/character/biker/animation.txt";
  	
+ 	private final String cyborgFramefile = "data/character/cyborg/frame.txt";
+ 	private final String cyborgObject = "data/character/cyborg/animation.txt";
+ 	
+ 	private final String punkFramefile = "data/character/punk/frame.txt";
+ 	private final String punkObject = "data/character/punk/animation.txt";
+ 	
+ 	//read position align between character's body and arm
+ 	private final String bikerPosition = "data/character/biker/position_note.txt";
+ 	private final String cyborgPosition = "data/character/cyborg/position_note.txt";
+ 	private final String punkPosition = "data/character/punk/position_note.txt";
+ 	
+ 	//gun
+ 	private final String gunFrame = "data/character/gun/frame.txt";
+ 	private final String gunAnimation = "data/character/gun/animation.txt";
+ 	
  	//HealthBar
  	private final String healbarFull = "data/gui/health_bar_full.png";
 	private final String healthBarDrain = "data/gui/health_bar_drain1.png";
@@ -290,6 +305,20 @@ public class DataLoader {
 		// Character
 		LoadFrame(bikerFramefile);
 		LoadAnimation(bikerObject);
+		
+		LoadFrame(cyborgFramefile);
+		LoadAnimation(cyborgObject);
+		
+		LoadFrame(punkFramefile);
+		LoadAnimation(punkObject);
+		
+//		LoadAlignFrame(bikerPosition);
+//		LoadAlignFrame(cyborgPosition);
+//		LoadAlignFrame(punkPosition);
+		
+		//Gun
+//		LoadFrame(gunFrame);
+//		LoadAnimation(gunAnimation);
 		
 		LoadImage(healbarFull);
 		LoadImage(healthBarBlank);

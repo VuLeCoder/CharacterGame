@@ -1,0 +1,60 @@
+20
+cyborgidle
+cyborgidle0 100000000 cyborgidle1 100000000 cyborgidle2 100000000 cyborgidle3 100000000
+
+cyborgidleskill
+cyborgidleskill0 100000000 cyborgidleskill1 100000000 cyborgidleskill2 100000000 cyborgidleskill3 100000000
+
+cyborgjump
+cyborgjump0 100000000 cyborgjump1 100000000 cyborgjump2 100000000 cyborgjump3 100000000
+
+cyborgjumpskill
+cyborgjumpskill0 100000000 cyborgjumpskill1 100000000 cyborgjumpskill2 100000000 cyborgjumpskill3 100000000
+
+cyborgsitdownskill
+cyborgsitdownskill0 100000000 cyborgsitdownskill1 100000000 cyborgsitdownskill2 100000000 cyborgsitdownskill3 100000000
+
+cyborgattack2
+cyborgattack2_6 120000000 cyborgattack2_7 120000000
+
+cyborgattack3
+cyborgattack3_0 120000000 cyborgattack3_1 120000000 cyborgattack3_2 120000000 cyborgattack3_3 120000000 cyborgattack3_4 120000000 cyborgattack3_5 120000000 cyborgattack3_6 120000000 cyborgattack3_7 120000000 
+
+cyborgattack1
+cyborgattack2_0 120000000 cyborgattack2_1 120000000 cyborgattack2_2 120000000 cyborgattack2_3 120000000 cyborgattack2_4 120000000 cyborgattack2_5 120000000 
+
+cyborgpunch
+cyborgpunch0 100000000 cyborgpunch1 100000000 cyborgpunch2 100000000 cyborgpunch3 100000000 cyborgpunch4 100000000 cyborgpunch5 100000000
+
+cyborgdeath
+cyborgdeath0 100000000 cyborgdeath1 100000000 cyborgdeath2 100000000 cyborgdeath3 100000000 cyborgdeath4 100000000 cyborgdeath5 100000000
+
+cyborgclimb
+cyborgclimb0 100000000 cyborgclimb1 100000000 cyborgclimb2 100000000 cyborgclimb3 100000000 cyborgclimb4 100000000 cyborgclimb5 100000000
+
+cyborgrun
+cyborgrun0 100000000 cyborgrun1 100000000 cyborgrun2 100000000 cyborgrun3 100000000 cyborgrun4 100000000 cyborgrun5 100000000
+
+cyborgrunskill
+cyborgrunskill0 100000000 cyborgrunskill1 100000000 cyborgrunskill2 100000000 cyborgrunskill3 100000000 cyborgrunskill4 100000000 cyborgrunskill5 100000000
+
+cyborgrunattack
+cyborgrunattack0 100000000 cyborgrunattack1 100000000 cyborgrunattack2 100000000 cyborgrunattack3 100000000 cyborgrunattack4 100000000 cyborgrunattack5 100000000
+
+cyborgdoublejump
+cyborgdoublejump0 100000000 cyborgdoublejump1 100000000 cyborgdoublejump2 100000000 cyborgdoublejump3 100000000 cyborgdoublejump4 100000000 cyborgdoublejump5 100000000
+
+cyborghurt
+cyborghurt0 100000000 cyborghurt1 100000000
+
+cyborghand
+cyborghand0 100000000 cyborghand1 100000000 cyborghand2 100000000 cyborghand3 100000000 cyborghand4 100000000
+
+cyborgwalkskill
+cyborgwalkskill0 100000000 cyborgwalkskill1 100000000 cyborgwalkskill2 100000000 cyborgwalkskill3 100000000 cyborgwalkskill4 100000000
+
+cyborgfall
+cyborgdeath3 200000000 cyborgdeath5 100000000
+
+cyborgknockdown
+cyborgdeath3 100000000 cyborgdeath5 100000000

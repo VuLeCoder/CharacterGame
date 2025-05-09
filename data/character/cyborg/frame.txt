@@ -1,0 +1,680 @@
+97
+
+cyborgattack1_0
+image data/character/cyborg/cyborg_frame.png
+x 0
+y 0
+w 48
+h 48
+
+cyborgattack1_1
+image data/character/cyborg/cyborg_frame.png
+x 48
+y 0
+w 48
+h 48
+
+cyborgattack1_2
+image data/character/cyborg/cyborg_frame.png
+x 96
+y 0
+w 48
+h 48
+
+cyborgattack1_3
+image data/character/cyborg/cyborg_frame.png
+x 144
+y 0
+w 48
+h 48
+
+cyborgattack1_4
+image data/character/cyborg/cyborg_frame.png
+x 192
+y 0
+w 48
+h 48
+
+cyborgattack1_5
+image data/character/cyborg/cyborg_frame.png
+x 240
+y 0
+w 48
+h 48
+
+cyborgattack2_0
+image data/character/cyborg/cyborg_frame.png
+x 288
+y 0
+w 48
+h 48
+
+cyborgattack2_1
+image data/character/cyborg/cyborg_frame.png
+x 336
+y 0
+w 48
+h 48
+
+cyborgattack2_2
+image data/character/cyborg/cyborg_frame.png
+x 384
+y 0
+w 48
+h 48
+
+cyborgattack2_3
+image data/character/cyborg/cyborg_frame.png
+x 432
+y 0
+w 48
+h 48
+
+cyborgattack2_4
+image data/character/cyborg/cyborg_frame.png
+x 480
+y 0
+w 48
+h 48
+
+cyborgattack2_5
+image data/character/cyborg/cyborg_frame.png
+x 528
+y 0
+w 48
+h 48
+
+cyborgattack2_6
+image data/character/cyborg/cyborg_frame.png
+x 576
+y 0
+w 48
+h 48
+
+cyborgattack2_7
+image data/character/cyborg/cyborg_frame.png
+x 624
+y 0
+w 48
+h 48
+
+cyborgattack3_0
+image data/character/cyborg/cyborg_frame.png
+x 0
+y 48
+w 48
+h 48
+
+cyborgattack3_1
+image data/character/cyborg/cyborg_frame.png
+x 48
+y 48
+w 48
+h 48
+
+cyborgattack3_2
+image data/character/cyborg/cyborg_frame.png
+x 96
+y 48
+w 48
+h 48
+
+cyborgattack3_3
+image data/character/cyborg/cyborg_frame.png
+x 144
+y 48
+w 48
+h 48
+
+cyborgattack3_4
+image data/character/cyborg/cyborg_frame.png
+x 192
+y 48
+w 48
+h 48
+
+cyborgattack3_5
+image data/character/cyborg/cyborg_frame.png
+x 240
+y 48
+w 48
+h 48
+
+cyborgattack3_6
+image data/character/cyborg/cyborg_frame.png
+x 288
+y 48
+w 48
+h 48
+
+cyborgattack3_7
+image data/character/cyborg/cyborg_frame.png
+x 336
+y 48
+w 48
+h 48
+
+cyborgclimb0
+image data/character/cyborg/cyborg_frame.png
+x 384
+y 48
+w 48
+h 48
+
+cyborgclimb1
+image data/character/cyborg/cyborg_frame.png
+x 432
+y 48
+w 48
+h 48
+
+cyborgclimb2
+image data/character/cyborg/cyborg_frame.png
+x 480
+y 48
+w 48
+h 48
+
+cyborgclimb3
+image data/character/cyborg/cyborg_frame.png
+x 528
+y 48
+w 48
+h 48
+
+cyborgclimb4
+image data/character/cyborg/cyborg_frame.png
+x 576
+y 48
+w 48
+h 48
+
+cyborgclimb5
+image data/character/cyborg/cyborg_frame.png
+x 624
+y 48
+w 48
+h 48
+
+cyborgdeath0
+image data/character/cyborg/cyborg_frame.png
+x 0
+y 96
+w 48
+h 48
+
+cyborgdeath1
+image data/character/cyborg/cyborg_frame.png
+x 48
+y 96
+w 48
+h 48
+
+cyborgdeath2
+image data/character/cyborg/cyborg_frame.png
+x 96
+y 96
+w 48
+h 48
+
+cyborgdeath3
+image data/character/cyborg/cyborg_frame.png
+x 144
+y 96
+w 48
+h 48
+
+cyborgdeath4
+image data/character/cyborg/cyborg_frame.png
+x 192
+y 96
+w 48
+h 48
+
+cyborgdeath5
+image data/character/cyborg/cyborg_frame.png
+x 240
+y 96
+w 48
+h 48
+
+cyborgdoublejump0
+image data/character/cyborg/cyborg_frame.png
+x 0
+y 144
+w 48
+h 48
+
+cyborgdoublejump1
+image data/character/cyborg/cyborg_frame.png
+x 48
+y 144
+w 48
+h 48
+
+cyborgdoublejump2
+image data/character/cyborg/cyborg_frame.png
+x 96
+y 144
+w 48
+h 48
+
+cyborgdoublejump3
+image data/character/cyborg/cyborg_frame.png
+x 144
+y 144
+w 48
+h 48
+
+cyborgdoublejump4
+image data/character/cyborg/cyborg_frame.png
+x 192
+y 144
+w 48
+h 48
+
+cyborgdoublejump5
+image data/character/cyborg/cyborg_frame.png
+x 240
+y 144
+w 48
+h 48
+
+cyborgpunch0
+image data/character/cyborg/cyborg_frame.png
+x 0
+y 192
+w 48
+h 48
+
+cyborgpunch1
+image data/character/cyborg/cyborg_frame.png
+x 48
+y 192
+w 48
+h 48
+
+cyborgpunch2
+image data/character/cyborg/cyborg_frame.png
+x 96
+y 192
+w 48
+h 48
+
+cyborgpunch3
+image data/character/cyborg/cyborg_frame.png
+x 144
+y 192
+w 48
+h 48
+
+cyborgpunch4
+image data/character/cyborg/cyborg_frame.png
+x 192
+y 192
+w 48
+h 48
+
+cyborgpunch5
+image data/character/cyborg/cyborg_frame.png
+x 240
+y 192
+w 48
+h 48
+
+cyborgrun0
+image data/character/cyborg/cyborg_frame.png
+x 0
+y 240
+w 48
+h 48
+
+cyborgrun1
+image data/character/cyborg/cyborg_frame.png
+x 48
+y 240
+w 48
+h 48
+
+cyborgrun2
+image data/character/cyborg/cyborg_frame.png
+x 96
+y 240
+w 48
+h 48
+
+cyborgrun3
+image data/character/cyborg/cyborg_frame.png
+x 144
+y 240
+w 48
+h 48
+
+cyborgrun4
+image data/character/cyborg/cyborg_frame.png
+x 192
+y 240
+w 48
+h 48
+
+cyborgrun5
+image data/character/cyborg/cyborg_frame.png
+x 240
+y 240
+w 48
+h 48
+
+cyborgrunattack0
+image data/character/cyborg/cyborg_frame.png
+x 0
+y 288
+w 48
+h 48
+
+cyborgrunattack1
+image data/character/cyborg/cyborg_frame.png
+x 48
+y 288
+w 48
+h 48
+
+cyborgrunattack2
+image data/character/cyborg/cyborg_frame.png
+x 96
+y 288
+w 48
+h 48
+
+cyborgrunattack3
+image data/character/cyborg/cyborg_frame.png
+x 144
+y 288
+w 48
+h 48
+
+cyborgrunattack4
+image data/character/cyborg/cyborg_frame.png
+x 192
+y 288
+w 48
+h 48
+
+cyborgrunattack5
+image data/character/cyborg/cyborg_frame.png
+x 240
+y 288
+w 48
+h 48
+
+cyborgrunskill0
+image data/character/cyborg/cyborg_frame.png
+x 288
+y 192
+w 48
+h 48
+
+cyborgrunskill1
+image data/character/cyborg/cyborg_frame.png
+x 336
+y 192
+w 48
+h 48
+
+cyborgrunskill2
+image data/character/cyborg/cyborg_frame.png
+x 384
+y 192
+w 48
+h 48
+
+cyborgrunskill3
+image data/character/cyborg/cyborg_frame.png
+x 432
+y 192
+w 48
+h 48
+
+cyborgrunskill4
+image data/character/cyborg/cyborg_frame.png
+x 480
+y 192
+w 48
+h 48
+
+cyborgrunskill5
+image data/character/cyborg/cyborg_frame.png
+x 528
+y 192
+w 48
+h 48
+
+cyborgidle0
+image data/character/cyborg/cyborg_frame.png
+x 288
+y 96
+w 48
+h 48
+
+cyborgidle1
+image data/character/cyborg/cyborg_frame.png
+x 336
+y 96
+w 48
+h 48
+
+cyborgidle2
+image data/character/cyborg/cyborg_frame.png
+x 384
+y 96
+w 48
+h 48
+
+cyborgidle3
+image data/character/cyborg/cyborg_frame.png
+x 432
+y 96
+w 48
+h 48
+
+cyborgidleskill0
+image data/character/cyborg/cyborg_frame.png
+x 480
+y 96
+w 48
+h 48
+
+cyborgidleskill1
+image data/character/cyborg/cyborg_frame.png
+x 528
+y 96
+w 48
+h 48
+
+cyborgidleskill2
+image data/character/cyborg/cyborg_frame.png
+x 576
+y 96
+w 48
+h 48
+
+cyborgidleskill3
+image data/character/cyborg/cyborg_frame.png
+x 624
+y 96
+w 48
+h 48
+
+cyborgjump0
+image data/character/cyborg/cyborg_frame.png
+x 288
+y 144
+w 48
+h 48
+
+cyborgjump1
+image data/character/cyborg/cyborg_frame.png
+x 336
+y 144
+w 48
+h 48
+
+cyborgjump2
+image data/character/cyborg/cyborg_frame.png
+x 384
+y 144
+w 48
+h 48
+
+cyborgjump3
+image data/character/cyborg/cyborg_frame.png
+x 432
+y 144
+w 48
+h 48
+
+cyborgjumpskill0
+image data/character/cyborg/cyborg_frame.png
+x 480
+y 144
+w 48
+h 48
+
+cyborgjumpskill1
+image data/character/cyborg/cyborg_frame.png
+x 528
+y 144
+w 48
+h 48
+
+cyborgjumpskill2
+image data/character/cyborg/cyborg_frame.png
+x 576
+y 144
+w 48
+h 48
+
+cyborgjumpskill3
+image data/character/cyborg/cyborg_frame.png
+x 624
+y 144
+w 48
+h 48
+
+cyborghurt0
+image data/character/cyborg/cyborg_frame.png
+x 576
+y 192
+w 48
+h 48
+
+cyborghurt1
+image data/character/cyborg/cyborg_frame.png
+x 624
+y 192
+w 48
+h 48
+
+cyborgwalkskill0
+image data/character/cyborg/cyborg_frame.png
+x 288
+y 240
+w 48
+h 48
+
+cyborgwalkskill1
+image data/character/cyborg/cyborg_frame.png
+x 336
+y 240
+w 48
+h 48
+
+cyborgwalkskill2
+image data/character/cyborg/cyborg_frame.png
+x 384
+y 240
+w 48
+h 48
+
+cyborgwalkskill3
+image data/character/cyborg/cyborg_frame.png
+x 432
+y 240
+w 48
+h 48
+
+cyborgwalkskill4
+image data/character/cyborg/cyborg_frame.png
+x 480
+y 240
+w 48
+h 48
+
+cyborgwalkskill5
+image data/character/cyborg/cyborg_frame.png
+x 528
+y 240
+w 48
+h 48
+
+cyborgsitdownskill0
+image data/character/cyborg/cyborg_frame.png
+x 288
+y 288
+w 48
+h 48
+
+cyborgsitdownskill1
+image data/character/cyborg/cyborg_frame.png
+x 336
+y 288
+w 48
+h 48
+
+cyborgsitdownskill2
+image data/character/cyborg/cyborg_frame.png
+x 384
+y 288
+w 48
+h 48
+
+cyborgsitdownskill3
+image data/character/cyborg/cyborg_frame.png
+x 432
+y 288
+w 48
+h 48
+
+cyborghand0
+image data/character/cyborg/cyborg_frame.png
+x 480
+y 288
+w 48
+h 48
+
+cyborghand1
+image data/character/cyborg/cyborg_frame.png
+x 528
+y 288
+w 48
+h 48
+
+cyborghand2
+image data/character/cyborg/cyborg_frame.png
+x 576
+y 288
+w 48
+h 48
+
+cyborghand3
+image data/character/cyborg/cyborg_frame.png
+x 624
+y 288
+w 48
+h 48
+
+cyborghand4
+image data/character/cyborg/cyborg_frame.png
+x 576
+y 240
+w 48
+h 48

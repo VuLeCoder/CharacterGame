@@ -9,17 +9,16 @@ import com.cyberpunk.Effect.DataLoader;
 
 public class BaseCharacter extends HumanObject {
 	public String name;
-
+	
+	public static final String BIKER = "biker";
+	public static final String CYBORG = "cyborg";
+	public static final String PUNK = "punk";
 //	private boolean isRunning = false;
 
 	// private int hurtDisplay = 0;
 	
 	private int[][] damageFrames;
 
-//	private boolean isGetDamage;
-//
-//	private boolean isLastFrameReached;
-//	private boolean isFirstAttack, isSecondAttack, isThirdAttack;
 
 	private Animation attack1ForwardAnim, attack1BackAnim, attack2ForwardAnim, attack2BackAnim;
 	private Animation attack3ForwardAnim, attack3BackAnim, deathForwardAnim, deathBackAnim;
@@ -42,7 +41,12 @@ public class BaseCharacter extends HumanObject {
 		
 		if(name.equals("biker")) {
 			damageFrames = BIKER_FRAME_DAMAGE;
+		} else if(name.equals(CYBORG)) {
+			damageFrames = CYBORG_FRAME_DAMAGE;
+		} else {
+			damageFrames = PUNK_FRAME_DAMAGE;
 		}
+		
 
 		// Animation for character action
 		attack1ForwardAnim = DataLoader.getInstance().getAnimation(name + "attack1");
@@ -330,6 +334,8 @@ public class BaseCharacter extends HumanObject {
 	
 	// Các frame gây dame riêng của nhân vật 
 	public final static int[][] BIKER_FRAME_DAMAGE = {{}, {4}, {1}, {4, 5, 6}};
+	public final static int[][] CYBORG_FRAME_DAMAGE = {{}, {4}, {1}, {4, 5, 6}};
+	public final static int[][] PUNK_FRAME_DAMAGE = {{}, {4}, {1}, {4, 5, 6}};
 	
 	private boolean AtkWhenRunning = false;
 	

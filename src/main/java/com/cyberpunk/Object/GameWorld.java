@@ -44,11 +44,11 @@ public class GameWorld{
 		skillManager = new SkillManager(this);
 		gUi = new GameUI();
 		
-		P1 = new BaseCharacter(100, 500, "biker", this);
+		P1 = new BaseCharacter(100, 500, BaseCharacter.CYBORG, this);
 		P1.setTeamType(HumanObject.P1_TEAM);
 		objectManager.addObject(P1);
 		
-		P2 = new BaseCharacter(150, 500, "biker", this);
+		P2 = new BaseCharacter(150, 500, BaseCharacter.PUNK, this);
 		P2.setTeamType(HumanObject.P2_TEAM);
 		objectManager.addObject(P2);
 		
@@ -124,6 +124,7 @@ public class GameWorld{
 		gUi.Update(getP2());		
 		
 		camera.Update();
+		
 		objectManager.dropBox(pointX, pointY, System.nanoTime());
 		objectManager.UpdateObjects();
 		skillManager.UpdateObjects();
@@ -157,6 +158,8 @@ public class GameWorld{
 		float targetZoomX = GamePanel.MAP_WIDTH / camera.getWidthView();
 		float targetZoomY = GamePanel.MAP_HEIGHT / camera.getHeightView();
 
+//		currentZoomX = targetZoomX;
+//		currentZoomY = targetZoomY;
 		currentZoomX += (targetZoomX - currentZoomX) * Camera.SMOOTH_FACTOR;
 		currentZoomY += (targetZoomY - currentZoomY) * Camera.SMOOTH_FACTOR;
 		g2.scale(currentZoomX, currentZoomY);
