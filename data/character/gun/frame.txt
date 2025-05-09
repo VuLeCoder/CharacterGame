@@ -1,0 +1,351 @@
+50
+
+gun1_0
+image data/character/gun/gun1.png
+x 0
+y 0
+w 48
+h 48
+
+gun1_1
+image data/character/gun/gun1.png
+x 48
+y 0
+w 48
+h 48
+
+gun1_2
+image data/character/gun/gun1.png
+x 96
+y 0
+w 48
+h 48
+
+gun1_3
+image data/character/gun/gun1.png
+x 144
+y 0
+w 48
+h 48
+
+gun1_4
+image data/character/gun/gun1.png
+x 192
+y 0
+w 48
+h 48
+
+gun2_0
+image data/character/gun/gun2.png
+x 0
+y 0
+w 48
+h 48
+
+gun2_1
+image data/character/gun/gun2.png
+x 48
+y 0
+w 48
+h 48
+
+gun2_2
+image data/character/gun/gun2.png
+x 96
+y 0
+w 48
+h 48
+
+gun2_3
+image data/character/gun/gun2.png
+x 144
+y 0
+w 48
+h 48
+
+gun2_4
+image data/character/gun/gun2.png
+x 192
+y 0
+w 48
+h 48
+
+gun3_0
+image data/character/gun/gun3.png
+x 0
+y 0
+w 48
+h 48
+
+gun3_1
+image data/character/gun/gun3.png
+x 48
+y 0
+w 48
+h 48
+
+gun3_2
+image data/character/gun/gun3.png
+x 96
+y 0
+w 48
+h 48
+
+gun3_3
+image data/character/gun/gun3.png
+x 144
+y 0
+w 48
+h 48
+
+gun3_4
+image data/character/gun/gun3.png
+x 192
+y 0
+w 48
+h 48
+
+gun4_0
+image data/character/gun/gun4.png
+x 0
+y 0
+w 48
+h 48
+
+gun4_1
+image data/character/gun/gun4.png
+x 48
+y 0
+w 48
+h 48
+
+gun4_2
+image data/character/gun/gun4.png
+x 96
+y 0
+w 48
+h 48
+
+gun4_3
+image data/character/gun/gun4.png
+x 144
+y 0
+w 48
+h 48
+
+gun4_4
+image data/character/gun/gun4.png
+x 192
+y 0
+w 48
+h 48
+
+gun5_0
+image data/character/gun/gun5.png
+x 0
+y 0
+w 48
+h 48
+
+gun5_1
+image data/character/gun/gun5.png
+x 48
+y 0
+w 48
+h 48
+
+gun5_2
+image data/character/gun/gun5.png
+x 96
+y 0
+w 48
+h 48
+
+gun5_3
+image data/character/gun/gun5.png
+x 144
+y 0
+w 48
+h 48
+
+gun5_4
+image data/character/gun/gun5.png
+x 192
+y 0
+w 48
+h 48
+
+gun6_0
+image data/character/gun/gun6.png
+x 0
+y 0
+w 48
+h 48
+
+gun6_1
+image data/character/gun/gun6.png
+x 48
+y 0
+w 48
+h 48
+
+gun6_2
+image data/character/gun/gun6.png
+x 96
+y 0
+w 48
+h 48
+
+gun6_3
+image data/character/gun/gun6.png
+x 144
+y 0
+w 48
+h 48
+
+gun6_4
+image data/character/gun/gun6.png
+x 192
+y 0
+w 48
+h 48
+
+gun7_0
+image data/character/gun/gun7.png
+x 0
+y 0
+w 48
+h 48
+
+gun7_1
+image data/character/gun/gun7.png
+x 48
+y 0
+w 48
+h 48
+
+gun7_2
+image data/character/gun/gun7.png
+x 96
+y 0
+w 48
+h 48
+
+gun7_3
+image data/character/gun/gun7.png
+x 144
+y 0
+w 48
+h 48
+
+gun7_4
+image data/character/gun/gun7.png
+x 192
+y 0
+w 48
+h 48
+
+gun8_0
+image data/character/gun/gun8.png
+x 0
+y 0
+w 48
+h 48
+
+gun8_1
+image data/character/gun/gun8.png
+x 48
+y 0
+w 48
+h 48
+
+gun8_2
+image data/character/gun/gun8.png
+x 96
+y 0
+w 48
+h 48
+
+gun8_3
+image data/character/gun/gun8.png
+x 144
+y 0
+w 48
+h 48
+
+gun8_4
+image data/character/gun/gun8.png
+x 192
+y 0
+w 48
+h 48
+
+gun9_0
+image data/character/gun/gun9.png
+x 0
+y 0
+w 48
+h 48
+
+gun9_1
+image data/character/gun/gun9.png
+x 48
+y 0
+w 48
+h 48
+
+gun9_2
+image data/character/gun/gun9.png
+x 96
+y 0
+w 48
+h 48
+
+gun9_3
+image data/character/gun/gun9.png
+x 144
+y 0
+w 48
+h 48
+
+gun9_4
+image data/character/gun/gun9.png
+x 192
+y 0
+w 48
+h 48
+
+gun10_0
+image data/character/gun/gun10.png
+x 0
+y 0
+w 48
+h 48
+
+gun10_1
+image data/character/gun/gun10.png
+x 48
+y 0
+w 48
+h 48
+
+gun10_2
+image data/character/gun/gun10.png
+x 96
+y 0
+w 48
+h 48
+
+gun10_3
+image data/character/gun/gun10.png
+x 144
+y 0
+w 48
+h 48
+
+gun10_4
+image data/character/gun/gun10.png
+x 192
+y 0
+w 48
+h 48
