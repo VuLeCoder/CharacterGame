@@ -13,9 +13,6 @@ public class BaseCharacter extends HumanObject {
 	public static final String BIKER = "biker";
 	public static final String CYBORG = "cyborg";
 	public static final String PUNK = "punk";
-//	private boolean isRunning = false;
-
-	// private int hurtDisplay = 0;
 	
 	private int[][] damageFrames;
 
@@ -313,21 +310,6 @@ public class BaseCharacter extends HumanObject {
 		setLastSittingTime(System.nanoTime());
 	}
 
-//	@Override
-//	public void climb(float speed) {
-//		if (speed == 100) {
-//			if (isClimbing() == false) {
-//				setClimbing(true);
-//
-//				float ladderX = (int) getPosX() / GameWorld.TILESIZE;
-//				setPosX(ladderX * GameWorld.TILESIZE + getWidth() / 2);
-//				setSpeedY(0);
-//			} else
-//				setClimbing(false);
-//		} else
-//			setSpeedY(speed);
-//	}
-
 	// -----------------------------------------------------------------------------------------------------------------------------------
 	// -------------------------------------------------------- Xử lý tấn công -----------------------------------------------------------
 	private boolean isClickButtonAttack = false;
@@ -338,8 +320,8 @@ public class BaseCharacter extends HumanObject {
 	
 	// Các frame gây dame riêng của nhân vật 
 	public final static int[][] BIKER_FRAME_DAMAGE = {{}, {4}, {1}, {4, 5, 6}};
-	public final static int[][] CYBORG_FRAME_DAMAGE = {{}, {4}, {1}, {4, 5, 6}};
-	public final static int[][] PUNK_FRAME_DAMAGE = {{}, {4}, {1}, {4, 5, 6}};
+	public final static int[][] CYBORG_FRAME_DAMAGE = {{}, {4}, {1}, {4, 6}};
+	public final static int[][] PUNK_FRAME_DAMAGE = {{}, {4}, {1}, {5, 6}};
 	
 	private boolean AtkWhenRunning = false;
 	
@@ -350,18 +332,7 @@ public class BaseCharacter extends HumanObject {
 	public void setAtkWhenRunning(boolean b) {
 		AtkWhenRunning = b;
 	}
-/*
- * 
- * animation Attack cũ
-bikerattack2
-bikerattack2_0 100000000 bikerattack2_1 100000000 bikerattack2_2 100000000 bikerattack2_3 100000000 bikerattack2_4 100000000 bikerattack2_5 100000000 bikerattack2_6 100000000 bikerattack2_7 100000000 
 
-bikerattack3
-bikerattack3_0 100000000 bikerattack3_1 100000000 bikerattack3_2 100000000 bikerattack3_3 100000000 bikerattack3_4 100000000 bikerattack3_5 100000000 bikerattack3_6 100000000 bikerattack3_7 100000000 
-
-bikerattack1 
-bikerattack1_0 100000000 bikerattack1_1 100000000 bikerattack1_2 100000000 bikerattack1_3 100000000 bikerattack1_4 100000000 bikerattack1_5 100000000 
- */
 	public void setClickButtonAttack(boolean b) {
 		isClickButtonAttack = b;
 	}
