@@ -8,6 +8,7 @@ public class ScreenManager {
 	private boolean isGameInitiated;
 	private boolean isInCharacterScreen;
 	
+	
 	private final JComponent jComponent;
 	private final StartScreen startScreen;
 	private final CharacterSelectionScreen characterSelectionScreen;
@@ -54,6 +55,4 @@ public class ScreenManager {
 		
 		characterSelectionScreen.draw(g2);
 	}
-	
-	
 }
