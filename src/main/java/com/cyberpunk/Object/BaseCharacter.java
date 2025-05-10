@@ -540,15 +540,59 @@ public class BaseCharacter extends HumanObject {
 	
 	// -----------------------------------------------------------------------------------------------------------------------------------
 	// ---------------------------------------------------- Xử lý Bắn --------------------------------------------------------------
+	private boolean isPressShootKey = false;
 	private boolean isShooting;
+	private static final long DURATION_SHOOTING = 400000000L; // 100ms
+//	private static final long DURATION_SHOOTING = 1000000000L; // 1000ms
 	
-	public void setShooting(boolean isShooting) {
-		this.isShooting = isShooting;
-		handForwardAnim.setCurrentFrame(2);
-		handBackAnim.setCurrentFrame(2);
+	private static final long FIRE_COOLDOWN = 300000000L;
+	private long lastShotTime = 0;
+	private long lastShootiAnimTime = 0;
+	
+	public void startShooting() {
+		System.out.println("hello");
+		if(!isShooting()) {
+			handForwardAnim.setCurrentFrame(2);
+			handBackAnim.setCurrentFrame(2);
+			
+			gunForwardAnim.setCurrentFrame(2);
+			gunBackAnim.setCurrentFrame(2);
+		}
 		
-		gunForwardAnim.setCurrentFrame(2);
-		gunBackAnim.setCurrentFrame(2);
+		long now = System.nanoTime();
+		setShooing(true);
+		setLastShootiAnimTime(now);
+		
+//		if(now - getLastShootingTime() < DURATION_SHOOTING) {
+//			return;
+//		}
+//		setLastShootingTime(now);
+		
+//		setShooing(isShooting);
+		
+//		handForwardAnim.setCurrentFrame(2);
+//		handBackAnim.setCurrentFrame(2);
+//		
+//		gunForwardAnim.setCurrentFrame(2);
+//		gunBackAnim.setCurrentFrame(2);
+	}
+	
+	private void UpdateShootState() {
+		if(getIsPressShootKey()) {
+			startShooting();
+			return;
+		}
+		
+		if(!isShooting()) {
+			return;
+		}
+		
+		long now = System.nanoTime();
+		setShooing(!(now - getLastShootiAnimTime() >= DURATION_SHOOTING));
+	}
+	
+	public void setShooing(boolean b) {
+		this.isShooting = b;
 	}
 	
 	public boolean isShooting() {
@@ -556,6 +600,12 @@ public class BaseCharacter extends HumanObject {
 	}
 	
 	public void shoot() {
+		long now = System.nanoTime();
+		if(now - getLastShotTime() <= FIRE_COOLDOWN) {
+			return;
+		}
+		setLastShotTime(now);
+
 		Bullet bullet = new Bullet(getPosX(), getPosY(), handForwardAnim.getCurrentFrame(), 10, this, getGameWorld());
 		getGameWorld().getSkillManager().addObject(bullet);
 	}
@@ -570,9 +620,38 @@ public class BaseCharacter extends HumanObject {
 		gunBackAnim.setCurrentFrame(dirClamp);
 	}
 	
+	public long getLastShootiAnimTime() {
+		return lastShootiAnimTime;
+	}
+	
+	public void setLastShootiAnimTime(long time) {
+		this.lastShootiAnimTime = time;
+	}
+	
+	public long getLastShotTime() {
+		return this.lastShotTime;
+	}
+	
+	public void setLastShotTime(long time) {
+		this.lastShotTime = time;
+	}
+	
+	public boolean getIsPressShootKey() {
+		return isPressShootKey;
+	}
+
+	public void setPressShootKey(boolean isPressShootKey) {
+		this.isPressShootKey = isPressShootKey;
+	}
 	
 	
 	
+	
+	
+	
+	
+
+
 	@Override
 	public void beHurt(float damageGet) {
 		super.beHurt(damageGet);
@@ -589,9 +668,7 @@ public class BaseCharacter extends HumanObject {
 
 
 	@Override
-	public void Update() {
-		System.out.println(getHealth());
-		
+	public void Update() {		
 		super.Update();
 		
 		switch (getState()) {
@@ -617,6 +694,8 @@ public class BaseCharacter extends HumanObject {
 				if(getSpeedY() >= FALL_SPEED) {
 					setState(FALL);
 				}
+				
+				UpdateShootState();
 				
 				break;
 			
