@@ -62,6 +62,7 @@ public class InputManager {
         switch(key) {
         	case KeyConfig.UP:
         		if(player.isShooting()) {
+        			player.startShooting();
         			player.setHandDirection(1);
         			break;
         		}
@@ -102,6 +103,7 @@ public class InputManager {
         		}
         		
         		if(player.isShooting()) {
+        			player.startShooting();
         			player.setHandDirection(-1);
         			break;
         		}
@@ -125,8 +127,9 @@ public class InputManager {
         		if(!player.isOnGround()) {
         			break;
         		}
-        		
-        		player.setShooting(true);
+        		player.setPressShootKey(true);
+//        		player.setShooting(true);
+        		player.startShooting();
         		break;
         }
     }
@@ -184,10 +187,10 @@ public class InputManager {
 	    		break;
 	    		
 	    	case KeyConfig.SHOOTING:
+	    		player.setPressShootKey(false);
 	    		if(player.isShooting()) {
-	    		
 		    		player.shoot();
-		    		player.setShooting(false);
+//		    		player.setShooting(false);
 	    		}
 	    		break;
 	    }
